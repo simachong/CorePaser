@@ -1,4 +1,4 @@
-package com.hamster.core.paser;
+package com.cricetulu.core.paser;
 
 public class Paser {
 
