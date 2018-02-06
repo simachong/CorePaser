@@ -22,12 +22,16 @@ public class DataStorage {
 	private String copybook = "wk";
 	
 	private int ref;
+	// 88项
 	private Item88 item88;
+	// 是否为88项
 	private boolean isItem88;
+	// 是否为嵌套 
 	private boolean isHierarchy;
 	
 	// 嵌套数据结构  <变量名，定义>
-	private HashMap<String, String> nestDs;
+	private HashMap<String, DataStorage> nestDs;
+	// 变量重定义
 	private ArrayList<DataStorage> redefines; 
 
 	public String getHierarchy() {
@@ -86,12 +90,36 @@ public class DataStorage {
 		this.isHierarchy = isHierarchy;
 	}
 
-	public HashMap<String, String> getNestDs() {
+	public HashMap<String, DataStorage> getNestDs() {
 		return nestDs;
 	}
 
-	public void setNestDs(HashMap<String, String> nestDs) {
+	public void setNestDs(HashMap<String, DataStorage> nestDs) {
 		this.nestDs = nestDs;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCopybook() {
+		return copybook;
+	}
+
+	public void setCopybook(String copybook) {
+		this.copybook = copybook;
+	}
+
+	public ArrayList<DataStorage> getRedefines() {
+		return redefines;
+	}
+
+	public void setRedefines(ArrayList<DataStorage> redefines) {
+		this.redefines = redefines;
 	}
 }
 //*
