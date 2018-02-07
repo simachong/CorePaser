@@ -10,28 +10,30 @@ import java.util.HashMap;
  */
 public class DataStorage {
 	
-	// 层级 01 03 05..
+	// 灞傜骇 01 03 05..
 	private String hierarchy;
-	// 变量名
+	// 鍙橀噺鍚�
 	private String name;
-	// 值
+	// 鍊�
 	private String value;
-	// 数据类型
+	// 鏁版嵁绫诲瀷
 	private String dataType;
-	// 所属copybook  本地定义为wk
+	// 鎵�灞瀋opybook  鏈湴瀹氫箟涓簑k
 	private String copybook = "wk";
 	
 	private int ref;
-	// 88项
+	// 88椤�
 	private Item88 item88;
-	// 是否为88项
+	// 鏄惁涓�88椤�
 	private boolean isItem88;
-	// 是否为嵌套 
+	// 鏄惁涓哄祵濂� 
 	private boolean isHierarchy;
 	
-	// 嵌套数据结构  <变量名，定义>
+	
+	
+	// 宓屽鏁版嵁缁撴瀯  <鍙橀噺鍚嶏紝瀹氫箟>
 	private HashMap<String, DataStorage> nestDs;
-	// 变量重定义
+	// 鍙橀噺閲嶅畾涔�
 	private ArrayList<DataStorage> redefines; 
 
 	public String getHierarchy() {
