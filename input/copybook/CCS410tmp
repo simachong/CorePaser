@@ -1,0 +1,84 @@
+01  CUR-PARM-LIST.                                               
+    03  CUR-WS              PIC X(160)     VALUE LOW-VALUES.     
+    03  CUR-ADDRESS         POINTER.                             
+    03  CUR-FORMATTED-LENGTH                                     
+                            PIC S9(4)                            
+                            COMP.                                
+    03  CUR-PRODUCT         PIC X(3).                            
+    03  CUR-ORG             PIC 9(3).                            
+    03  CUR-CODE            PIC 9(3).                            
+    03  CUR-AMT             PIC S9(15)V99                        
+                            COMP-3.                              
+    03  CUR-WHOLE-AMT       REDEFINES CUR-AMT                    
+                            PIC S9(17)                           
+                            COMP-3.                              
+    03  CUR-AMT-DEC5        REDEFINES CUR-AMT                    
+                            PIC S9(12)V9(5)                      
+                            COMP-3.                              
+    03  CUR-AMT-DEC3        REDEFINES CUR-AMT                    
+                            PIC S9(14)V9(3)                      
+                            COMP-3.                              
+    03  CUR-AMT-DEC4        REDEFINES CUR-AMT                    
+                            PIC S9(13)V9(4)                      
+                            COMP-3.                              
+    03  CUR-AMT-DEC6        REDEFINES CUR-AMT                    
+                            PIC S9(11)V9(6)                      
+                            COMP-3.                              
+    03  CUR-AMT-DEC7        REDEFINES CUR-AMT                    
+                            PIC S9(10)V9(7)                      
+                            COMP-3.                              
+    03  CUR-AMT-DEC8        REDEFINES CUR-AMT                    
+                            PIC S9(09)V9(8)                      
+                            COMP-3.                              
+    03  CUR-AMT-DEC9        REDEFINES CUR-AMT                    
+                            PIC S9(08)V9(9)                      
+                            COMP-3.                              
+    03  CUR-UNSIGNED-AMT    REDEFINES CUR-AMT                    
+                            PIC 9(15)V99                         
+                            COMP-3.                              
+    03  CUR-UNSIGNED-WHOLE-AMT REDEFINES CUR-AMT                 
+                            PIC 9(17)                            
+                            COMP-3.                              
+    03  CUR-UNSIGNED-AMT-DEC5 REDEFINES CUR-AMT                  
+                            PIC 9(12)V9(5)                       
+                            COMP-3.                              
+    03  CUR-AMT-X             REDEFINES CUR-AMT                  
+                            PIC X(09).                           
+    03  CUR-DIRECTION       PIC X.                               
+    03  CUR-SEPARATORS-IND  PIC X.                               
+    03  CUR-CURR-SYMBOL-IND PIC X.                               
+    03  CUR-NBR-DECIMAL     PIC 9.                               
+    03  CUR-NBR-DECIMAL-X   REDEFINES CUR-NBR-DECIMAL            
+                            PIC X.                               
+    03  CUR-CURR-CODE       PIC 9(3).                            
+    03  CUR-CURR-ORG        PIC 9(3).                            
+    03  CUR-ISO-CODE        PIC X(3).                            
+    03  CUR-CCBS-CODE       PIC 9(2).                            
+    03  CUR-PORG            PIC 9(3).                            
+    03  CUR-CURR-SYMBOL     PIC X(3).                            
+    03  CUR-AMOUNT-OUT      PIC S9(17)                           
+                            COMP-3.                              
+    03  CUR-AMOUNT-OUT-DEC  REDEFINES CUR-AMOUNT-OUT             
+                            PIC S9(15)V99                        
+                            COMP-3.                              
+    03  CUR-FORMATTED-AMOUNT                                     
+                            PIC X(23).                           
+    03  CUR-DISPLAY-FORMAT  PIC X.                               
+    03  CUR-EXPONENT        PIC 9.                               
+    03  CUR-FOUND-FLAG      PIC X(01).                           
+    03  WS-CURT-CNT         PIC 9(02).                           
+    03  WS-CURT-RESP        PIC S9(08) BINARY.                   
+    03  WS-CURT-DATA OCCURS 1 TO 20 TIMES                        
+                            DEPENDING ON WS-CURT-CNT.            
+        05  WS-CURT-PRODUCT             PIC X(03).               
+        05  WS-CURT-ORG                 PIC 9(03).               
+        05  WS-CURT-CODE                PIC 9(03).               
+        05  WS-CURT-NDP                 PIC 9(01).               
+        05  WS-CURT-SYMBOL              PIC X(01).               
+        05  WS-CURT-POS                 PIC X(05).               
+        05  WS-CURT-FORMAT              PIC X(01).               
+        05  WS-CURT-ISO-CODE            PIC X(03).               
+        05  WS-CURT-CCBS-CODE           PIC 9(02).               
+        05  WS-CURT-PORG                PIC 9(03).               
+01  CUR-TEMP-FIELD.                                              
+    03  FILLER                          PIC X(02).               

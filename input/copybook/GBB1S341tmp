@@ -1,0 +1,92 @@
+01  LTDTRL-LETTER-REQUEST-RECORD.                                
+    03  LTDTRL-REQUEST-KEY.                                      
+        05  LTDTRL-REQUESTOR                                     
+                            PIC X(08).                           
+        05  LTDTRL-REQUEST-DATE                                  
+                            PIC 9(07).                           
+        05  LTDTRL-REQUEST-TIME                                  
+                            PIC 9(06).                           
+    03  FILLER              PIC X(08).                           
+    03  LTDTRL-REQUESTOR-ID.                                     
+        05  LTDTRL-REQUESTOR-SIGNON                              
+                            PIC X(20).                           
+        05  LTDTRL-REQUESTOR-LOCN                                
+                            PIC X(05).                           
+        05  LTDTRL-REQUESTOR-NAME                                
+                            PIC X(30).                           
+        05  LTDTRL-OPERATOR PIC X(03).                           
+        05  LTDTRL-TERMINAL PIC X(04).                           
+        05  FILLER          PIC X(15).                           
+        05  LTDTRL-USER-FILLER1                                  
+                            PIC X(15).                           
+    03  LTDTRL-LETTER-ID.                                        
+        05  LTDTRL-ORG      PIC 9(03)       COMP-3.              
+        05  LTDTRL-LETTER   PIC X(03).                           
+        05  LTDTRL-SORT-CODE                                     
+                            PIC X(01).                           
+        05  LTDTRL-HOLD-CODE                                     
+                            PIC X(01).                           
+        05  LTDTRL-PRINTER  PIC X(04).                           
+        05  LTDTRL-MEMO-FLAG                                     
+                            PIC X(01).                           
+        05  LTDTRL-MEMO-CAT PIC X(03).                           
+        05  LTDTRL-STATUS   PIC 9(01).                           
+            88  LTDTRL-LTR-REQ-STAT-REQUEST                      
+                                            VALUE 1.             
+            88  LTDTRL-LTR-REQ-STAT-PRT-ONLINE                   
+                                            VALUE 2.             
+            88  LTDTRL-LTR-REQ-STAT-DELETED                      
+                                            VALUE 9.             
+        05  LTDTRL-COLLECTION-LETTER                             
+                            PIC  X(1).                           
+            88  LTDTRL-COLLECTION-ONLY          VALUE 'Y'.       
+        05  FILLER          PIC  X(25).                          
+    03  LTDTRL-SUBJECT-ID.                                       
+        05  LTDTRL-SUBJECT-SOURCE                                
+                            PIC X(01).                           
+            88  LTDTRL-SOURCE-LETTERS       VALUE 'L'.           
+            88  LTDTRL-SOURCE-EXTERNAL      VALUE 'X'.           
+        05  LTDTRL-SUBJECT-DATA.                                 
+            09  LTDTRL-SUBJECT-APPL                              
+                            PIC 9(02).                           
+            09  LTDTRL-SUBJECT-ORG                               
+                            PIC S9(03)      COMP-3.              
+            09  LTDTRL-SUBJECT-TYPE                              
+                            PIC S9(03)      COMP-3.              
+            09  LTDTRL-SUBJECT-ACCOUNT                           
+                            PIC S9(16)      COMP-3.              
+            09  LTDTRL-SUBJECT-ASSOC                             
+                            PIC X(02).                           
+            09  LTDTRL-SUBJECT-OLC-APPL                          
+                            PIC  9(2).                           
+            09  FILLER      PIC  X(13).                          
+            09  LTDTRL-SUBJECT-NAME                              
+                            PIC X(30).                           
+    03  LTDTRL-USER-FILLER2 PIC X(15).                           
+    03  LTDTRL-USER-VARIABLES.                                   
+        05  LTDTRL-USER-VARIABLE                                 
+                            PIC X(01).                           
+            88  LTDTRL-USER-VARIABLES-PRESENT VALUE 'Y'.         
+        05  LTDTRL-USER-VARIABLE-TABLE.                          
+            07  LTDTRL-USER-VARIABLE-DATA-1                      
+                            PIC X(06).                           
+            07  LTDTRL-USER-VARIABLE-DATA-2                      
+                            PIC X(08).                           
+            07  LTDTRL-USER-VARIABLE-DATA-3                      
+                            PIC X(12).                           
+            07  LTDTRL-USER-VARIABLE-DATA-4                      
+                            PIC X(16).                           
+            07  LTDTRL-USER-VARIABLE-DATA-5                      
+                            PIC X(20).                           
+            07  LTDTRL-USER-VARIABLE-DATA-6                      
+                            PIC X(30).                           
+            07  LTDTRL-USER-VARIABLE-DATA-7                      
+                            PIC X(30).                           
+            07  LTDTRL-USER-VARIABLE-DATA-8                      
+                            PIC X(30).                           
+            07  LTDTRL-USER-VARIABLE-DATA-9                      
+                            PIC X(30).                           
+            07  LTDTRL-USER-VARIABLE-DATA-10                     
+                            PIC X(30).                           
+    03  FILLER              PIC X(123).                          
+    03  LTDTRL-USER-FILLER3 PIC X(23).                           

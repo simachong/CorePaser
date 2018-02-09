@@ -1,0 +1,31 @@
+FD  DAILY-BALANCE-FILE                                           
+    RECORD CONTAINS 180 CHARACTERS                               
+    LABEL RECORDS ARE STANDARD.                                  
+01  CPDBAL-REC                   PIC X(180).                     
+FD  BRANCH-DAILY-BALANCE-FILE                                    
+    RECORD CONTAINS 110 CHARACTERS                               
+    LABEL RECORDS ARE STANDARD.                                  
+01  CPDBALB-REC                  PIC X(110).                     
+FD  CARDHOLDER-DEL-LEDGER-FILE                                   
+    RECORD CONTAINS 90 CHARACTERS                                
+    LABEL RECORDS ARE STANDARD.                                  
+01  CPCDL-REC                   PIC X(90).                       
+FD  S45-BLOCK-CODE-FILE                                          
+    RECORD CONTAINS 100 CHARACTERS                               
+    LABEL RECORDS ARE STANDARD.                                  
+01  CPS45-REC                   PIC X(100).                      
+FD  TACM-FILE                                                    
+    RECORD CONTAINS 107 CHARACTERS                               
+    LABEL RECORDS ARE STANDARD.                                  
+01  CPTACM-REC                  PIC X(107).                      
+FD  GPTCRDF-FILE                                                 
+    RECORD CONTAINS  500 CHARACTERS                              
+    LABEL RECORDS ARE STANDARD.                                  
+    COPY GPS144.                                                 
+    COPY GPS907.                                                 
+FD  CEPP-CHANEL-EPTAPMP.                                         
+    COPY GBB1S343.                                               
+FD  CEPP-NUMBER-EPITYPE.                                         
+    COPY GBB1S342.                                               
+FD  CEPP-EPTIAE-FILE.                                            
+    COPY GCP99S24.                                               

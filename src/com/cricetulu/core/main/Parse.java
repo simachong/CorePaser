@@ -11,7 +11,7 @@ public class Parse {
 	
 	public static void main(String args[]) {
 		
-		PreProccess.preProcess("D:\\CPD110");
+		PreProccess.preProcess("D:\\CPD110", "D:\\CPD110_PREPROCESS");
 		//HashMap<String, String> hm = new HashMap<String, String>();
 		//hm.put(")", "(");
 		GlobalDef.init();

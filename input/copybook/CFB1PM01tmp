@@ -1,0 +1,14 @@
+01 :CFB1PM01:-RECORD.                                            
+                                                                 
+  03 :CFB1PM01:-KEY.                                             
+                                                                 
+    05  :CFB1PM01:-CMPT-CGY-ID   PIC X(12).                      
+                                                                 
+    05  :CFB1PM01:-CRD-GRD       PIC X(01).                      
+                                                                 
+    05  :CFB1PM01:-CRD-ORG       PIC X(01).                      
+                                                                 
+    05  :CFB1PM01:-CCY           PIC 9(03).                      
+                                                                 
+  03  :CFB1PM01:-DATA            PIC X(2000).                    
+                                                                 

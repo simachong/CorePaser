@@ -1,0 +1,13 @@
+                            RECORD CONTAINS 100 CHARACTERS       
+                            BLOCK CONTAINS 0 RECORDS             
+                            RECORDING MODE IS F                  
+                            LABEL RECORDS ARE STANDARD.          
+01  AVAILABLE-CREDIT-REC-PP PIC X(100).                          
+01  PACR-HEADER-RECORD.                                          
+    03  PACR-HDR-TYPE       PIC X(1).                            
+        88 PACR-HEADER      VALUE 'H'.                           
+        88 PACR-TRAILER     VALUE 'T'.                           
+        88 PACR-DETAIL      VALUE 'D'.                           
+    03  PACR-PROC-DTE       PIC S9(07)    COMP-3.                
+    03  PACR-TIME-STAMP     PIC S9(10)    COMP-3.                
+    03  FILLER              PIC X(89).                           

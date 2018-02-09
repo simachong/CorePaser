@@ -1,0 +1,50 @@
+    SELECT  DAILY-BALANCE-FILE                                   
+            ASSIGN TO CPDBAL                                     
+            ORGANIZATION IS SEQUENTIAL                           
+            ACCESS IS SEQUENTIAL                                 
+            FILE STATUS IS WS-CPDBAL-STATUS.                     
+    SELECT  BRANCH-DAILY-BALANCE-FILE                            
+            ASSIGN TO CPDBALB                                    
+            ORGANIZATION IS SEQUENTIAL                           
+            ACCESS IS SEQUENTIAL                                 
+            FILE STATUS IS WS-CPDBALB-STATUS.                    
+    SELECT  CARDHOLDER-DEL-LEDGER-FILE                           
+            ASSIGN TO CPCDL                                      
+            ORGANIZATION IS SEQUENTIAL                           
+            ACCESS IS SEQUENTIAL                                 
+            FILE STATUS IS WS-CPCDL-STATUS.                      
+    SELECT  S45-BLOCK-CODE-FILE                                  
+            ASSIGN TO CPS45                                      
+            ORGANIZATION IS SEQUENTIAL                           
+            ACCESS IS SEQUENTIAL                                 
+            FILE STATUS IS WS-CPS45-STATUS.                      
+    SELECT  TACM-FILE                                            
+            ASSIGN TO CPTACM                                     
+            ORGANIZATION IS SEQUENTIAL                           
+            ACCESS IS SEQUENTIAL                                 
+            FILE STATUS IS WS-CPTACM-STATUS.                     
+                                                                 
+    SELECT  GPCORPX-FILE                                         
+            ASSIGN TO GPCORPX                                    
+            FILE STATUS IS WS-GPCORPX-STATUS.                    
+    SELECT  CPCORPCR-FILE                                        
+            ASSIGN TO CPCORPCR                                   
+            FILE STATUS IS WS-CPCORPCR-STATUS.                   
+    SELECT  GPTCRDF-FILE                                         
+            ASSIGN TO GPTCRDF                                    
+            FILE STATUS IS WS-GPTCRDF-STATUS.                    
+    SELECT  CEPP-CHANEL-EPTAPMP                                  
+            ASSIGN TO EPTAPMP                                    
+            ORGANIZATION IS INDEXED                              
+            ACCESS IS SEQUENTIAL                                 
+            FILE STATUS IS WS-EPTAPMP-STATUS                     
+            RECORD KEY IS EPTAPMP-KEY.                           
+    SELECT  CEPP-NUMBER-EPITYPE                                  
+            ASSIGN TO EPITYPE                                    
+            ORGANIZATION IS INDEXED                              
+            ACCESS IS SEQUENTIAL                                 
+            FILE STATUS IS WS-EPITYPE-STATUS                     
+            RECORD KEY IS EPP-PLAN-KEY.                          
+    SELECT  CEPP-EPTIAE-FILE                                     
+            ASSIGN TO EPTIAE                                     
+            FILE STATUS IS WS-EPTIAE-STATUS.                     

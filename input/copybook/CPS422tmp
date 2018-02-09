@@ -1,0 +1,39 @@
+01  CPS422-REQUEST-BLOCK.                                        
+    05 CPS422-FUNCTION-CODE  PIC S9(4) BINARY.                   
+       88 CPS422-ALL-FUNC        VALUES +0000 THRU +9999.        
+       88 CPS422-INITIALIZE-FUNC VALUES +0000.                   
+       88 CPS422-SHUTDOWN-FUNC   VALUES +9999.                   
+       88 CPS422-ORG-LEVEL-FUNC  VALUES +1000 THRU +1999.        
+       88 CPS422-TYPE-LEVEL-FUNC VALUES +2000 THRU +2999.        
+       88 CPS422-ACCT-LEVEL-FUNC VALUES +3000 THRU +3999.        
+       88 CPS422-ACCT-INTR-FUNC  VALUES +4000 THRU +4999.        
+       88 CPS422-ACCT-TRAN-FUNC  VALUES +5000 THRU +5999.        
+       88 CPS422-PYMT-NETOUT-FUNC                                
+                                 VALUES +6000 THRU +6999.        
+       88 CPS422-PYMT-HIST-FUNC  VALUES +7000 THRU +7999.        
+       88 CPS422-LEDGER-FUNC     VALUES +8000 THRU +8999.        
+       88 CPS422-VALID-FUNC      VALUES +0000 +9999              
+                                  +1010 +1020 +1030              
+                                  +2010 +2020                    
+                                  +3010 +3020 +3030 +3040 +3050  
+                                  +3060 +3070 +3080 +3090 +3100  
+                                  +3110 +3120 +3130 +3140 +3150  
+                                  +3160 +3170 +3180 +3190 +3200  
+                                  +3210 +3220 +3230 +3240 +3250  
+                                  +3260 +3270 +3280 +3610        
+                                  +3999                          
+                                  +4010 +4020 +4030 +4040 +4050  
+                                  +4060 +4070 +4080 +4090 +4100  
+                                  +4110 +4120 +4130 +4140 +4150  
+                                  +4160 +4170 +4180 +4190 +4200  
+                                  +4210 +4220 +4230 +4240 +4250  
+                                  +4330 +4340 +4350              
+                                  +5010 +5020 +5030 +5040 +5050  
+                                  +5060 +5070 +5080 +5090 +5100  
+                                  +5110 +5120                    
+                                  +6010 +6020 +6030 +6040 +6050  
+                                  +6060                          
+                                  +7010 +7020 +7030 +7040 +7050  
+                                  +7060                          
+                                  +8010 +8020 +8030 +8040.       
+       88 CPS422-NON-TRAN-GEN-FUNC VALUES +5010.                 

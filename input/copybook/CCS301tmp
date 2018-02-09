@@ -1,0 +1,139 @@
+01  WS-DTE-WKAREA.
+    03  WS-DTE-TIME-HHMMSSHH-X.                                  
+        05  WS-DTE-TIME-HHMMSSHH                                 
+                            PIC 9(8)        VALUE ZERO.          
+    03  WS-DTE-TIME-HHMMSS-X                                     
+                            REDEFINES WS-DTE-TIME-HHMMSSHH-X.    
+        05  WS-DTE-TIME-HHMMSS                                   
+                            PIC 9(6).                            
+        05  WS-DTE-TIME-HUN PIC 9(2).                            
+    03  WS-DTE-VALID-SW     PIC X           VALUE 'N'.           
+        88  WS-DTE-DATE-IS-VALID            VALUE 'Y'.           
+        88  WS-DTE-DATE-IS-VALID-AND-ZERO   VALUE 'Z'.           
+        88  WS-DTE-DATE-IS-INVALID          VALUE 'N'.           
+        88  WS-DTE-DATE-IS-NOT-INVALID      VALUE 'Y' 'Z'.       
+    03  WS-DTE-SUB          PIC S999        VALUE ZERO.
+    03  WS-DTE-COMP-ITEMS.
+        05  WS-DTE-DOW      PIC 9           VALUE ZERO.
+        05  WS-DTE-RESULT   PIC S9(7)       VALUE ZERO.
+        05  WS-DTE-RSLT     REDEFINES WS-DTE-RESULT.
+            07  FILLER      PIC X(4).
+            07  WS-DTE-RSLT-3
+                            PIC S999.
+        05  WS-DTE-WORK     PIC S9(7)       VALUE ZERO.
+        05  WS-DTE-WRK      REDEFINES WS-DTE-WORK.
+            07  WS-DTE-WRK-POS-1-2                               
+                            PIC XX.                              
+            07  WS-DTE-WRK-POS-3-4                               
+                            PIC XX.                              
+                88  WS-DTE-SPECIAL-LEAP-YEAR-SKIP                
+                                            VALUE '25' '50' '75'.
+            07  WS-DTE-RMDR PIC S999.
+        05  WS-DTE-WRK1     REDEFINES WS-DTE-WORK.
+            07  FILLER      PIC 99.
+            07  WS-DTE-RMDR-1
+                            PIC S9(5).
+        05  WS-DTE-DATE-1   PIC S9(7)       VALUE ZERO.
+        05  WS-DTE-DATE-2   PIC S9(7)       VALUE ZERO.
+        05  WS-DTE-LEAP     PIC S9(7)       VALUE ZERO.
+        05  WS-DTE-LEAP-X   REDEFINES WS-DTE-LEAP
+                            PIC S9(4)V999.
+        05  WS-DTE-FREQ     PIC S9(5)       VALUE ZERO.
+    03  WS-DTE-DATE         PIC 9(8)        VALUE ZERO.
+    03  WS-DTE-DATEZ        REDEFINES WS-DTE-DATE.
+        05  WS-DTE-MON      PIC 99.
+        05  WS-DTE-DAY      PIC 99.
+        05  WS-DTE-YEAR     PIC 9(4).
+    03  WS-DTE-ZDATE        REDEFINES WS-DTE-DATE.
+        05  FILLER          PIC 99.
+        05  WS-DTE-ZMON     PIC 99.
+        05  WS-DTE-ZDAY-X.                                       
+            07  WS-DTE-ZDAY PIC 99.                              
+        05  WS-DTE-ZYEAR-X.                                      
+            07  WS-DTE-ZYEAR                                     
+                            PIC 99.                              
+    03  WS-DTE-DATEX        REDEFINES WS-DTE-DATE.               
+        05  WS-DTE-DAYX     PIC 99.                              
+        05  WS-DTE-MONX     PIC 99.                              
+        05  WS-DTE-YEARX    PIC 9(4).                            
+    03  WS-DTE-XDATE        REDEFINES WS-DTE-DATE.               
+        05  WS-DTE-XDAY     PIC 99.                              
+        05  WS-DTE-XMON     PIC 99.                              
+        05  WS-DTE-XYEAR    PIC 9(4).                            
+    03  WS-DTE-DATE-L6-X.                                        
+        05  WS-DTE-DATE-L6  PIC 9(6)        VALUE ZERO.          
+    03  WS-DTE-DATE-L6-R    REDEFINES WS-DTE-DATE-L6-X.          
+        05  WS-DTE-L6-POS-1-2                                    
+                            PIC 99.                              
+        05  WS-DTE-L6-POS-3-4                                    
+                            PIC 99.                              
+        05  WS-DTE-L6-POS-5-6                                    
+                            PIC 99.                              
+    03  WS-DTE-MDY          PIC 9(6)        VALUE ZERO.
+    03  WS-DTE-MDYZ         REDEFINES WS-DTE-MDY.
+        05  WS-DTE-MM       PIC 99.
+        05  WS-DTE-DD       PIC 99.
+        05  WS-DTE-YY       PIC 99.
+    03  WS-DTE-MD           REDEFINES WS-DTE-MDY.
+        05  WS-DTE-MMDD     PIC 9(4).
+        05  FILLER          PIC 99.
+    03  WS-DTE-DMY          PIC 9(6)          VALUE ZEROS.       
+    03  WS-DTE-DMYX         REDEFINES WS-DTE-DMY.                
+        05  WS-DTE-DDX      PIC 99.                              
+        05  WS-DTE-MMX      PIC 99.                              
+        05  WS-DTE-YYX      PIC 99.                              
+    03  WS-DTE-DM           REDEFINES WS-DTE-DMY.                
+        05  WS-DTE-DDMM     PIC 9(4).                            
+        05  FILLER          PIC 99.                              
+    03  WS-DTE-YMD          PIC 9(6)        VALUE ZEROS.         
+    03  FILLER    REDEFINES  WS-DTE-YMD.                         
+        05  WS-DTE-YMD-YY   PIC 9(2).                            
+        05  WS-DTE-YMD-MM   PIC 9(2).                            
+        05  WS-DTE-YMD-DD   PIC 9(2).                            
+    03  WS-DTE-JULIAN       PIC 9(7)        VALUE ZERO.
+    03  WS-DTE-JULZ         REDEFINES WS-DTE-JULIAN.
+        05  WS-DTE-JULYR    PIC 9(4).
+        05  WS-DTE-JULDAYS  PIC 999.
+    03  WS-DTE-PERIOD       PIC X           VALUE SPACE.
+    03  WS-DTE-DAY-OF-MON   PIC 99          VALUE ZERO.
+    03  WS-DATE-FORMAT      PIC 9           VALUE 1.             
+    03  WS-DATE-FORMAT-SAVE PIC 99.                              
+    03  WS-DTE-EDIT-X.
+        05  WS-DTE-EDIT-YYYY
+                            PIC 99/99/9999.                      
+        05  WS-DTE-EDIT-R1  REDEFINES WS-DTE-EDIT-YYYY.
+            07  WS-DTE-EDIT PIC 99/99/99.                        
+            07  FILLER      PIC XX.
+        05  WS-DTE-EDIT-R2  REDEFINES WS-DTE-EDIT-YYYY.
+            07  WS-DTE-ED-MM
+                            PIC 99.                              
+            07  WS-DTE-ED-S1
+                            PIC X.
+            07  WS-DTE-ED-DD
+                            PIC 99.                              
+            07  WS-DTE-ED-S2
+                            PIC X.
+            07  WS-DTE-ED-YYYY.
+                09  WS-DTE-ED-YY
+                            PIC 99.                              
+                09  WS-DTE-ED-YY2
+                            PIC 99.                              
+    03  WS-DTE-TABLE-LEAP-YEAR.
+        05  FILLER          PIC X(39)       VALUE
+            '000031060091121152182213244274305335366'.
+    03  WS-DTE-TABLE-REGULAR-YEAR.
+        05  FILLER          PIC X(39)       VALUE
+            '000031059090120151181212243273304334365'.
+    03  WS-DTE-TABLE.
+        05  FILLER          PIC X(39)       VALUE
+            '000031059090120151181212243273304334365'.
+    03  WS-DTE-DDM          REDEFINES WS-DTE-TABLE
+                            PIC 999         OCCURS 13 TIMES
+                                            INDEXED BY
+                                            X-WS-DTE-DOM.
+    03  WS-DV-TABLE         PIC X(24)       VALUE
+        '312831303130313130313031'.
+    03  WS-DV-MON           REDEFINES WS-DV-TABLE
+                            PIC 99          OCCURS 12 TIMES
+                                            INDEXED BY
+                                            X-WS-DV-MON.

@@ -1,0 +1,82 @@
+                                                                 
+    IF WS-SEC-ORG-PYMT IS GREATER THAN CM-CASH-CURR-MON-BAL AND  
+       CM-CASH-CURR-MON-BAL NOT LESS THAN ZERO                   
+       MOVE CM-CASH-CURR-MON-BAL                                 
+                            TO WS-SEC-ORG-PYMT.                  
+    IF CM-CASH-CURR-MON-BAL IS NOT GREATER THAN ZERO             
+       MOVE ZERO            TO WS-SEC-ORG-PYMT.                  
+                                                                 
+    IF WS-SEC-ORG-PYMT IS NOT GREATER THAN WS-PYMT               
+       MOVE WS-SEC-ORG-PYMT TO WS-AMNT                           
+    ELSE                                                         
+       MOVE WS-PYMT         TO WS-AMNT.                          
+    IF WS-AMNT IS GREATER THAN ZERO                              
+    SUBTRACT WS-AMNT FROM CM-CASH-CURR-MON-BAL                   
+    SUBTRACT WS-AMNT FROM WS-PYMT                                
+    SUBTRACT WS-AMNT FROM WS-SEC-ORG-PYMT                        
+    IF INTR-FROM-STATEMENT (1)                                   
+       SUBTRACT WS-AMNT FROM WS-CASH-NET-PYMT                    
+    END-IF                                                       
+    ADD WS-AMNT TO WS-CASH-PYMT                                  
+    ADD WS-AMNT TO WS-CASH-CURR-PYMT                             
+    MOVE CMT-CODE            TO WS-TC-GL-12                      
+    MOVE 19                  TO WS-TC-GL-34                      
+    MOVE 'Y'                 TO WS-FX-FLAG                       
+    PERFORM GCUG-INDIV-PYMT-AMTS-GL THRU GIPAG-XIT.              
+    MOVE SPACE               TO WS-FX-FLAG.                      
+    IF CM-LEDGER-CHGOFF                                          
+       PERFORM CCB-PYMT-METHOD-BAD    THRU  CPMB-XIT             
+    ELSE                                                         
+       PERFORM CCB-PYMT-METHOD-NORMAL THRU  CPMN-XIT             
+    END-IF.                                                      
+    GO TO APTM-XIT.                                              
+CCB-PYMT-METHOD-NORMAL.                                          
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-MEMBER THRU PPT-RM-XIT                    
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-CASH-SVC-CHRG THRU  PPT-CSC-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-SVC-CHRG  THRU  PPT-RSC-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-MISC-BNP  THRU  PPT-RMB-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-CASH-IBNP  THRU  PPT-CI-XIT                   
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-IBNP  THRU  PPT-RI-XIT                    
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-CASH-STMT-BAL  THRU  PPT-CSB-XIT              
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-STMT-BAL  THRU  PPT-RSB-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-INSUR-BNP  THRU  PPT-RIB-XIT              
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-CASH-CURR-MON  THRU PPT-CCM-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-CURR-MON   THRU PPT-RCM-XIT.              
+CPMN-XIT.                                                        
+CCB-PYMT-METHOD-BAD.                                             
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-CASH-STMT-BAL  THRU  PPT-CSB-XIT              
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-STMT-BAL  THRU  PPT-RSB-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-CASH-CURR-MON  THRU PPT-CCM-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-CURR-MON   THRU PPT-RCM-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-MEMBER THRU PPT-RM-XIT                    
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-CASH-SVC-CHRG THRU  PPT-CSC-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-SVC-CHRG  THRU  PPT-RSC-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-MISC-BNP  THRU  PPT-RMB-XIT               
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-INSUR-BNP  THRU  PPT-RIB-XIT              
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-CASH-IBNP  THRU  PPT-CI-XIT                   
+    IF WS-PYMT IS GREATER THAN ZERO                              
+       PERFORM PPT-RTL-IBNP  THRU  PPT-RI-XIT.                   
+CPMB-XIT.                                                        
+PM23-XIT.                                                        
+    EXIT.                                                        

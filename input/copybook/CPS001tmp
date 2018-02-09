@@ -1,0 +1,15 @@
+                            RECORD CONTAINS 8011 CHARACTERS      
+                            LABEL RECORDS ARE STANDARD.          
+01  SYSTEM-CONTROL-RECORD   PICTURE X(8011).                     
+01  SYSTEM-CONTROL          PICTURE X(8011).                     
+01  SCR-RECORD.                                                  
+    03  CPSYS-01-KEY.                                            
+        05  CPSYS-ORGN      PICTURE 9(3).                        
+        05  CPSYS-TYPE      PICTURE 9(3).                        
+    03  FILLER              PICTURE X(8004).                     
+    03  SCR-RECORD-TYPE     PICTURE 9.                           
+      88  SCR-SYSTEM                        VALUE 1.             
+      88  SCR-ORGANIZATION                  VALUE 2.             
+      88  SCR-TYPE                          VALUE 3.             
+      88  SCR-MERCH-TOT                     VALUE 4.             
+      88  SCR-TRAILER                       VALUE 9.             

@@ -1,0 +1,41 @@
+01  TRANS-CODE-RECORD.                                           
+    03  TCR-KEY.                                                 
+        05  TCR-ORG                   PIC S9(03)    COMP-3.      
+        05  TCR-CODE                  PIC S9(04)    COMP-3.      
+    03  TCR-DESC                      PIC X(40).                 
+    03  TCR-TYPE                      PIC 9(02).                 
+    03  TCR-USAGE                     PIC X(1).                  
+        88 TCR-SYSTEM-CODE            VALUE 'S'.                 
+        88 TCR-USER-CODE              VALUE 'U'.                 
+    03  TCR-REVL-CODE                 PIC S9(04)    COMP-3.      
+    03  TCR-TRIG-CODE                 PIC S9(04)    COMP-3.      
+    03  TCR-POSTING-METHOD            PIC X(01).                 
+        88 TCR-POSTING-ON-TODAY       VALUE 'T'.                 
+        88 TCR-POSTING-ON-CYCLE       VALUE 'C'.                 
+    03  TCR-RECON-OPTION.                                        
+        05  TCR-RECON-FLAG            PIC X(01).                 
+        05  TCR-RECON-STRUCTURE-IND   PIC X(01).                 
+        05  TCR-RECON-LEVEL           PIC 9(01).                 
+        05  TCR-RECON-UPPER-CODE      PIC S9(04)    COMP-3.      
+    03  TCR-SHORT-DESC                PIC X(20).                 
+    03  TCR-INSTALLMENT-IND           PIC X(1).                  
+        88  TCR-ITEM-PRICE                  VALUE '1'.           
+        88  TCR-INSTALLMENT                 VALUE '2'.           
+        88  TCR-LARGE-ITEM-PRICE            VALUE '3'.           
+        88  TCR-LARGE-INSTALLMENT           VALUE '4'.           
+        88  TCR-CASH-ITEM-PRICE             VALUE '5'.           
+        88  TCR-CASH-INSTALLMENT            VALUE '6'.           
+    03  TCR-BAL-PROG-ID               PIC X(04).                 
+    03  TCR-BAL-TYPE                  PIC X(04).                 
+    03  TCR-R-B-IND                   PIC X(01).                 
+        88  TCR-GL-DIR-R                    VALUE 'R'.           
+        88  TCR-GL-DIR-B                    VALUE 'B'.           
+    03  FILLER                        PIC X(75).                 
+    03  TCR-STATUS                    PIC X.                     
+        88  ACTIVE-TCR                      VALUE '1'.           
+        88  INACTIVE-TCR                    VALUE '2'.           
+        88  TCR-TO-BE-PURGED                VALUE '9'.           
+    03  TCR-MAINT-INF.                                           
+        05  TCR-LAST-MAINT-DATE       PIC 9(07).                 
+        05  TCR-LAST-MAINT-TIME       PIC 9(06).                 
+        05  TCR-LAST-MAINT-UID        PIC X(20).                 

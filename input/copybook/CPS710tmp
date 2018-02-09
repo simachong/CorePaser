@@ -1,0 +1,66 @@
+CCS-CMA-READ-RANDOM.                                             
+    MOVE WS-CMA-ORGN-KEY        TO CMA-ORG-NMBR.                 
+    MOVE WS-CMA-TYPE-KEY        TO CMA-TYPE.                     
+    MOVE WS-CMA-CARDHLD-KEY     TO CMA-CARD-NMBR.                
+    MOVE WS-CMA-REC-TYPE        TO CMA-REC-TYPE.                 
+    READ CRDHLDR-ADDIT-INFO-FILE.                                
+    IF  WS-CPCMA-STATUS IS EQUAL TO '23'                         
+        MOVE 4                  TO WS-IO-COMPLETE-SW             
+        GO TO CCS-CMA-RR-EXIT.                                   
+    IF  WS-CPCMA-STATUS IS NOT EQUAL TO '00'                     
+        MOVE WS-CPCMA-STATUS    TO WS-ABEND-STATUS               
+        MOVE 5                  TO WS-IO-COMPLETE-SW             
+        GO TO CCS-CMA-RR-EXIT.                                   
+    MOVE 1                      TO WS-IO-COMPLETE-SW.            
+    IF CMA-INSURANCE                                             
+        MOVE CMA-FD-INS-RECORD  TO CMA-INSURANCE-RECORD.         
+    IF CMA-FIXED-TERM                                            
+        MOVE CMA-FD-FTL-RECORD  TO CMA-FIXED-TERM-RECORD.        
+CCS-CMA-RR-EXIT.                                                 
+    EXIT.                                                        
+CCS-CMA-READ-SEQ.                                                
+    READ CRDHLDR-ADDIT-INFO-FILE NEXT.                           
+    IF  WS-CPCMA-STATUS IS EQUAL TO '10'                         
+        MOVE 6                  TO WS-IO-COMPLETE-SW             
+        GO TO CCS-CMA-RSEQ-EXIT.                                 
+    IF  WS-CPCMA-STATUS IS NOT EQUAL TO '00'                     
+        MOVE WS-CPCMA-STATUS    TO WS-ABEND-STATUS               
+        MOVE 5                  TO WS-IO-COMPLETE-SW             
+        GO TO CCS-CMA-RSEQ-EXIT.                                 
+    MOVE 1                      TO WS-IO-COMPLETE-SW.            
+    IF CMA-INSURANCE                                             
+        MOVE CMA-FD-INS-RECORD  TO CMA-INSURANCE-RECORD.         
+    IF CMA-FIXED-TERM                                            
+        MOVE CMA-FD-FTL-RECORD  TO CMA-FIXED-TERM-RECORD.        
+CCS-CMA-RSEQ-EXIT.                                               
+    EXIT.                                                        
+CCS-CMA-START-EQUAL.                                             
+    MOVE WS-CMA-ORGN-KEY        TO CMA-ORG-NMBR.                 
+    MOVE WS-CMA-TYPE-KEY        TO CMA-TYPE.                     
+    MOVE WS-CMA-CARDHLD-KEY     TO CMA-CARD-NMBR.                
+    MOVE WS-CMA-REC-TYPE        TO CMA-REC-TYPE.                 
+    START CRDHLDR-ADDIT-INFO-FILE                                
+        KEY IS EQUAL TO                                          
+            CMA-KEY.                                             
+    IF  WS-CPCMA-STATUS IS EQUAL TO '00'                         
+        MOVE 1                  TO WS-IO-COMPLETE-SW             
+    ELSE                                                         
+        MOVE WS-CPCMA-STATUS    TO WS-ABEND-STATUS               
+        MOVE 5                  TO WS-IO-COMPLETE-SW.            
+CCS-CMA-SEQ-EXIT.                                                
+    EXIT.                                                        
+CCS-CMA-START-GTEQ.                                              
+    MOVE WS-CMA-ORGN-KEY        TO CMA-ORG-NMBR.                 
+    MOVE WS-CMA-TYPE-KEY        TO CMA-TYPE.                     
+    MOVE WS-CMA-CARDHLD-KEY     TO CMA-CARD-NMBR.                
+    MOVE WS-CMA-REC-TYPE        TO CMA-REC-TYPE.                 
+    START CRDHLDR-ADDIT-INFO-FILE                                
+        KEY IS NOT LESS THAN                                     
+            CMA-KEY.                                             
+    IF  WS-CPCMA-STATUS IS EQUAL TO '00'                         
+        MOVE 1                  TO WS-IO-COMPLETE-SW             
+    ELSE                                                         
+        MOVE WS-CPCMA-STATUS    TO WS-ABEND-STATUS               
+        MOVE 5                  TO WS-IO-COMPLETE-SW.            
+CCS-CMA-SGE-EXIT.                                                
+    EXIT.                                                        

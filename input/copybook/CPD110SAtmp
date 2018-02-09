@@ -1,0 +1,86 @@
+CREATE-PROPAGATE-MAINT.                                          
+                                                                 
+    MOVE ZEROS TO FM-STATUS-FLAG FM-CHGOFF-FLAG.                 
+    IF CM-DTE-LST-STAT-CHNG = OC-TODAYS-JULIAN                   
+       IF CM-STATUS = 8 OR 9                                     
+          MOVE CM-DTE-LST-STAT-CHNG     TO FM-DATE-CHANGE        
+          MOVE 1                        TO FM-STATUS-FLAG        
+          MOVE CM-STATUS TO FM-STATUS.                           
+          IF CM-DTE-CHGOFF-STAT-CHANGE = OC-TODAYS-JULIAN        
+             MOVE CM-DTE-CHGOFF-STAT-CHANGE TO FM-DATE-CHANGE    
+             MOVE 1                     TO FM-CHGOFF-FLAG        
+             MOVE CM-CHGOFF-STATUS-FLAG TO FM-CHGOFF-STATUS-FLAG 
+             MOVE 1                     TO FM-STATUS-FLAG        
+             MOVE CM-STATUS             TO FM-STATUS             
+             MOVE CM-BLOCK-CODE TO FM-BLOCK-CODE.                
+                                                                 
+    IF FM-BLOCK-CODE-FLAG = 1                                    
+       MOVE CM-BLOCK-CODE               TO FM-BLOCK-CODE         
+       MOVE CM-DTE-BLOCK-CODE           TO FM-DATE-CHANGE        
+    ELSE                                                         
+       IF FM-BLOCK-CODE-FLAG = 2                                 
+          MOVE SPACE                    TO FM-BLOCK-CODE         
+          MOVE OC-TODAYS-JULIAN         TO FM-DATE-CHANGE.       
+                                                                 
+    IF FM-CHGOFF-FLAG     = 0  AND  FM-STATUS-FLAG = 0  AND      
+       FM-BLOCK-CODE-FLAG = 0                                    
+       NEXT SENTENCE                                             
+    ELSE                                                         
+       IF TRANSFERED                                             
+             NEXT SENTENCE                                       
+       ELSE                                                      
+          MOVE  CM-ORG-NMBR             TO FM-ORG                
+          MOVE  CM-TYPE                 TO FM-TYPE               
+          MOVE  CM-CARD-NMBR            TO FM-ACCT               
+          MOVE  1                       TO FM-RECORD-TYPE        
+          MOVE  CM-CUSTOMER-NMBR        TO FM-CUST-NMBR          
+          WRITE FM-PROPAGATE-REC.                                
+                                                                 
+CPM-XIT.                                                         
+    EXIT.                                                        
+UPDATE-LAST-ACTIVE-DATE.                                         
+    IF  CM-DTE-LST-PURCHASE > CM-DTE-LST-ACTIVE                  
+        MOVE CM-DTE-LST-PURCHASE TO CM-DTE-LST-ACTIVE.           
+    IF  CM-DTE-LST-ADVANCE > CM-DTE-LST-ACTIVE                   
+        MOVE CM-DTE-LST-ADVANCE  TO CM-DTE-LST-ACTIVE.           
+    IF (CM-DTE-LST-ACTIVE LESS THAN OC-DTE-LST-PROC OR           
+        CM-DTE-LST-ACTIVE EQUAL TO OC-DTE-LST-PROC) AND          
+        INACTIVE-ACCOUNT                                         
+        MOVE 1                       TO CM-STATUS                
+        MOVE OC-TODAYS-JULIAN        TO CM-DTE-LST-STAT-CHNG.    
+ULAD-XIT.                                                        
+    EXIT.                                                        
+PROCESS-GEN-FEE.                                                 
+    MOVE 'Y'                         TO WS-MEMB-FEE-IN-CPD096.   
+    PERFORM UPDATE-CARDHOLDER-FEE    THRU UCF-XIT.               
+    PERFORM GENERATED-TRANS-WRITE    THRU GTW-XIT.               
+    MOVE 3                           TO WS-HIST-SW.              
+    PERFORM HISTORY-UPDATE           THRU HU-XIT.                
+                                                                 
+    MOVE CMT-TRANS-CODE              TO WS-TRAN-CODE-GL.         
+    MOVE SPACES                      TO RECONCILIATION-RCRD.     
+    MOVE CM-ORG-NMBR                 TO RC-CH-ORGN.              
+    MOVE CM-TYPE                     TO RC-CH-TYPE.              
+    MOVE 02                          TO RC-TRAN-TYPE.            
+    MOVE WS-TRAN-CODE-GL             TO RC-TRAN-CODE.            
+    MOVE 02                          TO RC-ROUTING-IND.          
+    MOVE ZEROES                      TO RC-CH-BATCH-NMBR.        
+    IF  NOT SUSPENSE-ACCT                                        
+        MOVE CMT-ORIG-CRDHLD-AGT-BANK TO RC-CH-AGENT-BANK        
+        MOVE CM-DOMICILE-BRANCH       TO RC-CH-BRANCH            
+        MOVE CMT-ORIG-CRDHLD-POT-OCCU TO RC-CH-POT-NMBR.         
+    MOVE CM-STATUS                   TO RC-CH-STATUS.            
+    MOVE ZEROES                      TO RC-CH-POST-RESULT.       
+    MOVE GT-AMNT                     TO RC-AMOUNT.               
+    IF  WS-ORIG-POSTING-FLAG NOT = 01                            
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+                                                                 
+    MOVE RC-TRAN-CODE                TO WS-HOLD-RC-TRAN-CD.      
+    MOVE WS-HOLD-RC-TRAN-CD          TO RC-TRAN-CODE.            
+                                                                 
+    PERFORM GGTG-UPD-CARDH-GL        THRU GUCG-XIT.              
+                                                                 
+    MOVE 4                  TO WS-HIST-SW.                       
+    COMPUTE CM-CURR-BALANCE = CM-RTL-BALANCE + CM-CASH-BALANCE.  
+PGF-XIT.                                                         
+    EXIT.                                                        

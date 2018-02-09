@@ -1,0 +1,127 @@
+01  WSTCR-TABLE.                                                 
+    03  WSTCR-ARRAY             OCCURS 500 TIMES                 
+                                  INDEXED BY X-WSTCR.            
+        05  WSTCR-ORG-NMBR            PIC S9(03)    COMP-3.      
+        05  WSTCR-TRAN-CODE           PIC S9(04)    COMP-3.      
+        05  WSTCR-DESC                PIC X(40).                 
+        05  WSTCR-TYPE                PIC 9(02).                 
+        05  WSTCR-USAGE               PIC X(01).                 
+        05  WSTCR-REVL-CODE           PIC S9(04)    COMP-3.      
+        05  WSTCR-TRIG-CODE           PIC S9(04)    COMP-3.      
+        05  WSTCR-POSTING-METHOD      PIC X(01).                 
+        05  WSTCR-RECON-FLAG          PIC X(01).                 
+        05  WSTCR-RECON-STRUCTURE-IND PIC X(01).                 
+        05  WSTCR-RECON-LEVEL         PIC 9(01).                 
+        05  WSTCR-RECON-UP-CODE       PIC S9(04)    COMP-3.      
+        05  WSTCR-SHORT-DESC          PIC X(20).                 
+        05  WSTCR-INSTALLMENT-IND     PIC X(1).                  
+        05  WSTCR-BAL-PROG-ID         PIC X(04).                 
+        05  WSTCR-BAL-TYPE            PIC X(04).                 
+        05  WSTCR-R-B-IND             PIC X(01).                 
+        05  FILLER                    PIC X(75).                 
+        05  WSTCR-STATUS              PIC X(01).                 
+        05  WSTCR-LAST-MAINT-DATE     PIC 9(07).                 
+        05  WSTCR-LAST-MAINT-TIME     PIC 9(06).                 
+        05  WSTCR-LAST-MAINT-UID      PIC X(20).                 
+01  WSTCR-SRCH-AREA.                                             
+    03  WSTCR-SRCH-ORG                PIC 9(03).                 
+    03  WSTCR-SRCH-TXCD               PIC 9(04).                 
+    03  WSTCR-SRCH-RSLT               PIC X(01).                 
+        88 WSTCR-FOUND                VALUE 'Y'.                 
+    03  WSTCR-CODE-LOC                PIC S9(03)  COMP-3.        
+01  WSSC-TRANS-CODE.                                             
+    03  WSSC-AUTO-TRANS-TABLE.                                   
+        05 WSSC-AUTO-TRANS-CODE   OCCURS 100 TIMES               
+                                INDEXED BY WS-X-AT-CD            
+                                PIC S9(04)   COMP-3.             
+    03  FILLER  REDEFINES WSSC-AUTO-TRANS-TABLE.                 
+        05 WSSC-AT-TC-MEM-FEE             PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-USG-FEE             PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-LAT-CHG-FEE         PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-OVER-LMT-FEE        PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CSH-INT             PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-RTL-INT             PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CSH-FEE-REV         PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CSH-SVC-FEE         PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-RTL-SVC-FEE         PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CSH-FEE             PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-JOIN-FEE            PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-SMS-FEE             PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CREDIT-INT          PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-INSUR-PREM          PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-INT-TAX             PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-INSUR-PREM-REF      PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-RTL-DB-WRO          PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-RTL-CR-WRO          PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CSH-DB-WRO          PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CSH-CR-WRO          PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CR-REFUND           PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CSH-INT-ADJ-DB      PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-CSH-INT-ADJ-CR      PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-RTL-INT-ADJ-DB      PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-RTL-INT-ADJ-CR      PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-VIR-CARD-FEE        PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-ISSUE-FEE           PIC S9(04) COMP-3.     
+        05 WSSC-AT-TC-FILLER        OCCURS  73 TIMES             
+                                          PIC S9(04) COMP-3.     
+    03  WSSC-INNER-TRANS-TABLE.                                  
+        05 WSSC-INNER-TRANS-CODE  OCCURS 100 TIMES               
+                                INDEXED BY WS-X-IN-CD            
+                                PIC S9(04)   COMP-3.             
+    03  FILLER  REDEFINES WSSC-INNER-TRANS-TABLE.                
+        05 WSSC-IN-TC-CSH-ANTIC-INT       PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-ACCR-INT        PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-ACCR-CR-INT         PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-ANTIC-INT-WAIVE PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-ACCR-INT-RDC    PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-PROV-INT        PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-NEG-RTL-PROV-INT    PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-ANTIC-INT       PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-NEG-RTL-ANTIC-INT   PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-ACCR-INT        PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-PROV-INT-WAIVE      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-NEG-PROV-INT-ACCR   PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-ANTIC-WAIVE     PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-NEG-ANTIC-INT   PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-ANTIC-INT-RDC   PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-ACCR-INT-RDC    PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-BILL-INT-RDC    PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-NEG-ACCR-INT    PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CR-INT-ACCR         PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-SUS-CSH-CONT-CR     PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-SUS-CSH-CONT-DB     PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-SUS-RTL-CONT-CR     PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-SUS-RTL-CONT-DB     PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-DB-NET-OUT      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-CR-NET-OUT      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-DB-NET-OUT      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-CR-NET-OUT      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-BAL-DB          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-INT-DB          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-SVC-CHG-DB      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-MISC-FEE-DB     PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-MEM-FEE-DB      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-BAL-CR          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-INT-CR          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-SVC-CHG-CR      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-MISC-FEE-CR     PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-MEM-FEE-CR      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-BAL-DB          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-INT-DB          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-SVC-CHG-DB      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-BAL-CR          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-INT-CR          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CSH-SVC-CHG-CR      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CREDIT-BAL-DB       PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-CREDIT-BAL-CR       PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-INSUR-CR        PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-RTL-INSUR-DB        PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-PRIN-CHARGE-OFF     PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-INT-CHARGE-OFF      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-INT-MEM-FEE-CR      PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-BAL-TFR-DB          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-REJECT-DB           PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-REJECT-CR           PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-EXCHG-PYMT          PIC S9(04) COMP-3.     
+        05 WSSC-IN-TC-FILLER      OCCURS  46 TIMES               
+                                          PIC S9(04) COMP-3.     

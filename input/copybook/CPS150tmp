@@ -1,0 +1,11 @@
+01  TRANS-RPT-RECORD.
+    03  TRR-SEQ-NMBR.
+        05  TRR-FORM-NMBR   PIC 99.
+        05  TRR-ORGN-NMBR   PIC 999.
+        05  TRR-CURR-NMBR   PIC 999.                             
+        05  TRR-GROUP-NMBR  PIC 99.
+        05  TRR-RPT-NMBR    PIC 99.
+        05  TRR-TYPE-NMBR   PIC 999.
+    03  TRR-TRANS-KEY       PIC X(232).                          
+    03  TRR-CHGOFF-STATUS   PIC X.                               
+    03  TRR-FILLER          PIC X(3).                            

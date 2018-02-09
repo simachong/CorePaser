@@ -1,0 +1,13 @@
+    RECORD CONTAINS 251 CHARACTERS                               
+    BLOCK CONTAINS 0  RECORDS                                    
+    RECORDING MODE IS F
+    LABEL RECORDS ARE STANDARD.
+01  TRANSACTION-RPT-RECORD  PIC X(251).                          
+01  TRR-RECORD              PIC X(251).                          
+01  TRR-HEADER-RECORD.
+    03  TRRR-SEQ-NMBR       PIC 9(15).                           
+        88  TRR-HEADER                      VALUE ZERO.
+        88  TRR-TRAILER                    VALUE 999999999999999.
+    03  TRRR-PROC-DTE       PIC S9(7)       COMP-3.
+    03  TRRR-TIME-STAMP     PIC S9(10)      COMP-3.
+    03  FILLER              PIC X(226).                          

@@ -1,0 +1,44 @@
+01  LBUIM-TRANS-REC.                                             
+    03  LBUIM-T-REC-TYPE                 PIC X(01).              
+    03  LBUIM-T-STATUS                   PIC X(01).              
+    03  LBUIM-T-BATCH-NBR                PIC S9(05)     COMP-3.  
+    03  LBUIM-T-SEQ-NBR                  PIC S9(03)     COMP-3.  
+    03  LBUIM-T-MONETARY-INFO.                                   
+        05  LBUIM-T-CARDHLD-ACCT.                                
+            07  LBUIM-T-CARDHLD-ORG      PIC S9(03)     COMP-3.  
+            07  LBUIM-T-CARDHLD-TYPE     PIC S9(03)     COMP-3.  
+            07  LBUIM-T-CARDHLD-NBR      PIC S9(16)     COMP-3.  
+        05  LBUIM-T-CODE                 PIC 9(02).              
+            88 UT-SALES                  VALUE 44.               
+            88 UT-SALES-REVERSAL         VALUE 45.               
+            88 UT-PT-CR-ADJ-CURR         VALUE 52.               
+            88 UT-PT-DR-ADJ-CURR         VALUE 53.               
+            88 UT-PT-CR-ADJ-AV1          VALUE 54.               
+            88 UT-PT-DR-ADJ-AV1          VALUE 55.               
+            88 UT-PT-CR-ADJ-AV2          VALUE 56.               
+            88 UT-PT-DR-ADJ-AV2          VALUE 57.               
+            88 UT-PT-REDEEM-ANFEE        VALUE 90.               
+            88 UT-PT-REDEEM-CUR          VALUE 91.               
+            88 UT-PT-REDEEM-AV1          VALUE 92.               
+            88 UT-PT-REDEEM-AV2          VALUE 93.               
+            88 UT-SALES-TRANS            VALUE 44 45.            
+            88 UT-ADJUST-TRANS           VALUE 52 THRU 57.       
+            88 UT-ADJUST-CR-TRANS        VALUE 52 54 56.         
+            88 UT-AJUST-DR-TRANS         VALUE 53 55 57.         
+            88 UT-REDEEM-TRANS           VALUE 90 THRU 93.       
+        05  LBUIM-T-DESC                 PIC X(40).              
+        05  LBUIM-T-DATE                 PIC S9(07)     COMP-3.  
+        05  LBUIM-T-POST-DATE            PIC S9(07)     COMP-3.  
+        05  LBUIM-T-POINTS               PIC S9(09)V99  COMP-3.  
+        05  LBUIM-T-AMOUNT               PIC S9(07)V99  COMP-3.  
+        05  LBUIM-T-MCC                  PIC S9(05)     COMP-3.  
+        05  LBUIM-T-REFERENCE            PIC X(11).              
+        05  LBUIM-T-SOURCE-ID            PIC X(01).              
+        05  LBUIM-T-OPERATOR             PIC X(03).              
+        05  LBUIM-T-PARTNER-ID           PIC S9(09)     COMP-3.  
+        05  LBUIM-T-PROGRAM-ID           PIC S9(05)     COMP-3.  
+        05  LBUIM-T-MERCHANT-ID.                                 
+            07 LBUIM-T-MERCHANT-ORG      PIC S9(03)     COMP-3.  
+            07 LBUIM-T-MERCHANT-NBR      PIC S9(09)     COMP-3.  
+        05  LBUIM-T-DBA-COUNTRY          PIC X(02).              
+        05  FILLER                       PIC X(34).              

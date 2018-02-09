@@ -1,0 +1,77 @@
+COMMON-EVT-TRACE-ID-OPEN.                                        
+    OPEN INPUT CARDPAC-CONTROL-EVTID.                            
+CETIO-EXIT.                                                      
+    EXIT.                                                        
+COMMON-EVT-TRACE-ID-CLOSE.                                       
+    CLOSE CARDPAC-CONTROL-EVTID.                                 
+CETIC-EXIT.                                                      
+    EXIT.                                                        
+COMMON-EVT-TRACE-ID-INIT.                                        
+    MOVE SPACE                    TO WSEVT-SAFE-NMBR             
+                                     WSEVT-SAFE-MACHINE-NMBR.    
+    MOVE ZERO                     TO WSEVT-DATE-TIME-NMBR        
+                                     WSEVT-SEQ-NMBR.             
+    MOVE 'N'                      TO WSEVT-PGM-FOUND-FLAG.       
+    MOVE '0000000001'             TO WSEVT-SYS-SND-SERIAL-NO.    
+    MOVE '106001'                 TO WSEVT-SAFE-NMBR.            
+    ACCEPT WSEVT-YYYYMMDD       FROM DATE.                       
+    IF  WSEVT-YYYY < 1900                                        
+        ADD 2000                  TO WSEVT-YYYY                  
+    END-IF.                                                      
+    MOVE WSEVT-YYYY               TO WS-DTE-YEAR.                
+    IF  WS-DATE-FORMAT IS EQUAL TO 1                             
+        MOVE WSEVT-DD             TO WS-DTE-MON                  
+        MOVE WSEVT-MM             TO WS-DTE-DAY                  
+    ELSE                                                         
+        MOVE WSEVT-DD             TO WS-DTE-DAY                  
+        MOVE WSEVT-MM             TO WS-DTE-MON                  
+    END-IF.                                                      
+    PERFORM CCSI-GREG-TO-JUL    THRU CCSI-GTJ-EXIT.              
+    MOVE WS-DTE-JULIAN            TO WS-DTE-DATE-2.              
+    MOVE 1970001                  TO WS-DTE-DATE-1.              
+    MOVE 1                        TO WS-DTE-DOW.                 
+    PERFORM CCSI-ELAPSED-DAYS THRU CCSI-ED-EXIT.                 
+    COMPUTE WSEVT-REAL-CURR-SECONDS1 ROUNDED =                   
+            WS-DTE-RESULT * 24 * 3600.                           
+CETII-EXIT.                                                      
+    EXIT.                                                        
+LOAD-EVTID-INTO-ARRAY.                                           
+    PERFORM VARYING WS-CCEVT-IDX FROM 1 BY 1                     
+      UNTIL (WS-CCEVT-IDX IS GREATER THAN 999) OR CARDEVT-EOF    
+      READ CARDPAC-CONTROL-EVTID                                 
+         AT END                                                  
+            SET CARDEVT-EOF  TO TRUE                             
+      END-READ                                                   
+      IF NOT CARDEVT-EOF                                         
+         MOVE CCEVT-DETAIL-1 TO                                  
+                             WS-CCEVT-ARRAY-DETAIL(WS-CCEVT-IDX) 
+         SET WS-CCEVT-MAX-IDX TO WS-CCEVT-IDX                    
+      END-IF                                                     
+    END-PERFORM.                                                 
+LEIA-EXIT.                                                       
+    EXIT.                                                        
+COMMON-EVT-TRACE-ID-PROC.                                        
+    PERFORM VARYING WS-CCEVT-IDX FROM 1 BY 1                     
+      UNTIL (WS-CCEVT-IDX IS GREATER THAN WS-CCEVT-MAX-IDX) OR   
+            (WSEVT-PGM-FOUND-FLAG IS EQUAL TO 'Y')               
+      IF  WS-CCEVT-PROGRAM-NMBR(WS-CCEVT-IDX)                    
+                                    IS EQUAL TO WSEVT-PROGRAM    
+          MOVE WS-CCEVT-SAFE-MACHINE-NMBR(WS-CCEVT-IDX)          
+                                    TO WSEVT-SAFE-MACHINE-NMBR   
+          MOVE 'Y'                  TO WSEVT-PGM-FOUND-FLAG      
+      END-IF                                                     
+    END-PERFORM.                                                 
+    ACCEPT WSEVT-TIME                FROM TIME.                  
+    COMPUTE WSEVT-REAL-CURR-SECONDS2 ROUNDED =                   
+           (WSEVT-TIME-HH * 3600) +                              
+           (WSEVT-TIME-MM * 60)   +                              
+            WSEVT-TIME-SS.                                       
+    COMPUTE WSEVT-REAL-CURR-SECONDS =                            
+            WSEVT-REAL-CURR-SECONDS1 + WSEVT-REAL-CURR-SECONDS2. 
+    MOVE WSEVT-REAL-CURR-SECONDS       TO WSEVT-DATE-TIME-NMBR.  
+    IF  WSEVT-SEQ-NMBR IS EQUAL TO 999999                        
+        MOVE ZERO                   TO WSEVT-SEQ-NMBR            
+    END-IF.                                                      
+    ADD  1                          TO WSEVT-SEQ-NMBR.           
+CETIP-EXIT.                                                      
+    EXIT.                                                        

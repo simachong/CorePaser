@@ -1,0 +1,752 @@
+01  WS-MASTERCARD-FEES.                                          
+    05  WS-MCIF-FEE-TABLE-X.                                     
+        09  WS-ACQ-REGION-1.                                     
+            11  WS-ACQRGN1-ISS-REGION-1.                         
+                13  WS-ACQ1-ISS1-SPMKT.                          
+                    15  WS-ACQ1-ISS1-SPMKT-ACT                   
+                                   PIC X        VALUE '1'.       
+                    15  WS-ACQ1-ISS1-SPMKT-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQ1-ISS1-SPMKT-RATE                  
+                                   PIC 99V9(5)  VALUE 0.01100.   
+                13  WS-ACQ1-ISS1-MPHONE.                         
+                    15  WS-ACQ1-ISS1-MPHONE-ACT                  
+                                   PIC X        VALUE '1'.       
+                    15  WS-ACQ1-ISS1-MPHONE-ITEM                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQ1-ISS1-MPHONE-RATE                 
+                                   PIC 99V9(5)  VALUE 0.05250.   
+                                                                 
+                13  WS-ACQ1-ISS1-IEIF.                           
+                    15  WS-ACQ1-ISS1-IEIF-ACT                    
+                                   PIC X        VALUE '0'.       
+                    15  WS-ACQ1-ISS1-IEIF-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQ1-ISS1-IEIF-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQ1-ISS1-NULL.                           
+                    15  WS-ACQ1-ISS1-NULL-ACT                    
+                                   PIC X        VALUE '0'.       
+                    15  WS-ACQ1-ISS1-NULL-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQ1-ISS1-NULL-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQ1-ISS1-STD.                            
+                    15  WS-ACQ1-ISS1-STD-ACT                     
+                                   PIC X        VALUE '1'.       
+                    15  WS-ACQ1-ISS1-STD-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.10000.   
+                    15  WS-ACQ1-ISS1-STD-RATE                    
+                                   PIC 99V9(5)  VALUE 0.01690.   
+                13  WS-ACQ1-ISS1-BIZCD.                          
+                    15  WS-ACQ1-ISS1-BIZCD-ACT                   
+                                   PIC X        VALUE '1'.       
+                    15  WS-ACQ1-ISS1-BIZCD-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.09000.   
+                    15  WS-ACQ1-ISS1-BIZCD-RATE                  
+                                   PIC 99V9(5)  VALUE 0.01950.   
+                13  WS-ACQ1-ISS1-TAP.                            
+                    15  WS-ACQ1-ISS1-TAP-ACT                     
+                                   PIC X        VALUE '1'.       
+                    15  WS-ACQ1-ISS1-TAP-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.09500.   
+                    15  WS-ACQ1-ISS1-TAP-RATE                    
+                                   PIC 99V9(5)  VALUE 0.02100.   
+                13  WS-ACQ1-ISS1-MRT1.                           
+                    15  WS-ACQ1-ISS1-MRT1-ACT                    
+                                   PIC X        VALUE '1'.       
+                    15  WS-ACQ1-ISS1-MRT1-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.09000.   
+                    15  WS-ACQ1-ISS1-MRT1-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01600.   
+                13  WS-ACQ1-ISS1-MRT2.                           
+                    15  WS-ACQ1-ISS1-MRT2-ACT                    
+                                   PIC X        VALUE '1'.       
+                    15  WS-ACQ1-ISS1-MRT2-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.09000.   
+                    15  WS-ACQ1-ISS1-MRT2-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01350.   
+                13  WS-ACQ1-ISS1-MRT3.                           
+                    15  WS-ACQ1-ISS1-MRT3-ACT                    
+                                PIC X VALUE '1'.                 
+                    15  WS-ACQ1-ISS1-MRT3-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQ1-ISS1-MRT3-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01300.   
+                13  WS-ACQ1-ISS1-CASH-PER-ITEM                   
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQ1-ISS1-CASH-RATE                       
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQ1-ISS1-CASH-MIN                        
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQ1-ISS1-ATM-PER-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.75000.   
+                13  WS-ACQ1-ISS1-ATM-RATE                        
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQ1-ISS1-ATM-MIN                         
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQ1-ISS1-RETRVL-ORIG                     
+                                   PIC 99V9(5)  VALUE 6.00000.   
+                13  WS-ACQ1-ISS1-RETRVL-COPY                     
+                                   PIC 99V9(5)  VALUE 2.00000.   
+                13  WS-ACQ1-ISS1-RETRVL-ATM-PHOTO                
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQ1-ISS1-RETRVL-FACSIMILE                
+                                   PIC 99V9(5)  VALUE 1.00000.   
+            11  FILLER-1A          PIC X(220).                   
+            11  FILLER-1B          PIC X(220).                   
+            11  FILLER-1C          PIC X(220).                   
+            11  FILLER-1D          PIC X(220).                   
+            11  FILLER-1E          PIC X(220).                   
+                                                                 
+        09  WS-ACQ-REGION-A.                                     
+            11  FILLER-A1          PIC X(220).                   
+            11  FILLER-AA          PIC X(220).                   
+            11  FILLER-AB          PIC X(220).                   
+            11  FILLER-AC          PIC X(220).                   
+            11  FILLER-AD          PIC X(220).                   
+            11  FILLER-AE          PIC X(220).                   
+                                                                 
+        09  WS-ACQ-REGION-B.                                     
+            11  FILLER-B1          PIC X(220).                   
+            11  FILLER-BA          PIC X(220).                   
+            11  FILLER-BB          PIC X(220).                   
+            11  FILLER-BC          PIC X(220).                   
+            11  FILLER-BD          PIC X(220).                   
+            11  FILLER-BE          PIC X(220).                   
+        09  WS-ACQ-REGION-C.                                     
+            11  WS-ACQRGNC-ISS-REGION-1.                         
+                13  WS-ACQC-ISS1-SPMKT.                          
+                    15  WS-ACQC-ISS1-SPMKT-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISS1-SPMKT-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-SPMKT-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISS1-MPHONE.                         
+                    15  WS-ACQC-ISS1-MPHONE-ACT                  
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISS1-MPHONE-ITEM                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-MPHONE-RATE                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISS1-IEIF.                           
+                    15  WS-ACQC-ISS1-IEIF-ACT                    
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISS1-IEIF-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-IEIF-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01100.   
+                13  WS-ACQC-ISS1-NULL.                           
+                    15  WS-ACQC-ISS1-NULL-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISS1-NULL-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-NULL-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISS1-STD.                            
+                    15  WS-ACQC-ISS1-STD-ACT                     
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISS1-STD-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.10000.   
+                    15  WS-ACQC-ISS1-STD-RATE                    
+                                   PIC 99V9(5)  VALUE 0.01480.   
+                13  WS-ACQC-ISS1-BIZCD.                          
+                    15  WS-ACQC-ISS1-BIZCD-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISS1-BIZCD-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-BIZCD-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISS1-TAP.                            
+                    15  WS-ACQC-ISS1-TAP-ACT                     
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISS1-TAP-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-TAP-RATE                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISS1-MRT1.                           
+                    15  WS-ACQC-ISS1-MRT1-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISS1-MRT1-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-MRT1-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISS1-MRT2.                           
+                    15  WS-ACQC-ISS1-MRT2-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISS1-MRT2-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-MRT2-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISS1-MRT3.                           
+                    15  WS-ACQC-ISS1-MRT3-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISS1-MRT3-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISS1-MRT3-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISS1-CASH-PER-ITEM                   
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISS1-CASH-RATE                       
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISS1-CASH-MIN                        
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISS1-ATM-PER-ITEM                    
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISS1-ATM-RATE                        
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISS1-ATM-MIN                         
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISS1-RETRVL-ORIG                     
+                                   PIC 99V9(5)  VALUE 6.00000.   
+                13  WS-ACQC-ISS1-RETRVL-COPY                     
+                                   PIC 99V9(5)  VALUE 2.00000.   
+                13  WS-ACQC-ISS1-RETRVL-ATM-PHOTO                
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQC-ISS1-RETRVL-FACSIMILE                
+                                   PIC 99V9(5)  VALUE 1.00000.   
+            11  WS-ACQRGNC-ISS-REGION-A.                         
+                13  WS-ACQC-ISSA-SPMKT.                          
+                    15  WS-ACQC-ISSA-SPMKT-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSA-SPMKT-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-SPMKT-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSA-MPHONE.                         
+                    15  WS-ACQC-ISSA-MPHONE-ACT                  
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSA-MPHONE-ITEM                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-MPHONE-RATE                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSA-IEIF.                           
+                    15  WS-ACQC-ISSA-IEIF-ACT                    
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSA-IEIF-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-IEIF-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01100.   
+                13  WS-ACQC-ISSA-NULL.                           
+                    15  WS-ACQC-ISSA-NULL-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSA-NULL-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-NULL-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSA-STD.                            
+                    15  WS-ACQC-ISSA-STD-ACT                     
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSA-STD-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.10000.   
+                    15  WS-ACQC-ISSA-STD-RATE                    
+                                   PIC 99V9(5)  VALUE 0.01480.   
+                13  WS-ACQC-ISSA-BIZCD.                          
+                    15  WS-ACQC-ISSA-BIZCD-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSA-BIZCD-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-BIZCD-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSA-TAP.                            
+                    15  WS-ACQC-ISSA-TAP-ACT                     
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSA-TAP-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-TAP-RATE                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSA-MRT1.                           
+                    15  WS-ACQC-ISSA-MRT1-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSA-MRT1-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-MRT1-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSA-MRT2.                           
+                    15  WS-ACQC-ISSA-MRT2-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSA-MRT2-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-MRT2-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSA-MRT3.                           
+                    15  WS-ACQC-ISSA-MRT3-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSA-MRT3-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSA-MRT3-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSA-CASH-PER-ITEM                   
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISSA-CASH-RATE                       
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISSA-CASH-MIN                        
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISSA-ATM-PER-ITEM                    
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISSA-ATM-RATE                        
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISSA-ATM-MIN                         
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISSA-RETRVL-ORIG                     
+                                   PIC 99V9(5)  VALUE 6.00000.   
+                13  WS-ACQC-ISSA-RETRVL-COPY                     
+                                   PIC 99V9(5)  VALUE 2.00000.   
+                13  WS-ACQC-ISSA-RETRVL-ATM-PHOTO                
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQC-ISSA-RETRVL-FACSIMILE                
+                                   PIC 99V9(5)  VALUE 1.00000.   
+            11  WS-ACQRGN1-ISS-REGION-B.                         
+                13  WS-ACQC-ISSB-SPMKT.                          
+                    15  WS-ACQC-ISSB-SPMKT-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSB-SPMKT-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-SPMKT-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSB-MPHONE.                         
+                    15  WS-ACQC-ISSB-MPHONE-ACT                  
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSB-MPHONE-ITEM                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-MPHONE-RATE                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSB-IEIF.                           
+                    15  WS-ACQC-ISSB-IEIF-ACT                    
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSB-IEIF-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-IEIF-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01100.   
+                13  WS-ACQC-ISSB-NULL.                           
+                    15  WS-ACQC-ISSB-NULL-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSB-NULL-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-NULL-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSB-STD.                            
+                    15  WS-ACQC-ISSB-STD-ACT                     
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSB-STD-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.10000.   
+                    15  WS-ACQC-ISSB-STD-RATE                    
+                                   PIC 99V9(5)  VALUE 0.01480.   
+                13  WS-ACQC-ISSB-BIZCD.                          
+                    15  WS-ACQC-ISSB-BIZCD-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSB-BIZCD-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-BIZCD-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSB-TAP.                            
+                    15  WS-ACQC-ISSB-TAP-ACT                     
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSB-TAP-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-TAP-RATE                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSB-MRT1.                           
+                    15  WS-ACQC-ISSB-MRT1-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSB-MRT1-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-MRT1-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSB-MRT2.                           
+                    15  WS-ACQC-ISSB-MRT2-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSB-MRT2-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-MRT2-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSB-MRT3.                           
+                    15  WS-ACQC-ISSB-MRT3-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSB-MRT3-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSB-MRT3-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSB-CASH-PER-ITEM                   
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISSB-CASH-RATE                       
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISSB-CASH-MIN                        
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISSB-ATM-PER-ITEM                    
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISSB-ATM-RATE                        
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISSB-ATM-MIN                         
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISSB-RETRVL-ORIG                     
+                                   PIC 99V9(5)  VALUE 6.00000.   
+                13  WS-ACQC-ISSB-RETRVL-COPY                     
+                                   PIC 99V9(5)  VALUE 2.00000.   
+                13  WS-ACQC-ISSB-RETRVL-ATM-PHOTO                
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQC-ISSB-RETRVL-FACSIMILE                
+                                   PIC 99V9(5)  VALUE 1.00000.   
+            11  WS-ACQRGNC-ISS-REGION-C.                         
+                13  WS-ACQC-ISSC-SPMKT.                          
+                    15  WS-ACQC-ISSC-SPMKT-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSC-SPMKT-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSC-SPMKT-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSC-MPHONE.                         
+                    15  WS-ACQC-ISSC-MPHONE-ACT                  
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSC-MPHONE-ITEM                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSC-MPHONE-RATE                 
+                                   PIC 99V9(5)  VALUE 0.09000.   
+                13  WS-ACQC-ISSC-IEIF.                           
+                    15  WS-ACQC-ISSC-IEIF-ACT                    
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSC-IEIF-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSC-IEIF-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01160.   
+                13  WS-ACQC-ISSC-NULL.                           
+                    15  WS-ACQC-ISSC-NULL-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSC-NULL-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSC-NULL-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSC-STD.                            
+                    15  WS-ACQC-ISSC-STD-ACT                     
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSC-STD-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.10000.   
+                    15  WS-ACQC-ISSC-STD-RATE                    
+                                   PIC 99V9(5)  VALUE 0.01690.   
+                13  WS-ACQC-ISSC-BIZCD.                          
+                    15  WS-ACQC-ISSC-BIZCD-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSC-BIZCD-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSC-BIZCD-RATE                  
+                                   PIC 99V9(5)  VALUE 0.01800.   
+                13  WS-ACQC-ISSC-TAP.                            
+                    15  WS-ACQC-ISSC-TAP-ACT                     
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSC-TAP-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSC-TAP-RATE                    
+                                   PIC 99V9(5)  VALUE 0.01800.   
+                13  WS-ACQC-ISSC-MRT1.                           
+                    15  WS-ACQC-ISSC-MRT1-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSC-MRT1-ITEM                   
+                                   PIC 99V9(5)  VALUE 30.00000.  
+                    15  WS-ACQC-ISSC-MRT1-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00750.   
+                13  WS-ACQC-ISSC-MRT2.                           
+                    15  WS-ACQC-ISSC-MRT2-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSC-MRT2-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSC-MRT2-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSC-MRT3.                           
+                    15  WS-ACQC-ISSC-MRT3-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSC-MRT3-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSC-MRT3-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01550.   
+                13  WS-ACQC-ISSC-CASH-PER-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.30000.   
+                13  WS-ACQC-ISSC-CASH-RATE                       
+                                   PIC 99V9(5)  VALUE 0.01550.   
+                13  WS-ACQC-ISSC-CASH-MIN                        
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQC-ISSC-ATM-PER-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.01550.   
+                13  WS-ACQC-ISSC-ATM-RATE                        
+                                   PIC 99V9(5)  VALUE 0.30000.   
+                13  WS-ACQC-ISSC-ATM-MIN                         
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQC-ISSC-RETRVL-ORIG                     
+                                   PIC 99V9(5)  VALUE 6.00000.   
+                13  WS-ACQC-ISSC-RETRVL-COPY                     
+                                   PIC 99V9(5)  VALUE 2.00000.   
+                13  WS-ACQC-ISSC-RETRVL-ATM-PHOTO                
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQC-ISSC-RETRVL-FACSIMILE                
+                                   PIC 99V9(5)  VALUE 1.00000.   
+            11  WS-ACQRGN1-ISS-REGION-D.                         
+                13  WS-ACQC-ISSD-SPMKT.                          
+                    15  WS-ACQC-ISSD-SPMKT-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSD-SPMKT-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-SPMKT-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSD-MPHONE.                         
+                    15  WS-ACQC-ISSD-MPHONE-ACT                  
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSD-MPHONE-ITEM                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-MPHONE-RATE                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSD-IEIF.                           
+                    15  WS-ACQC-ISSD-IEIF-ACT                    
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSD-IEIF-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-IEIF-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01100.   
+                13  WS-ACQC-ISSD-NULL.                           
+                    15  WS-ACQC-ISSD-NULL-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSD-NULL-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-NULL-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSD-STD.                            
+                    15  WS-ACQC-ISSD-STD-ACT                     
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSD-STD-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.10000.   
+                    15  WS-ACQC-ISSD-STD-RATE                    
+                                   PIC 99V9(5)  VALUE 0.01480.   
+                13  WS-ACQC-ISSD-BIZCD.                          
+                    15  WS-ACQC-ISSD-BIZCD-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSD-BIZCD-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-BIZCD-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSD-TAP.                            
+                    15  WS-ACQC-ISSD-TAP-ACT                     
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSD-TAP-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-TAP-RATE                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSD-MRT1.                           
+                    15  WS-ACQC-ISSD-MRT1-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSD-MRT1-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-MRT1-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSD-MRT2.                           
+                    15  WS-ACQC-ISSD-MRT2-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSD-MRT2-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-MRT2-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSD-MRT3.                           
+                    15  WS-ACQC-ISSD-MRT3-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSD-MRT3-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSD-MRT3-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSD-CASH-PER-ITEM                   
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISSD-CASH-RATE                       
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISSD-CASH-MIN                        
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISSD-ATM-PER-ITEM                    
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISSD-ATM-RATE                        
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISSD-ATM-MIN                         
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISSD-RETRVL-ORIG                     
+                                   PIC 99V9(5)  VALUE 6.00000.   
+                13  WS-ACQC-ISSD-RETRVL-COPY                     
+                                   PIC 99V9(5)  VALUE 2.00000.   
+                13  WS-ACQC-ISSD-RETRVL-ATM-PHOTO                
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQC-ISSD-RETRVL-FACSIMILE                
+                                   PIC 99V9(5)  VALUE 1.00000.   
+            11  WS-ACQRGNC-ISS-REGION-E.                         
+                13  WS-ACQC-ISSE-SPMKT.                          
+                    15  WS-ACQC-ISSE-SPMKT-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSE-SPMKT-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-SPMKT-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSE-MPHONE.                         
+                    15  WS-ACQC-ISSE-MPHONE-ACT                  
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSE-MPHONE-ITEM                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-MPHONE-RATE                 
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSE-IEIF.                           
+                    15  WS-ACQC-ISSE-IEIF-ACT                    
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSE-IEIF-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-IEIF-RATE                   
+                                   PIC 99V9(5)  VALUE 0.01100.   
+                13  WS-ACQC-ISSE-NULL.                           
+                    15  WS-ACQC-ISSE-NULL-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSE-NULL-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-NULL-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSE-STD.                            
+                    15  WS-ACQC-ISSE-STD-ACT                     
+                                   PIC X       VALUE '1'.        
+                    15  WS-ACQC-ISSE-STD-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.10000.   
+                    15  WS-ACQC-ISSE-STD-RATE                    
+                                   PIC 99V9(5)  VALUE 0.01480.   
+                13  WS-ACQC-ISSE-BIZCD.                          
+                    15  WS-ACQC-ISSE-BIZCD-ACT                   
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSE-BIZCD-ITEM                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-BIZCD-RATE                  
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSE-TAP.                            
+                    15  WS-ACQC-ISSE-TAP-ACT                     
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSE-TAP-ITEM                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-TAP-RATE                    
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSE-MRT1.                           
+                    15  WS-ACQC-ISSE-MRT1-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSE-MRT1-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-MRT1-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSE-MRT2.                           
+                    15  WS-ACQC-ISSE-MRT2-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSE-MRT2-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-MRT2-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSE-MRT3.                           
+                    15  WS-ACQC-ISSE-MRT3-ACT                    
+                                   PIC X       VALUE '0'.        
+                    15  WS-ACQC-ISSE-MRT3-ITEM                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                    15  WS-ACQC-ISSE-MRT3-RATE                   
+                                   PIC 99V9(5)  VALUE 0.00000.   
+                13  WS-ACQC-ISSE-CASH-PER-ITEM                   
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISSE-CASH-RATE                       
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISSE-CASH-MIN                        
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISSE-ATM-PER-ITEM                    
+                                   PIC 99V9(5)  VALUE 2.50000.   
+                13  WS-ACQC-ISSE-ATM-RATE                        
+                                   PIC 99V9(5)  VALUE 0.00100.   
+                13  WS-ACQC-ISSE-ATM-MIN                         
+                                   PIC 99V9(5)  VALUE 2.60000.   
+                13  WS-ACQC-ISSE-RETRVL-ORIG                     
+                                   PIC 99V9(5)  VALUE 6.00000.   
+                13  WS-ACQC-ISSE-RETRVL-COPY                     
+                                   PIC 99V9(5)  VALUE 2.00000.   
+                13  WS-ACQC-ISSE-RETRVL-ATM-PHOTO                
+                                   PIC 99V9(5)  VALUE 10.00000.  
+                13  WS-ACQC-ISSE-RETRVL-FACSIMILE                
+                                   PIC 99V9(5)  VALUE 1.00000.   
+        09  WS-ACQ-REGION-D.                                     
+            11  FILLER-D1          PIC X(220).                   
+            11  FILLER-DA          PIC X(220).                   
+            11  FILLER-DB          PIC X(220).                   
+            11  FILLER-DC          PIC X(220).                   
+            11  FILLER-DD          PIC X(220).                   
+            11  FILLER-DE          PIC X(220).                   
+        09  WS-ACQ-REGION-E.                                     
+            11  FILLER-E1          PIC X(220).                   
+            11  FILLER-EA          PIC X(220).                   
+            11  FILLER-EB          PIC X(220).                   
+            11  FILLER-EC          PIC X(220).                   
+            11  FILLER-ED          PIC X(220).                   
+            11  FILLER-EE          PIC X(220).                   
+    05  WS-MCIF-FEE-TABLE-R REDEFINES WS-MCIF-FEE-TABLE-X.       
+        09  WS-ACQ-REGION                   OCCURS 6 TIMES       
+                                            INDEXED BY           
+                                            X-ACQ-RGN.           
+            11  WS-ISS-REGION               OCCURS 6 TIMES       
+                                            INDEXED BY           
+                                            X-ISS-RGN.           
+                13  WS-ICG-RTL-PGM          OCCURS 10 TIMES      
+                                            INDEXED BY           
+                                            X-PGM-IND.           
+                    15  WS-ICG-RTL-PGM-ACT  PIC X.               
+                    15  WS-ICG-RTL-PGM-ITEM PIC 99V9(5).         
+                    15  WS-ICG-RTL-PGM-RATE PIC 99V9(5).         
+                13  WS-ICG-CASH-PER-ITEM    PIC 99V9(5).         
+                13  WS-ICG-CASH-RATE        PIC 99V9(5).         
+                13  WS-ICG-CASH-MIN         PIC 99V9(5).         
+                13  WS-ICG-ATM-PER-ITEM     PIC 99V9(5).         
+                13  WS-ICG-ATM-RATE         PIC 99V9(5).         
+                13  WS-ICG-ATM-MIN          PIC 99V9(5).         
+                13  WS-ICG-RETRVL-ORIG      PIC 99V9(5).         
+                13  WS-ICG-RETRVL-COPY      PIC 99V9(5).         
+                13  WS-ICG-RETRVL-ATM-PHOTO PIC 99V9(5).         
+                13  WS-ICG-RETRVL-FACSIMILE PIC 99V9(5).         
+01  WS-MC-ICA-PREFIX-TABLE.                                      
+    03  WS-MC-IPT-MAX       PIC S9(4)       COMP                 
+                                            VALUE ZERO.          
+    03  WS-MC-IPT-ENTRIES.                                       
+        05  WS-MC-IPT-ENTRY                 OCCURS 9000 TIMES    
+                                            INDEXED BY           
+                                            X-WS-MC-IPT.         
+            07  WS-MC-IPT-PREFIX-LO                              
+                            PIC S9(7)       COMP-3.              
+            07  WS-MC-IPT-PREFIX-HI                              
+                            PIC S9(7)       COMP-3.              
+            07  WS-MC-IPT-ICA                                    
+                            PIC S9(5)       COMP-3.              
+            07  WS-MC-INTERNATIONAL                              
+                            PIC X.                               
+                88  WS-MC-ICA-IS-DOMESTIC   VALUE SPACE ZERO.    
+                88  WS-MC-ICA-IS-EUROPEAN   VALUE 'D'.           
+                88  WS-MC-ICA-IS-INTERNATIONAL VALUE '*' 'D'.    
+            07  WS-MC-ICG-REGION                                 
+                            PIC X.                               
+            07  WS-MC-ICG-INT-QUAL                               
+                            PIC X(02).                           
+            07  WS-MC-PRODUCT-ID                                 
+                            PIC X(03).                           
+01  WS-MC2-ICA-PREFIX-TABLE.                                     
+    03  WS-MC2-IPT-MAX      PIC S9(4)       COMP                 
+                                            VALUE ZERO.          
+    03  WS-MC2-IPT-ENTRIES.                                      
+        05  WS-MC2-IPT-ENTRY             OCCURS 9000 TIMES       
+                                            INDEXED BY           
+                                            X-WS-MC2-IPT.        
+            07  WS-MC2-IPT-PREFIX-LO                             
+                            PIC S9(7)       COMP-3.              
+            07  WS-MC2-IPT-PREFIX-HI                             
+                            PIC S9(7)       COMP-3.              
+            07  WS-MC2-IPT-ICA                                   
+                            PIC S9(5)       COMP-3.              
+            07  WS-MC2-INTERNATIONAL                             
+                            PIC X.                               
+                88  WS-MC2-ICA-IS-DOMESTIC  VALUE SPACE ZERO.    
+                88  WS-MC2-ICA-IS-EUROPEAN  VALUE 'D'.           
+                88  WS-MC2-ICA-IS-INTERNATIONAL                  
+                                            VALUE '*' 'D'.       
+            07  WS-MC2-ICG-REGION                                
+                            PIC X.                               
+            07  WS-MC2-ICG-INT-QUAL                              
+                            PIC X(02).                           
+            07  WS-MC2-PRODUCT-ID                                
+                            PIC X(03).                           
+01  WS-ICA-PFX-TBL-IND      PIC 9           VALUE ZERO.          
+    88  WS-MATCH-IN-TBL-1                   VALUE 1.             
+    88  WS-MATCH-IN-TBL-2                   VALUE 2.             

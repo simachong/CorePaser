@@ -1,0 +1,35 @@
+01  CMA-FIXED-TERM-RECORD.                                       
+    03  CMA-FTL-KEY.                                             
+        05  CMA-FTL-ORG-NMBR          PIC S9(03)    COMP-3.      
+        05  CMA-FTL-TYPE              PIC S9(03)    COMP-3.      
+        05  CMA-FTL-CARD-NMBR         PIC S9(16)    COMP-3.      
+        05  CMA-FTL-REC-TYPE          PIC X.                     
+    03  CMA-FTL-REC-STATUS            PIC X.                     
+        88  CMA-FTL-ACCT-TO-PURGE     VALUE '9'.                 
+    03  CMA-FIXED-TERM-DETAILS.                                  
+        05  CMA-FTL-PRODUCT-DESC      PIC  X(03).                
+        05  CMA-FTL-REPAYMENT-TERM    PIC S9(03)    COMP-3.      
+        05  CMA-FTL-INT-FREE-SETLMNT  PIC S9(03)    COMP-3.      
+        05  CMA-FTL-INT-FREE-PERIOD   PIC S9(03)    COMP-3.      
+        05  CMA-FTL-FIRST-INSTAL-DATE PIC S9(07)    COMP-3.      
+        05  CMA-FTL-LOAN-PRNCPL1      PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-LOAN-PRNCPL2      PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-LOAN-PRNCPL3      PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-LOAN-PRNCPL4      PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-INS-PREMIUM       PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-INTEREST          PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-DEPOSIT           PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-DEPOSIT-DATE      PIC S9(07)    COMP-3.      
+        05  CMA-FTL-INSTL-AMNT1       PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-INSTL-AMNT2       PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-INSTL-AMNT3       PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-INSTL-MTHS1       PIC S9(03)    COMP-3.      
+        05  CMA-FTL-INSTL-MTHS2       PIC S9(03)    COMP-3.      
+        05  CMA-FTL-INSTL-MTHS3       PIC S9(03)    COMP-3.      
+        05  CMA-FTL-USER-CODE-4       PIC X(10).                 
+        05  CMA-FTL-USER-CODE-5       PIC X(10).                 
+        05  CMA-FTL-TOTAL-PAID-AMNT   PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-SETLMNT-DATE      PIC S9(07)    COMP-3.      
+        05  CMA-FTL-SETLMNT-AMNT      PIC S9(07)V99 COMP-3.      
+        05  CMA-FTL-TOT-SETLMNT-AMNT  PIC S9(07)V99 COMP-3.      
+        05  FILLER                    PIC X(15).                 

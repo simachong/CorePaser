@@ -1,0 +1,25 @@
+CCS-SYSTEM-RECORD-ADD.                                           
+    WRITE SYSTEM-CONTROL-RECORD.                                 
+    IF WS-CPSYS-STATUS IS EQUAL TO 22                            
+      MOVE 3 TO WS-IO-COMPLETE-SW                                
+    ELSE                                                         
+    IF WS-CPSYS-STATUS IS EQUAL TO ZERO                          
+      MOVE 1 TO WS-IO-COMPLETE-SW                                
+    ELSE                                                         
+    MOVE WS-CPSYS-STATUS TO WS-ABEND-STATUS                      
+    MOVE 5 TO WS-IO-COMPLETE-SW.                                 
+CCS-SRA-XIT.                                                     
+    EXIT.                                                        
+CCS-SYSTEM-UPDATE.                                               
+    REWRITE SYSTEM-CONTROL-RECORD.                               
+    IF WS-CPSYS-STATUS IS EQUAL TO 23                            
+      MOVE 4 TO WS-IO-COMPLETE-SW                                
+    ELSE                                                         
+    IF WS-CPSYS-STATUS IS EQUAL TO ZERO                          
+      MOVE 1 TO WS-IO-COMPLETE-SW                                
+    ELSE                                                         
+    MOVE WS-CPSYS-STATUS TO WS-ABEND-STATUS                      
+    MOVE 5 TO WS-IO-COMPLETE-SW.                                 
+CCS-SU-XIT.                                                      
+    EXIT.                                                        
+                                                                 

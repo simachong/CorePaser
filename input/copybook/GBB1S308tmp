@@ -1,0 +1,17 @@
+01  GCPPSB-RECORD.                                               
+    03 PSB-KEY.                                                  
+       05 PSB-ORG                        PIC 9(03).              
+       05 PSB-TABLE-ID                   PIC X(04).              
+    03 PSB-DESC                          PIC X(40).              
+    03 PSB-BAL-BUCKETS-GRP               OCCURS 60  TIMES        
+                                         INDEXED BY PSB-IDX1.    
+       05 PSB-BAL-BUCKETS-SER-NBR        PIC 9(03).              
+       05 PSB-BAL-BUCKETS-PRI-NBR        PIC S9(04) BINARY.      
+    03 PSB-BAL-BUCKETS-BP-GRP            OCCURS 20  TIMES        
+                                         INDEXED BY PSB-IDX2.    
+       05 PSB-BAL-BUCKETS-BPID           PIC X(04).              
+       05 PSB-BAL-BUCKETS-BP-TABLE       OCCURS 6   TIMES        
+                                         INDEXED BY PSB-IDX3.    
+          07 PSB-BAL-BUCKETS-BP-SER-NBR  PIC 9(03).              
+          07 PSB-BAL-BUCKETS-BP-PRI-NBR  PIC S9(04) BINARY.      
+    03 FILLER                            PIC X(73).              

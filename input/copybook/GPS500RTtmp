@@ -1,0 +1,472 @@
+B1000-FUNC1.                                                     
+    IF WS-FIRST-RECORD                                           
+        MOVE CM-TYPE TO WS-CURR-TYPE                             
+        MOVE CM-ORG-NMBR TO WS-CURR-ORG                          
+        PERFORM B1110-INIT-DAILY-BAL                             
+            THRU B1110-INIT-DAILY-BAL-EXIT                       
+        SET  WS-NOT-FIRST-RECORD TO  TRUE                        
+    END-IF.                                                      
+    PERFORM B1120-CAL-AND-WRITE                                  
+       THRU B1120-CAL-AND-WRITE-EXIT.                            
+B1000-EXIT.                                                      
+    EXIT.                                                        
+B1110-INIT-DAILY-BAL.                                            
+    INITIALIZE GPS081-DAILY-BALANCE-RECORD.                      
+B1110-INIT-DAILY-BAL-EXIT.                                       
+    EXIT.                                                        
+B1120-CAL-AND-WRITE.                                             
+    IF CM-TYPE = 939 OR                                          
+       CM-TYPE = 940 OR                                          
+       CM-TYPE = 997 OR                                          
+       CM-TYPE = 998                                             
+       GO TO B1120-CAL-GPS081                                    
+    END-IF.                                                      
+    PERFORM B1120-CAL-CPDBALB THRU B1120-CAL-CPDBALB-EXIT.       
+B1120-CAL-GPS081.                                                
+B1120-CAL-AND-WRITE-EXIT.                                        
+    EXIT.                                                        
+B1130-WRITE-DAILY-BAL-REC.                                       
+    MOVE ZEROS TO WS-TOTAL-INT-ACCR.                             
+    MOVE TC-ORGN-NMBR        TO GPS081-DB-ORG-NMBR               
+    MOVE TC-TYPE-NMBR        TO GPS081-DB-TYPE.                  
+    IF  TC-ORGN-NMBR NOT = 0 AND TC-ORGN-NMBR NOT = 999          
+    MOVE zeros                    TO GPS081-DB-INTEREST-ACCRUED. 
+    MOVE GPS081-DAILY-BALANCE-RECORD TO CPDBAL-REC.              
+    WRITE CPDBAL-REC.                                            
+    IF  WS-CPDBAL-STATUS NOT = '00'                              
+       MOVE 00031                   TO WS-ABEND-CODE             
+       MOVE WS-CPDBAL-STATUS        TO WS-ABEND-STATUS           
+       MOVE 'CPDBAL WRITE ERROR'     TO WS-ABENDMSG              
+       PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT         
+    END-IF                                                       
+    PERFORM B1110-INIT-DAILY-BAL                                 
+       THRU B1110-INIT-DAILY-BAL-EXIT                            
+    MOVE CM-TYPE TO WS-CURR-TYPE                                 
+    MOVE CM-ORG-NMBR TO WS-CURR-ORG                              
+    .                                                            
+B1130-EXIT.                                                      
+    EXIT.                                                        
+B1133-WRITE-DAILY-BAL-RECB.                                      
+    MOVE OC-ORGN-NMBR        TO BRANCH-DB-ORG-NMBR               
+                                                                 
+    PERFORM VARYING WS-BRANCH-IDX FROM 1 BY 1                    
+              UNTIL WS-BRANCH-IDX > 999                          
+      IF WS-DB-BRANCH(WS-BRANCH-IDX) NOT = ZEROES                
+         MOVE WS-DB-BRANCH             (WS-BRANCH-IDX) TO        
+              BRANCH-DB-BRANCH                                   
+         MOVE WS-DB-NORMAL-PRI-BAL     (WS-BRANCH-IDX) TO        
+              BRANCH-DB-NORMAL-PRI-BAL                           
+         MOVE WS-DB-DEL3089-PRI-BAL    (WS-BRANCH-IDX) TO        
+              BRANCH-DB-DEL3089-PRI-BAL                          
+         MOVE WS-DB-DEL90179-PRI-BAL   (WS-BRANCH-IDX) TO        
+              BRANCH-DB-DEL90179-PRI-BAL                         
+         MOVE WS-DB-DEL180-PRI-BAL     (WS-BRANCH-IDX) TO        
+              BRANCH-DB-DEL180-PRI-BAL                           
+         MOVE WS-DB-EXCESS-PRI-BAL     (WS-BRANCH-IDX) TO        
+              BRANCH-DB-EXCESS-PRI-BAL                           
+         MOVE WS-DB-INTEREST-RECEIVABLE(WS-BRANCH-IDX) TO        
+              BRANCH-DB-INTEREST-RECEIVABLE                      
+         MOVE WS-DB-INTEREST-COLLECTIVE(WS-BRANCH-IDX) TO        
+              BRANCH-DB-INTEREST-COLLECTIVE                      
+         MOVE WS-DB-FEE-BAL            (WS-BRANCH-IDX) TO        
+              BRANCH-DB-FEE-BAL                                  
+         MOVE WS-DB-INSTL-PRI-BAL      (WS-BRANCH-IDX) TO        
+              BRANCH-DB-INSTL-PRI-BAL                            
+         MOVE BRANCH-DAILY-BALANCE-RECORD TO CPDBALB-REC         
+         WRITE CPDBALB-REC                                       
+         IF WS-CPDBALB-STATUS NOT = '00'                         
+            MOVE 01133                   TO WS-ABEND-CODE        
+            MOVE WS-CPDBALB-STATUS       TO WS-ABEND-STATUS      
+            MOVE 'CPDBALB WRITE ERROR'   TO WS-ABENDMSG          
+            PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT    
+         END-IF                                                  
+      END-IF                                                     
+    END-PERFORM.                                                 
+                                                                 
+    INITIALIZE BRANCH-DAILY-BALANCE-RECORD.                      
+    PERFORM VARYING WS-BRANCH-IDX FROM 1 BY 1                    
+              UNTIL WS-BRANCH-IDX > 999                          
+      MOVE ZEROES     TO WS-DB-BRANCH             (WS-BRANCH-IDX)
+                         WS-DB-NORMAL-PRI-BAL     (WS-BRANCH-IDX)
+                         WS-DB-DEL3089-PRI-BAL    (WS-BRANCH-IDX)
+                         WS-DB-DEL90179-PRI-BAL   (WS-BRANCH-IDX)
+                         WS-DB-DEL180-PRI-BAL     (WS-BRANCH-IDX)
+                         WS-DB-EXCESS-PRI-BAL     (WS-BRANCH-IDX)
+                         WS-DB-INTEREST-RECEIVABLE(WS-BRANCH-IDX)
+                         WS-DB-INTEREST-COLLECTIVE(WS-BRANCH-IDX)
+                         WS-DB-FEE-BAL            (WS-BRANCH-IDX)
+                         WS-DB-INSTL-PRI-BAL      (WS-BRANCH-IDX)
+    END-PERFORM.                                                 
+    .                                                            
+B1133-EXIT.                                                      
+    EXIT.                                                        
+B2000-FUNC2.                                                     
+    IF CM-BLOCK-CODE = 'S'                                       
+        MOVE 1 TO WS-DTE-DOW                                     
+        MOVE CM-DTE-BLOCK-CODE TO WS-DTE-DATE-1                  
+        MOVE SC-TODAYS-JULIAN  TO WS-DTE-DATE-2                  
+        PERFORM CCSI-ELAPSED-DAYS THRU CCSI-ED-EXIT              
+        IF WS-DTE-RESULT >= 45                                   
+            MOVE CM-ORG-NMBR TO GPS083-S45-ORG-NMBR              
+            MOVE CM-TYPE TO GPS083-S45-TYPE                      
+            MOVE CM-CARD-NMBR TO GPS083-S45-CARD-NMBR            
+            MOVE CM-CUSTOMER-NUMBER TO                           
+                 GPS083-S45-CUSTOMER-NUMBER                      
+    MOVE CM-SHORT-NAME TO GPS083-S45-SHORT-NAME                  
+            MOVE CM-DTE-BLOCK-CODE TO                            
+                 GPS083-S45-DTE-BLOCK-CODE                       
+            MOVE WS-DTE-RESULT TO GPS083-S45-DTE-DIFF            
+            MOVE CM-CURR-BALANCE TO                              
+                 GPS083-S45-CURR-BALANCE                         
+            MOVE CM-AMNT-OUTST-AUTH TO                           
+                 GPS083-S45-AMNT-OUTST-AUTH                      
+            MOVE CM-NMBR-OUTST-AUTH TO                           
+                 GPS083-S45-NMBR-OUTST-AUTH                      
+            MOVE CM-AVAIL-CREDIT TO                              
+                 GPS083-S45-AVAIL-CREDIT                         
+            MOVE GPS083-S45-BLOCK-CODE-RECORD TO                 
+                 CPS45-REC                                       
+            WRITE CPS45-REC                                      
+            IF  WS-CPS45-STATUS NOT = '00'                       
+                MOVE 00051                TO WS-ABEND-CODE       
+                MOVE WS-CPS45-STATUS      TO WS-ABEND-STATUS     
+                MOVE 'CPS45 WRITE ERROR'  TO WS-ABENDMSG         
+                PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT   
+            END-IF                                               
+        END-IF                                                   
+    END-IF.                                                      
+B2000-EXIT.                                                      
+    EXIT.                                                        
+B3000-FUNC3.                                                     
+    MOVE CM-ORG-NMBR          TO GPS084-TACM-ORG-NMBR            
+    MOVE CM-TYPE              TO GPS084-TACM-TYPE                
+    MOVE CM-CARD-NMBR         TO GPS084-TACM-CARD-NMBR           
+    MOVE CM-CARD-NMBR         TO                                 
+         GPS084-TACM-POSTING-ACCT-NMBR                           
+    MOVE 'PP'                 TO                                 
+         GPS084-TACM-POSTING-FLAG                                
+    MOVE CM-SHORT-NAME        TO                                 
+         GPS084-TACM-SHORT-NAME                                  
+    MOVE CM-STATUS            TO GPS084-TACM-STATUS              
+    MOVE CM-CYCLE             TO GPS084-TACM-CYCLE               
+    MOVE CM-BLOCK-CODE        TO GPS084-TACM-BLOCK-CODE          
+    MOVE CM-POT-SELECT-CODE   TO                                 
+         GPS084-TACM-POT-SELECT-CODE                             
+    MOVE CM-POT-EXP-DATE      TO GPS084-TACM-POT-EXP-DATE        
+    MOVE CM-CURR-BALANCE      TO GPS084-TACM-CURR-BALANCE        
+    MOVE CM-CRLIMIT           TO GPS084-TACM-CRLIMIT             
+    MOVE CM-AVAIL-CREDIT      TO GPS084-TACM-AVAIL-CREDIT        
+    MOVE CM-TOTAL-AMNT-DUE TO GPS084-TACM-TOTAL-AMNT-DUE         
+    MOVE CM-CYCLE-DUE         TO GPS084-TACM-CYCLE-DUE           
+    MOVE CM-DTE-PYMT-DUE      TO GPS084-TACM-DTE-PYMT-DUE        
+    MOVE CM-DTE-LST-ACTIVE  TO GPS084-TACM-DTE-LST-ACTIVE        
+    MOVE ZEROS              TO GPS084-TACM-CARD-EXPIR-DTE        
+    MOVE CM-CUSTOMER-NMBR   TO GPS084-TACM-CUST-NUMBER           
+    MOVE GPS084-TACM-RECORD TO CPTACM-REC                        
+    WRITE CPTACM-REC                                             
+    IF  WS-CPTACM-STATUS NOT = '00'                              
+        MOVE 00061                TO WS-ABEND-CODE               
+        MOVE WS-CPTACM-STATUS      TO WS-ABEND-STATUS            
+        MOVE 'CPTACM WRITE ERROR'  TO WS-ABENDMSG                
+        PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT           
+    END-IF.                                                      
+                                                                 
+B3000-EXIT.                                                      
+    EXIT.                                                        
+                                                                 
+                                                                 
+B9000-FUNC9.                                                     
+                                                                 
+    MOVE CM-CUSTOMER-NMBR        TO GPTCRD-CUST-NBR.             
+    MOVE CM-ORG-NMBR             TO GPTCRD-CARD-ORG.             
+    MOVE CM-TYPE                 TO GPTCRD-CARD-TYPE.            
+    MOVE CM-CARD-NMBR            TO GPTCRD-CARD-NBR.             
+    MOVE CM-STATUS               TO GPTCRD-STATUS.               
+    MOVE CM-BLOCK-CODE           TO GPTCRD-BLOCK-CODE.           
+    MOVE CM-CYCLE                TO GPTCRD-CYCLE.                
+    MOVE CM-CYCLE-DUE            TO GPTCRD-CYCLE-DUE.            
+    MOVE CM-ACH-FLAG             TO GPTCRD-ACH-FLAG.             
+    MOVE CM-USER-CODE-3          TO GPTCRD-USER-CODE-3.          
+    MOVE CM-RTL-BEG-BALANCE      TO GPTCRD-RTL-BEG-BALANCE.      
+    MOVE CM-RTL-PYMT-CTD         TO GPTCRD-RTL-PYMT-CTD.         
+    MOVE CM-RTL-DISPUTED-BAL     TO GPTCRD-RTL-DISPUTED-BAL.     
+    MOVE CM-CASH-BEG-BALANCE     TO GPTCRD-CASH-BEG-BALANCE.     
+    MOVE CM-CASH-PYMT-CTD        TO GPTCRD-CASH-PYMT-CTD.        
+    MOVE CM-CASH-DISPUTED-BAL    TO GPTCRD-CASH-DISPUTED-BAL.    
+    MOVE CM-CASH-BALANCE         TO GPTCRD-CASH-BALANCE.         
+    MOVE CM-RTL-BALANCE          TO GPTCRD-RTL-BALANCE.          
+    MOVE CM-CASH-CR-ADJUST-BNP   TO GPTCRD-CASH-CR-ADJUST-BNP.   
+    MOVE CM-RTL-CR-ADJUST-BNP    TO GPTCRD-RTL-CR-ADJUST-BNP.    
+    MOVE CM-SHORT-NAME           TO GPTCRD-SHORT-NAME.           
+    MOVE CM-CORP-ACCT-NMBR       TO GPTCRD-CORP-ACCT-NMBR.       
+    MOVE CM-USER-DTE-1           TO GPTCRD-USER-DTE-1.           
+    MOVE CM-DTE-PYMT-DUE         TO GPTCRD-DTE-PYMT-DUE.         
+    MOVE CM-DUP-STMT-NBR         TO GPTCRD-DUP-STMT-NBR.         
+    MOVE CM-ALT-CUSTOMER-NMBR    TO GPTCRD-ALT-CUSTOMER-NMBR.    
+    MOVE CM-DTE-LST-MAINT        TO GPTCRD-DTE-LST-MAINT.        
+    MOVE CM-AMNT-OUTST-AUTH      TO GPTCRD-AMNT-OUTST-AUTH.      
+    MOVE CM-DTE-XFER-EFFECTIVE   TO GPTCRD-DTE-XFER-EFFECTIVE.   
+    MOVE CM-XFR-ORG-NMBR         TO GPTCRD-XFR-ORG-NMBR.         
+    MOVE CM-XFR-TYPE-NMBR        TO GPTCRD-XFR-TYPE-NMBR.        
+    MOVE CM-XFR-ACCT-NMBR        TO GPTCRD-XFR-ACCT-NMBR.        
+    MOVE CM-CRLIMIT              TO GPTCRD-CRLIMIT.              
+    MOVE CM-CRLIMIT-PERM         TO GPTCRD-CRLIMIT-PERM.         
+    MOVE CM-AMNT-OUTST-INSTL     TO GPTCRD-AMNT-OUTST-INSTL.     
+    ADD CM-AMNT-OUTST-CSH-INSTL  TO GPTCRD-AMNT-OUTST-INSTL.     
+    MOVE CM-LARGE-INSTL-AMNT-OUTST                               
+                                 TO GPTCRD-LARGE-INSTL-AMNT-OUTST
+    MOVE CM-INSTL-BAL            TO GPTCRD-INSTL-BAL.            
+    ADD CM-CSH-INSTL-BAL         TO GPTCRD-INSTL-BAL.            
+    MOVE CM-LARGE-INSTL-BAL-OUTST                                
+                                 TO GPTCRD-LARGE-INSTL-BAL-OUTST.
+    MOVE CM-TOTAL-AMNT-DUE       TO GPTCRD-TOTAL-AMNT-DUE.       
+    MOVE CM-ACH-RT-NMBR          TO GPTCRD-ACH-RT-NMBR.          
+    MOVE CM-ACH-DB-NMBR          TO GPTCRD-ACH-DB-NMBR.          
+    MOVE ZEROS                TO GPTCRD-EPYMT-BAL.               
+    MOVE ZEROS                TO GPTCRD-EPYMT-TERM.              
+    MOVE SPACES               TO GPTCRD-EPYMT-CHANNEL.           
+    MOVE SPACES               TO GPTCRD-INSTL-FLAG.              
+    MOVE ZEROS                TO GPTCRD-ITEM-PRICE.              
+    MOVE ZEROS                TO GPTCRD-PAY-TERM.                
+    MOVE SPACES               TO GPTCRD-CHANNEL.                 
+    MOVE ZEROS                TO GPTCRD-INSTL-PLAN.              
+    MOVE ZEROS                TO GPTCRD-FIRST-PAY-DATE.          
+    MOVE ZEROS                TO GPTCRD-LAST-PAY-DATE.           
+    MOVE ZEROS                TO GPTCRD-FIRST-PAY-AMT.           
+    MOVE ZEROS                TO GPTCRD-MON-INSTL-AMT.           
+    MOVE ZEROS                TO GPTCRD-LAST-PAY-AMT.            
+    MOVE SPACES               TO GPTCRD-FEE-IND.                 
+    MOVE ZEROS                TO GPTCRD-FEE-RATE.                
+    MOVE ZEROS                TO GPTCRD-FEE.                     
+    MOVE ZEROS                TO GPTCRD-HANDLING-FEE.            
+    IF TC-EPYMT-TYPE AND STATEMENT-TODAY AND                     
+       WSIS-FND-PLAN-SW = 'Y'                                    
+       MOVE 'Y'                  TO GPTCRD-INSTL-FLAG            
+       MOVE WSIE-ITEM-PRICE      TO GPTCRD-ITEM-PRICE            
+       MOVE WSIE-PAY-TERM        TO GPTCRD-PAY-TERM              
+       MOVE TC-EPYMT-CHANNEL     TO GPTCRD-CHANNEL               
+       MOVE WSIE-INSTL-PLAN      TO GPTCRD-INSTL-PLAN            
+       MOVE WSIE-FIRST-PAY-DATE  TO GPTCRD-FIRST-PAY-DATE        
+       MOVE WSIE-LAST-PAY-DATE   TO GPTCRD-LAST-PAY-DATE         
+       MOVE WSIE-FIRST-PAY-AMT   TO GPTCRD-FIRST-PAY-AMT         
+       MOVE WSIE-MON-INSTL-AMT   TO GPTCRD-MON-INSTL-AMT         
+       MOVE WSIE-LAST-PAY-AMT    TO GPTCRD-LAST-PAY-AMT          
+       MOVE WSIE-FEE-IND         TO GPTCRD-FEE-IND               
+       MOVE WSIE-MON-RATE        TO GPTCRD-FEE-RATE              
+       MOVE WSIE-MON-FEE         TO GPTCRD-FEE                   
+       MOVE WSIE-HANDLING-FEE    TO GPTCRD-HANDLING-FEE          
+    END-IF.                                                      
+    MOVE CM-YDHK-TYPE-1          TO GPTCRD-YDHK-TYPE-1.          
+    MOVE CM-YDHK-ACCT-1          TO GPTCRD-YDHK-ACCT-1.          
+    MOVE CM-YDHK-BRANCH-1        TO GPTCRD-YDHK-BRANCH-1.        
+    MOVE CM-YDHK-TYPE-2          TO GPTCRD-YDHK-TYPE-2.          
+    MOVE CM-YDHK-ACCT-2          TO GPTCRD-YDHK-ACCT-2.          
+    MOVE CM-YDHK-BRANCH-2        TO GPTCRD-YDHK-BRANCH-2.        
+    MOVE CM-ACCT-LEDGER-STATUS   TO GPTCRD-ACCT-LEDGER-STATUS.   
+    WRITE GPTCRD-RECORD.                                         
+    IF  WS-GPTCRDF-STATUS  NOT = '00'                            
+        MOVE 00096                   TO WS-ABEND-CODE            
+        MOVE WS-GPTCRDF-STATUS       TO WS-ABEND-STATUS          
+        MOVE 'GPTCRDF WRITE ERROR'   TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+                                                                 
+B9000-EXIT.                                                      
+    EXIT.                                                        
+                                                                 
+WRITE-INST-STMT-ERR-RPT.                                         
+    MOVE CM-ORG-NMBR             TO EPTIAE-ORG-NMBR.             
+    MOVE CM-TYPE                 TO EPTIAE-TYPE.                 
+    MOVE CM-CARD-NMBR            TO EPTIAE-ACCT-NMBR.            
+    MOVE WS-INSTL-ERR-RPT-NBR    TO EPTIAE-ERR-NBR.              
+    MOVE CM-BLOCK-CODE           TO EPTIAE-CM-BLOCK-CODE.        
+    MOVE CM-CURR-DUE             TO EPTIAE-CM-CURR-DUE.          
+    MOVE CM-CR-INST-BLOCK-FLAG   TO EPTIAE-CM-CR-INST-BLOCK-FLAG.
+    MOVE CM-PL-INST-BLOCK-FLAG   TO EPTIAE-CM-PL-INST-BLOCK-FLAG.
+    MOVE WSIS-STMT-AVL-INSTL-AMT1 TO EPTIAE-CM-RTL-CURR-INST-BAL.
+    MOVE WSIS-CM-AVAIL-INSTL     TO EPTIAE-CM-AVAIL-INSTL.       
+    MOVE TC-EPYMT-FLOOR          TO EPTIAE-EPYMT-FLOOR.          
+    MOVE WSIS-EPYMT-TERM         TO EPTIAE-EPYMT-TERM.           
+    MOVE TC-EPYMT-CHANNEL        TO EPTIAE-EPYMT-CHANNEL.        
+    MOVE WSIS-INSTL-PLAN-USE     TO EPTIAE-ACCT-PLAN.            
+    MOVE SC-DATE-FORMAT          TO WS-DATE-FORMAT.              
+    MOVE OC-TODAYS-JULIAN        TO WS-DTE-JULIAN.               
+    PERFORM CCSI-JUL-TO-GREG   THRU CCSI-JTG-EXIT.               
+    MOVE WS-DTE-YEARX            TO WS-EPTIAE-MAINT-DATE-YEAR.   
+    MOVE WS-DTE-MONX             TO WS-EPTIAE-MAINT-DATE-MON.    
+    MOVE WS-DTE-DAYX             TO WS-EPTIAE-MAINT-DATE-DAY.    
+    MOVE WS-EPTIAE-MAINT-DATE    TO EPTIAE-ACCT-DTE-MAINT.       
+    WRITE EPTIAE-RECORD.                                         
+    IF  WS-EPTIAE-STATUS   NOT = '00'                            
+        MOVE 00097                     TO WS-ABEND-CODE          
+        MOVE WS-EPTIAE-STATUS          TO WS-ABEND-STATUS        
+        MOVE 'EPTIAE  WRITE ERROR'     TO WS-ABENDMSG            
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+WISER-XIT.                                                       
+    EXIT.                                                        
+B1120-WRITE-CPCDL.                                               
+    MOVE ZEROES           TO WS-PRI-BAL-OFF                      
+                             WS-TOTAL-IBNP-OFF                   
+                             WS-FEE-OFF                          
+                             WS-PRIN-AMT-GL                      
+                             WS-INTR-AMT-GL                      
+                             WS-FEE-AMT-GL.                      
+    COMPUTE WS-PRI-BAL-OFF =                                     
+        CM-RTL-PRIN-STMT + CM-RTL-CURR-MON-BAL.                  
+    COMPUTE WS-FEE-OFF =                                         
+      CM-RTL-MISC-FEES + CM-RTL-INSUR-BNP + CM-RTL-MEMBER-BNP    
+    + CM-RTL-MISC-CTD  + CM-RTL-INSUR-CTD + CM-RTL-MEMBER-CTD    
+    + CM-RTL-SVC-BNP   + CM-RTL-SVC-CTD.                         
+    COMPUTE WS-TOTAL-IBNP-OFF =                                  
+       CM-RTL-IBNP + CM-RTL-ICTD.                                
+    ADD WS-PRI-BAL-OFF            TO WS-PRIN-AMT-GL              
+    ADD WS-TOTAL-IBNP-OFF         TO WS-INTR-AMT-GL              
+    ADD WS-FEE-OFF                TO WS-FEE-AMT-GL.              
+    INITIALIZE GPS082-TRANSFER-DEL-RECORD                        
+    IF   WS-PRI-BAL NOT < 0                                      
+       MOVE CM-ORG-NMBR TO GPS082-TD-ORG-NMBR                    
+       MOVE CM-TYPE TO GPS082-TD-TYPE                            
+       MOVE CM-CARD-NMBR TO GPS082-TD-CARD-NMBR                  
+       MOVE CM-LAST-PRI-BLOCK-CODE TO                            
+            GPS082-TD-CARD-PRE-BLOCK-CODE                        
+       MOVE CM-BLOCK-CODE TO GPS082-TD-CARD-BLOCK-CODE           
+       MOVE CM-ACCT-LEDGER-STATUS TO GPS082-TD-ACCT-LEDGER-STATUS
+       MOVE CM-DOMICILE-BRANCH    TO GPS082-TD-BRANCH            
+       MOVE WS-PRI-BAL-OFF TO GPS082-TD-CARD-PRI-BAL             
+       MOVE WS-TOTAL-IBNP-OFF TO GPS082-TD-CARD-IBNP             
+       MOVE WS-FEE-OFF            TO GPS082-TD-CARD-FEE          
+       MOVE CM-PREV-ACCT-LEDGER-STATUS                           
+                              TO GPS082-TD-PRE-LEDGER-STATUS     
+       MOVE CM-CUSTOMER-NMBR  TO GPS082-TD-CST-ID                
+       MOVE 'RTL'             TO GPS082-TD-BAL-TYPE              
+       MOVE SPACES            TO GPS082-TD-BP-ID                 
+       MOVE SPACES            TO GPS082-TD-BP-USAGE              
+       IF (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO ZEROS ) AND       
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO SPACE ) AND       
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO LOW-VALUE)        
+           MOVE 'C'           TO GPS082-TD-CUST-TYPE             
+       ELSE                                                      
+           MOVE 'P'           TO GPS082-TD-CUST-TYPE             
+       END-IF                                                    
+       MOVE GPS082-TRANSFER-DEL-RECORD TO CPCDL-REC              
+       WRITE CPCDL-REC                                           
+       IF  WS-CPCDL-STATUS NOT = '00'                            
+           MOVE 00141                TO WS-ABEND-CODE            
+           MOVE WS-CPCDL-STATUS      TO WS-ABEND-STATUS          
+           MOVE 'CPCDL WRITE ERROR'  TO WS-ABENDMSG              
+           PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT        
+       END-IF                                                    
+    END-IF.                                                      
+    MOVE ZEROES                  TO WS-PRI-BAL-OFF               
+                                    WS-FEE-OFF                   
+                                    WS-TOTAL-IBNP-OFF.           
+    COMPUTE WS-PRI-BAL-OFF =                                     
+        CM-CASH-PRIN-STMT + CM-CASH-CURR-MON-BAL.                
+    COMPUTE WS-FEE-OFF =                                         
+        CM-CASH-SVC-BNP + CM-CASH-SVC-CTD.                       
+    COMPUTE WS-TOTAL-IBNP-OFF =                                  
+        CM-CASH-IBNP + CM-CASH-ICTD.                             
+    ADD WS-PRI-BAL-OFF            TO WS-PRIN-AMT-GL              
+    ADD WS-TOTAL-IBNP-OFF         TO WS-INTR-AMT-GL              
+    ADD WS-FEE-OFF                TO WS-FEE-AMT-GL               
+    INITIALIZE GPS082-TRANSFER-DEL-RECORD.                       
+    IF   WS-PRI-BAL NOT < 0                                      
+       MOVE CM-ORG-NMBR    TO GPS082-TD-ORG-NMBR                 
+       MOVE CM-TYPE        TO GPS082-TD-TYPE                     
+       MOVE CM-CARD-NMBR   TO GPS082-TD-CARD-NMBR                
+       MOVE CM-LAST-PRI-BLOCK-CODE TO                            
+            GPS082-TD-CARD-PRE-BLOCK-CODE                        
+       MOVE CM-BLOCK-CODE          TO                            
+            GPS082-TD-CARD-BLOCK-CODE                            
+       MOVE CM-ACCT-LEDGER-STATUS  TO                            
+            GPS082-TD-ACCT-LEDGER-STATUS                         
+       MOVE CM-DOMICILE-BRANCH    TO GPS082-TD-BRANCH            
+       MOVE WS-PRI-BAL-OFF        TO GPS082-TD-CARD-PRI-BAL      
+       MOVE WS-TOTAL-IBNP-OFF     TO GPS082-TD-CARD-IBNP         
+       MOVE WS-FEE-OFF            TO GPS082-TD-CARD-FEE          
+       MOVE CM-PREV-ACCT-LEDGER-STATUS                           
+                                  TO GPS082-TD-PRE-LEDGER-STATUS 
+       MOVE CM-CUSTOMER-NMBR      TO GPS082-TD-CST-ID            
+       MOVE 'CSH'                 TO GPS082-TD-BAL-TYPE          
+       MOVE SPACES                TO GPS082-TD-BP-ID             
+       MOVE SPACES                TO GPS082-TD-BP-USAGE          
+       IF (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO SPACE) AND        
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO ZEROS) AND        
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO LOW-VALUE)        
+           MOVE 'C'               TO GPS082-TD-CUST-TYPE         
+       ELSE                                                      
+           MOVE 'P'               TO GPS082-TD-CUST-TYPE         
+       END-IF                                                    
+       MOVE GPS082-TRANSFER-DEL-RECORD   TO CPCDL-REC            
+       WRITE CPCDL-REC                                           
+       IF  WS-CPCDL-STATUS NOT = '00'                            
+           MOVE 00041                TO WS-ABEND-CODE            
+           MOVE WS-CPCDL-STATUS      TO WS-ABEND-STATUS          
+           MOVE 'CPCDL WRITE ERROR'  TO WS-ABENDMSG              
+           PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT        
+       END-IF                                                    
+    END-IF.                                                      
+    MOVE +8010                   TO CPS422-FUNCTION-CODE         
+    PERFORM ABPS-MAIN-FUNCTION THRU ABPS-MF-XIT.                 
+B1120-WRITE-CPCDL-EXIT.                                          
+    EXIT.                                                        
+B1120-CAL-CPDBALB.                                               
+    MOVE CM-BRANCH-ID          TO WS-BRANCH-NBR.                 
+    MOVE WS-BRANCH-NBR(1:3)    TO WS-BRANCH-INDEX.               
+    IF WS-BRANCH-INDEX = 0                                       
+       MOVE 998 TO WS-BRANCH-INDEX                               
+    END-IF.                                                      
+    MOVE WS-BRANCH-INDEX       TO WS-DB-BRANCH(WS-BRANCH-INDEX). 
+    COMPUTE WS-PRI-BAL-BRANCH =                                  
+        CM-RTL-CURR-MON-BAL + CM-RTL-PRIN-STMT +                 
+        CM-CASH-CURR-MON-BAL + CM-CASH-PRIN-STMT +               
+        WS-ABP-TOT-PRIN-AMT.                                     
+    IF WS-PRI-BAL-BRANCH < 0                                     
+       ADD WS-PRI-BAL-BRANCH TO                                  
+                      WS-DB-EXCESS-PRI-BAL(WS-BRANCH-INDEX)      
+    ELSE                                                         
+       IF CM-LEDGER-CHGOFF                                       
+          AND CM-DTE-ACCT-LEDGER  <= SC-TODAYS-JULIAN            
+          COMPUTE WS-DB-DEL180-PRI-BAL(WS-BRANCH-INDEX) =        
+                  WS-DB-DEL180-PRI-BAL(WS-BRANCH-INDEX) +        
+                  WS-PRI-BAL-BRANCH                              
+       ELSE                                                      
+          COMPUTE WS-DB-NORMAL-PRI-BAL(WS-BRANCH-INDEX) =        
+                  WS-DB-NORMAL-PRI-BAL(WS-BRANCH-INDEX) +        
+                  WS-PRI-BAL-BRANCH                              
+       END-IF                                                    
+    END-IF.                                                      
+    COMPUTE WS-DB-INSTL-PRI-BAL(WS-BRANCH-INDEX) =               
+            WS-DB-INSTL-PRI-BAL(WS-BRANCH-INDEX) +               
+            CM-INSTL-BAL  +  CM-LARGE-INSTL-BAL-OUTST +          
+            CM-CSH-INSTL-BAL.                                    
+    COMPUTE WS-DB-NORMAL-PRI-BAL(WS-BRANCH-INDEX) =              
+            WS-DB-NORMAL-PRI-BAL(WS-BRANCH-INDEX) +              
+            WS-DB-INSTL-PRI-BAL(WS-BRANCH-INDEX).                
+    COMPUTE WS-DB-FEE-BAL(WS-BRANCH-INDEX) =                     
+            WS-DB-FEE-BAL(WS-BRANCH-INDEX)     +                 
+            CM-RTL-SVC-BNP + CM-CASH-SVC-BNP +                   
+            CM-RTL-MISC-FEES + CM-RTL-INSUR-BNP +                
+            CM-RTL-MEMBER-BNP +                                  
+            CM-RTL-SVC-CTD + CM-CASH-SVC-CTD +                   
+            CM-RTL-MISC-CTD + CM-RTL-INSUR-CTD +                 
+            CM-RTL-MEMBER-CTD +                                  
+            WS-ABP-TOT-FEE.                                      
+    COMPUTE WS-TOTAL-IBNP =                                      
+       CM-RTL-INSUR-BNP + CM-RTL-INSUR-CTD +                     
+       CM-CASH-IBNP + CM-CASH-ICTD +                             
+       WS-ABP-TOT-INT.                                           
+    MOVE ZERO TO WS-TOTAL-INT-ON-INT-BNP.                        
+    IF CM-LEDGER-CHGOFF                                          
+       AND  CM-DTE-ACCT-LEDGER  <= SC-TODAYS-JULIAN              
+        ADD WS-TOTAL-IBNP TO                                     
+            WS-DB-INTEREST-COLLECTIVE(WS-BRANCH-INDEX)           
+    ELSE                                                         
+        ADD WS-TOTAL-IBNP TO                                     
+            WS-DB-INTEREST-RECEIVABLE(WS-BRANCH-INDEX)           
+        SUBTRACT WS-TOTAL-INT-ON-INT-BNP FROM                    
+                 WS-DB-INTEREST-COLLECTIVE(WS-BRANCH-INDEX)      
+    END-IF.                                                      
+B1120-CAL-CPDBALB-EXIT.                                          
+    EXIT.                                                        

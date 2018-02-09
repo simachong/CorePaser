@@ -1,0 +1,86 @@
+CARDPAC-STMT-MEMO-ASSIGN.
+    MOVE 'Y'                    TO CPS351-STMT-MEMO-FLAG (01).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (02).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (03).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (04).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (05).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (06).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (07).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (08).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (09).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (10).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (11).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (12).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (13).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (14).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (15).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (16).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (17).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (18).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (19).
+    MOVE 'N'                    TO CPS351-STMT-MEMO-FLAG (20).
+    IF  CM-CYCLE-DUE IS EQUAL TO 2
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (02).
+    IF  CM-CYCLE-DUE IS EQUAL TO 3
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (03).
+    IF  CM-CYCLE-DUE IS EQUAL TO 4
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (04).
+    IF  CM-CYCLE-DUE IS EQUAL TO 5
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (05).
+    IF  CM-CYCLE-DUE IS EQUAL TO 6
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (06).
+    IF  CM-CYCLE-DUE IS EQUAL TO 7
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (07).
+    IF  CM-CYCLE-DUE IS EQUAL TO 8
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (08).
+    IF  CM-CYCLE-DUE IS EQUAL TO 9
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (09).
+    IF  CM-OL-FLAG IS EQUAL TO 1
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (10).
+    IF  CM-CARD-USAGE-FLAG IS EQUAL TO 1
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (11).
+    IF  SKIP-PAYMENT-IN-EFFECT                                   
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (12).
+    IF  TRANSFER-OUT-TODAY
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (13).
+    IF  CM-CRLIMIT-DTE IS GREATER THAN SR-DTE-LST-STMT  AND      
+        CM-CRLIMIT-DTE IS NOT GREATER THAN SR-STMT-DTE  AND
+        CM-CRLIMIT IS GREATER THAN CM-LST-CRLIMIT       AND      
+        CM-CARD-USAGE-FLAG IS GREATER THAN 1 AND                 
+        CM-CRLIMIT IS GREATER THAN CM-LST-CRLIMIT                
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (14).
+    MOVE SR-STMT-DTE            TO WS-DTE-JULIAN.                
+    PERFORM CCSI-JUL-TO-GREG    THRU CCSI-JTG-EXIT.              
+    IF WS-DTE-MM IS EQUAL TO 12                                  
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (15).
+    IF  WS-DROP-STMT-FOR-DISCLOSURE-SW IS EQUAL TO 1             
+        MOVE 'Y'                TO CPS351-STMT-MEMO-FLAG (16).   
+    IF CM-WAIVE-ANNFEE-MSG-FLAG IS EQUAL TO 'Y'                  
+       MOVE 'Y'                 TO CPS351-STMT-MEMO-FLAG (17).   
+    MOVE 20                     TO CPS351-STMT-MSG-WORK-NBR.
+    SET X-SR-MEMO-NBR           TO 1.
+    MOVE ZERO                   TO SR-MEMO-NBR (1).
+    MOVE ZERO                   TO SR-MEMO-NBR (2).
+    MOVE ZERO                   TO SR-MEMO-NBR (3).
+    MOVE ZERO                   TO SR-MEMO-NBR (4).
+    MOVE ZERO                   TO SR-MEMO-NBR (5).
+CSMA-LOOP.
+    IF  CPS351-STMT-MSG-WORK-NBR IS LESS THAN 1 OR
+        X-SR-MEMO-NBR            IS GREATER THAN 5
+        GO TO CSMA-EXIT.
+    SET X-STMT-MEMO             TO 1.
+    SEARCH CPS351-STMT-MSG-PRI-TABLE VARYING X-STMT-MEMO
+        AT END
+            SUBTRACT 1          FROM CPS351-STMT-MSG-WORK-NBR
+            GO TO CSMA-LOOP
+        WHEN CPS351-STMT-MEMO-PRIORITY (X-STMT-MEMO) IS EQUAL TO
+             CPS351-STMT-MSG-WORK-NBR
+         AND CPS351-STMT-MEMO-FLAG (X-STMT-MEMO) IS EQUAL TO 'Y'
+             NEXT SENTENCE.
+    MOVE CPS351-STMT-MEMO-NBR (X-STMT-MEMO)
+                                TO SR-MEMO-NBR (X-SR-MEMO-NBR).
+    SUBTRACT 1                  FROM CPS351-STMT-MSG-WORK-NBR.
+    SET X-SR-MEMO-NBR           UP BY 1.
+    GO TO CSMA-LOOP.
+CSMA-EXIT.
+    EXIT.

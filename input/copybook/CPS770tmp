@@ -1,0 +1,30 @@
+    RECORD CONTAINS 25 TO 229 CHARACTERS                         
+    LABEL RECORDS ARE STANDARD.                                  
+01  CMA-ADDIT-INFO-RECORD.                                       
+    03  CMA-KEY.                                                 
+        05  CMA-ORG-NMBR              PIC S9(03)    COMP-3.      
+            88  CMA-HEADER                          VALUE +000.  
+            88  CMA-TRAILER                         VALUE +999.  
+        05  CMA-TYPE                  PIC S9(03)    COMP-3.      
+        05  CMA-CARD-NMBR             PIC S9(16)    COMP-3.      
+        05  CMA-REC-TYPE              PIC X.                     
+            88  CMA-HEADER-TYPE                     VALUE '0'.   
+            88  CMA-INSURANCE                       VALUE '1'.   
+            88  CMA-FIXED-TERM                      VALUE '2'.   
+            88  CMA-TRAILER-TYPE                    VALUE '9'.   
+    03  CMA-STATUS                    PIC X.                     
+    03  CMA-PROC-DTE                  PIC S9(07)    COMP-3.      
+    03  CMA-TIME-STAMP                PIC S9(10)    COMP-3.      
+    03  FILLER                        PIC X(204).                
+01  CMA-FD-INS-RECORD.                                           
+    03  CMA-FD-INS-KEY                PIC X(14).                 
+    03  CMA-FD-INS-STATUS             PIC X.                     
+    03  CMA-FD-DOBS                   PIC X(08).                 
+    03  CMA-FD-INS-NO-PLANS           PIC S9(04)    COMP.        
+    03  CMA-FD-INS-PLANS              OCCURS 0 TO 6 TIMES        
+                             DEPENDING ON CMA-FD-INS-NO-PLANS    
+                                      PIC X(34).                 
+01  CMA-FD-FTL-RECORD.                                           
+    03  CMA-FD-FTL-KEY                PIC X(14).                 
+    03  CMA-FD-FTL-STATUS             PIC X.                     
+    03  CMA-FD-FTL-DETAIL             PIC X(127).                

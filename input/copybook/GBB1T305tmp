@@ -1,0 +1,164 @@
+INITIALIZE-ATA-RECORD.                                           
+    INITIALIZE AMOUNT-TDY-ACCT-REC.                              
+    MOVE  CM-ORG-NMBR   TO  ATA-ACCT-ORG     .                   
+    MOVE  CM-TYPE       TO  ATA-ACCT-TYP     .                   
+    MOVE  CM-CARD-NMBR  TO  ATA-ACCT-NBR     .                   
+    PERFORM VARYING WS-IDX  FROM 1 BY 1                          
+            UNTIL WS-IDX > 50                                    
+        MOVE SPACES         TO ATA-DTL-BAL-TYPE(WS-IDX)          
+        MOVE ZEROES         TO ATA-DTL-BAL-SEQNO(WS-IDX)         
+                               ATA-DTL-BAL-BEF(WS-IDX)           
+                               ATA-DTL-BAL-AFT(WS-IDX)           
+    END-PERFORM.                                                 
+    PERFORM VARYING WS-IDX  FROM 1 BY 1                          
+            UNTIL WS-IDX > 18                                    
+        MOVE 'BASE'         TO ATA-DTL-BAL-TYPE(WS-IDX)          
+        MOVE WS-IDX         TO ATA-DTL-BAL-SEQNO(WS-IDX)         
+    END-PERFORM.                                                 
+    MOVE 'BASE'                  TO ATA-DTL-BAL-TYPE(19) .       
+    MOVE  48                     TO ATA-DTL-BAL-SEQNO(19).       
+    MOVE 'BASE'                  TO ATA-DTL-BAL-TYPE(20) .       
+    MOVE  90                     TO ATA-DTL-BAL-SEQNO(20).       
+    MOVE 'BASE'                  TO ATA-DTL-BAL-TYPE(21) .       
+    MOVE  91                     TO ATA-DTL-BAL-SEQNO(21).       
+    MOVE 'BASE'                  TO ATA-DTL-BAL-TYPE(22) .       
+    MOVE  92                     TO ATA-DTL-BAL-SEQNO(22).       
+IAR-EXIT.                                                        
+    EXIT.                                                        
+EXTRACT-ACCT-BAL-BEF-IMAGE.                                      
+    MOVE  CM-CASH-CURR-MON-BAL   TO ATA-DTL-BAL-BEF(01) .        
+    IF CM-CASH-PRIN-STMT >= 0                                    
+       MOVE  CM-CASH-PRIN-STMT   TO ATA-DTL-BAL-BEF(02) .        
+    MOVE  CM-CASH-ICTD           TO ATA-DTL-BAL-BEF(03) .        
+    MOVE  CM-CASH-IBNP           TO ATA-DTL-BAL-BEF(04) .        
+    MOVE  CM-CASH-SVC-CTD        TO ATA-DTL-BAL-BEF(05) .        
+    MOVE  CM-CASH-SVC-BNP        TO ATA-DTL-BAL-BEF(06) .        
+    MOVE  CM-RTL-CURR-MON-BAL    TO ATA-DTL-BAL-BEF(07) .        
+    MOVE  CM-RTL-PRIN-STMT       TO ATA-DTL-BAL-BEF(08) .        
+    MOVE  CM-RTL-ICTD            TO ATA-DTL-BAL-BEF(09) .        
+    MOVE  CM-RTL-IBNP            TO ATA-DTL-BAL-BEF(10) .        
+    MOVE  CM-RTL-SVC-CTD         TO ATA-DTL-BAL-BEF(11) .        
+    MOVE  CM-RTL-SVC-BNP         TO ATA-DTL-BAL-BEF(12) .        
+    MOVE  CM-RTL-MISC-CTD        TO ATA-DTL-BAL-BEF(13) .        
+    MOVE  CM-RTL-MISC-FEES       TO ATA-DTL-BAL-BEF(14) .        
+    MOVE  CM-RTL-INSUR-CTD       TO ATA-DTL-BAL-BEF(15) .        
+    MOVE  CM-RTL-INSUR-BNP       TO ATA-DTL-BAL-BEF(16) .        
+    MOVE  CM-RTL-MEMBER-CTD      TO ATA-DTL-BAL-BEF(17) .        
+    MOVE  CM-RTL-MEMBER-BNP      TO ATA-DTL-BAL-BEF(18) .        
+    IF CM-CASH-PRIN-STMT < 0                                     
+       MOVE  CM-CASH-PRIN-STMT      TO ATA-DTL-BAL-BEF(19) .     
+    MOVE  CM-INSTL-BAL           TO ATA-DTL-BAL-BEF(20) .        
+    MOVE  CM-CSH-INSTL-BAL       TO ATA-DTL-BAL-BEF(21) .        
+    MOVE  CM-LARGE-INSTL-BAL-OUTST                               
+                                 TO ATA-DTL-BAL-BEF(22) .        
+    MOVE  22                 TO WS-ATA-SUB .                     
+    PERFORM VARYING BPE2-IDX FROM 1 BY 1                         
+        UNTIL BPE2-IDX  >  BPE2-NO-OF-ENTRY                      
+        SET ABP2-IDX              TO 1                           
+        MOVE ZEROES  TO   WS-BP-CURR-MON-BAL                     
+                          WS-BP-PRIN-STMT                        
+        SEARCH ABP2-RECORD-TBL                                   
+          AT END                                                 
+             CONTINUE                                            
+          WHEN BPE2-BAL-PGM-NMBR(BPE2-IDX) = ABP2-BPID(ABP2-IDX) 
+             MOVE ABP2-CURR-MON-BAL(ABP2-IDX)                    
+                          TO   WS-BP-CURR-MON-BAL                
+             MOVE ABP2-PRIN-STMT(ABP2-IDX)                       
+                          TO   WS-BP-PRIN-STMT                   
+        END-SEARCH                                               
+        ADD  1                   TO WS-ATA-SUB                   
+        MOVE BPE2-BAL-PGM-NMBR(BPE2-IDX)                         
+                                 TO ATA-DTL-BAL-TYPE(WS-ATA-SUB) 
+        MOVE 01                  TO ATA-DTL-BAL-SEQNO(WS-ATA-SUB)
+        MOVE WS-BP-CURR-MON-BAL  TO ATA-DTL-BAL-BEF(WS-ATA-SUB)  
+        ADD  1                   TO WS-ATA-SUB                   
+        MOVE BPE2-BAL-PGM-NMBR(BPE2-IDX)                         
+                                 TO ATA-DTL-BAL-TYPE(WS-ATA-SUB) 
+        MOVE 02                  TO ATA-DTL-BAL-SEQNO(WS-ATA-SUB)
+        MOVE WS-BP-PRIN-STMT     TO ATA-DTL-BAL-BEF(WS-ATA-SUB)  
+    END-PERFORM.                                                 
+    MOVE WS-BFE-ACCT-LEDGER-STATUS TO ATA-LEDGER-STS-BEF.        
+EABBI-EXIT.                                                      
+    EXIT.                                                        
+EXTRACT-ACCT-BAL-AFT-IMAGE.                                      
+    MOVE  CM-CASH-CURR-MON-BAL   TO ATA-DTL-BAL-AFT(01) .        
+    IF CM-CASH-PRIN-STMT >= 0                                    
+       MOVE  CM-CASH-PRIN-STMT   TO ATA-DTL-BAL-AFT(02) .        
+    MOVE  CM-CASH-ICTD           TO ATA-DTL-BAL-AFT(03) .        
+    MOVE  CM-CASH-IBNP           TO ATA-DTL-BAL-AFT(04) .        
+    MOVE  CM-CASH-SVC-CTD        TO ATA-DTL-BAL-AFT(05) .        
+    MOVE  CM-CASH-SVC-BNP        TO ATA-DTL-BAL-AFT(06) .        
+    MOVE  CM-RTL-CURR-MON-BAL    TO ATA-DTL-BAL-AFT(07) .        
+    MOVE  CM-RTL-PRIN-STMT       TO ATA-DTL-BAL-AFT(08) .        
+    MOVE  CM-RTL-ICTD            TO ATA-DTL-BAL-AFT(09) .        
+    MOVE  CM-RTL-IBNP            TO ATA-DTL-BAL-AFT(10) .        
+    MOVE  CM-RTL-SVC-CTD         TO ATA-DTL-BAL-AFT(11) .        
+    MOVE  CM-RTL-SVC-BNP         TO ATA-DTL-BAL-AFT(12) .        
+    MOVE  CM-RTL-MISC-CTD        TO ATA-DTL-BAL-AFT(13) .        
+    MOVE  CM-RTL-MISC-FEES       TO ATA-DTL-BAL-AFT(14) .        
+    MOVE  CM-RTL-INSUR-CTD       TO ATA-DTL-BAL-AFT(15) .        
+    MOVE  CM-RTL-INSUR-BNP       TO ATA-DTL-BAL-AFT(16) .        
+    MOVE  CM-RTL-MEMBER-CTD      TO ATA-DTL-BAL-AFT(17) .        
+    MOVE  CM-RTL-MEMBER-BNP      TO ATA-DTL-BAL-AFT(18) .        
+    IF CM-CASH-PRIN-STMT < 0                                     
+       MOVE  CM-CASH-PRIN-STMT   TO ATA-DTL-BAL-AFT(19) .        
+    MOVE  CM-INSTL-BAL           TO ATA-DTL-BAL-AFT(20) .        
+    MOVE  CM-CSH-INSTL-BAL       TO ATA-DTL-BAL-AFT(21) .        
+    MOVE  CM-LARGE-INSTL-BAL-OUTST                               
+                                 TO ATA-DTL-BAL-AFT(22) .        
+    MOVE  22                 TO WS-ATA-SUB .                     
+    PERFORM VARYING BPE2-IDX FROM 1 BY 1                         
+        UNTIL BPE2-IDX  >  BPE2-NO-OF-ENTRY                      
+        MOVE ZEROES              TO   WS-BP-CURR-MON-BAL         
+                                      WS-BP-PRIN-STMT            
+        SET ABP2-IDX              TO 1                           
+        SEARCH ABP2-RECORD-TBL                                   
+          AT END                                                 
+             CONTINUE                                            
+          WHEN BPE2-BAL-PGM-NMBR(BPE2-IDX) = ABP2-BPID(ABP2-IDX) 
+             MOVE ABP2-CURR-MON-BAL(ABP2-IDX)                    
+                          TO   WS-BP-CURR-MON-BAL                
+             MOVE ABP2-PRIN-STMT(ABP2-IDX)                       
+                          TO   WS-BP-PRIN-STMT                   
+        END-SEARCH                                               
+        ADD  1                   TO WS-ATA-SUB                   
+        MOVE BPE2-BAL-PGM-NMBR(BPE2-IDX)                         
+                                 TO ATA-DTL-BAL-TYPE(WS-ATA-SUB) 
+        MOVE 01                  TO ATA-DTL-BAL-SEQNO(WS-ATA-SUB)
+        MOVE WS-BP-CURR-MON-BAL  TO ATA-DTL-BAL-AFT(WS-ATA-SUB)  
+        ADD  1                   TO WS-ATA-SUB                   
+        MOVE BPE2-BAL-PGM-NMBR(BPE2-IDX)                         
+                                 TO ATA-DTL-BAL-TYPE(WS-ATA-SUB) 
+        MOVE 02                  TO ATA-DTL-BAL-SEQNO(WS-ATA-SUB)
+        MOVE WS-BP-PRIN-STMT     TO ATA-DTL-BAL-AFT(WS-ATA-SUB)  
+    END-PERFORM.                                                 
+    MOVE WS-AFT-ACCT-LEDGER-STATUS TO ATA-LEDGER-STS-AFT .       
+EABAI-EXIT.                                                      
+    EXIT.                                                        
+OUTPUT-ACCT-BAL-CHANGES.                                         
+    MOVE  'N'             TO WS-ATA-BAL-CHGED                    
+    PERFORM VARYING WS-IDX  FROM 1 BY 1                          
+            UNTIL WS-IDX > 50                                    
+        IF ATA-DTL-BAL-BEF(WS-IDX) NOT EQUAL TO                  
+           ATA-DTL-BAL-AFT(WS-IDX)                               
+           MOVE  'Y'             TO WS-ATA-BAL-CHGED             
+        END-IF                                                   
+    END-PERFORM                                                  
+    IF CM-CORP-ACCT-NUMBER IS EQUAL TO SPACES OR                 
+       CM-CORP-ACCT-NUMBER IS EQUAL TO ZEROS  OR                 
+       CM-CORP-ACCT-NUMBER IS EQUAL TO LOW-VALUE                 
+        MOVE 'P'              TO ATA-CUST-TYPE                   
+    ELSE                                                         
+        MOVE 'C'              TO ATA-CUST-TYPE                   
+    END-IF                                                       
+                                                                 
+                                                                 
+    IF ATA-LEDGER-STS-BEF NOT = ATA-LEDGER-STS-AFT               
+        MOVE 'Y'                    TO WS-ATA-BAL-CHGED          
+    END-IF                                                       
+    IF ATA-BAL-CHGED                                             
+       WRITE AMOUNT-TDY-ACCT-REC                                 
+    END-IF                                                       
+    .                                                            
+OABC-EXIT.                                                       
+    EXIT.                                                        

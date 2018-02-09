@@ -1,0 +1,262 @@
+01  CPS096-POT-INIT-REC.
+    03  CPS096-CPPOT-KEY.
+        05  CPS096-POT-ASSOC-ORG
+                                PIC 999         VALUE ZERO.
+        05  CPS096-POT-ASSOC-TYPE
+                                PIC 999         VALUE ZERO.
+        05  CPS096-POT-SELECT
+                                PIC 99          VALUE ZERO.
+    03  CPS096-POT-STAT         PIC X           VALUE SPACE.
+    03  CPS096-POT-EXPIRE-DATE
+                                PIC S9(7)       COMP-3
+                                                VALUE +0.
+    03  CPS096-POT-ORIG-SWITCH
+                                PIC X           VALUE SPACE.
+    03  CPS096-POT-OCCUR-DESCPRIT
+                                PIC X(20)       VALUE SPACES.
+    03  CPS096-POT-DTE-LST-MAINT
+                                PIC S9(7)       COMP-3
+                                                VALUE +0.
+    03  CPS096-TC-FLAG          PIC 9           VALUE ZERO.
+    03  CPS096-TC-MAX           PIC S9(6)V99    COMP-3           
+                                                VALUE +0.
+    03  CPS096-TCSC-TABLE.
+        07  CPS096-TCSC-TRANS-CODE PIC 99          VALUE 00.
+        07  CPS096-TCSC-RATE-1     PIC S999V99  COMP-3
+                                                VALUE ZEROS.
+        07  CPS096-TCSC-LIMIT      PIC 99          VALUE 00.
+        07  CPS096-TCSC-RATE-2     PIC S999V99  COMP-3
+                                                VALUE ZEROS.
+    03  CPS096-TCSC-TABLE-02.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+    03  CPS096-TCSC-TABLE-03.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+    03  CPS096-TCSC-TABLE-04.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+    03  CPS096-TCSC-TABLE-05.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+    03  CPS096-TCSC-TABLE-06.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+        07  FILLER              PIC 99          VALUE 00.
+        07  FILLER              PIC S999V99  COMP-3 VALUE +0.
+    03  FILLER                  PIC X(40)       VALUE SPACES.    
+    03  CPS096-POT-ACC-METH     PIC 9       VALUE 1.
+    03  CPS096-POT-SKIP-ALLOW   PIC 9       VALUE ZERO.
+    03  CPS096-POT-SKIP-EXP-DATE
+                            PIC S9(7)       COMP-3
+                                            VALUE ZERO.
+    03  CPS096-POT-PAY-AHEAD
+                                PIC 9       VALUE ZERO.
+    03  CPS096-POT-YR-BASE      PIC 9       VALUE ZERO.
+    03  CPS096-POT-INT-TYPE     PIC 9       VALUE ZERO.
+    03  CPS096-POT-MIN-I-FL     PIC 9       VALUE ZERO.
+    03  CPS096-POT-L-DAYS-FL    PIC 9       VALUE ZERO.
+    03  CPS096-POT-LC       PIC S9(5)V99    COMP-3               
+                                            VALUE +0.
+    03  CPS096-POT-LC-PCNT  PIC SV999       COMP-3
+                                            VALUE ZERO.
+    03  CPS096-POT-LC-MAX   PIC S9(5)V99    COMP-3               
+                                            VALUE +0.
+    03  CPS096-POT-LC-MIN   PIC S9(5)V99    COMP-3               
+                                            VALUE +0.
+    03  CPS096-POT-OVRL-FEE PIC S9(5)V99    COMP-3               
+                                            VALUE +0.
+    03  CPS096-POT-OVR-LMT  PIC S9V99       COMP-3
+                                            VALUE +0.
+    03  CPS096-POT-LT-DYS   PIC 99          VALUE ZERO.
+    03  CPS096-POT-MIN-I    PIC S9(4)V99    COMP-3               
+                                            VALUE +0.
+    03  CPS096-POT-MIN-INT-BAL                                   
+                            PIC S9(6)V99    COMP-3               
+                                            VALUE +0.
+    03  CPS096-POT-GCE-DYS  PIC 99          VALUE ZERO.
+    03  CPS096-POT-PAY-TRM  PIC S999        COMP-3
+                                            VALUE +0.
+    03  CPS096-POT-D-DAYS   PIC 99          VALUE ZERO.
+    03  CPS096-POT-MIN-PAY  PIC S9(5)V99    COMP-3               
+                                            VALUE +0.
+    03  CPS096-POT-INTEREST-VARIABLES.
+        05  CPS096-POT-IV-FIL-1
+                            PIC 9(10)       VALUE ZERO.
+        05  CPS096-POT-IV-FIL-2
+                            PIC SV9(7)      COMP-3
+                                            VALUE ZERO.
+        05  CPS096-POT-IV-FIL-3
+                            PIC SV9(7)      COMP-3
+                                            VALUE ZERO.
+        05  CPS096-POT-IV-FIL-4
+                            PIC SV9(7)      COMP-3
+                                            VALUE ZERO.
+        05  CPS096-POT-IV-FIL-5
+                            PIC SV9(7)      COMP-3
+                                            VALUE ZERO.
+        05  CPS096-POT-IV-FIL-6                                  
+                            PIC SV9(7)      COMP-3               
+                                            VALUE ZERO.          
+        05  CPS096-POT-IV-FIL-7                                  
+                            PIC S9(9)       COMP-3               
+                                            VALUE +0.
+        05  CPS096-POT-IV-FIL-8                                  
+                            PIC S9(9)       COMP-3               
+                                            VALUE ZERO.          
+        05  CPS096-POT-IV-FIL-9                                  
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-IV-FIL-10                                 
+                            PIC 9(10)       VALUE ZERO.
+        05  CPS096-POT-IV-FIL-11                                 
+                            PIC SV9(7)      COMP-3
+                                            VALUE ZERO.
+        05  CPS096-POT-IV-FIL-12                                 
+                            PIC SV9(7)      COMP-3
+                                            VALUE ZERO.
+        05  CPS096-POT-IV-FIL-13                                 
+                            PIC SV9(7)      COMP-3
+                                            VALUE ZERO.
+        05  CPS096-POT-IV-FIL-14                                 
+                            PIC SV9(7)      COMP-3
+                                            VALUE ZERO.
+        05  CPS096-POT-IV-FIL-15                                 
+                            PIC SV9(7)      COMP-3               
+                                            VALUE ZERO.          
+        05  CPS096-POT-IV-FIL-16                                 
+                            PIC S9(9)       COMP-3               
+                                            VALUE +0.
+        05  CPS096-POT-IV-FIL-17                                 
+                            PIC S9(9)       COMP-3               
+                                            VALUE ZERO.          
+        05  CPS096-POT-IV-FIL-18                                 
+                            PIC 9           VALUE ZERO.
+    03  CPS096-POT-TCP-MATRIX.
+        05  CPS096-POT-TCP-FIL-01A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-01B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-01C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-01D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-02A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-02B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-02C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-02D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-03A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-03B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-03C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-03D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-04A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-04B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-04C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-04D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-05A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-05B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-05C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-05D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-06A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-06B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-06C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-06D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-07A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-07B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-07C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-07D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-08A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-08B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-08C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-08D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-09A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-09B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-09C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-09D
+                            PIC 9           VALUE ZERO.
+        05  CPS096-POT-TCP-FIL-10A
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-10B
+                            PIC S9(7)V99    COMP-3
+                                            VALUE +9999999.99.
+        05  CPS096-POT-TCP-FIL-10C
+                            PIC S9(7)       COMP-3
+                                            VALUE +0.
+        05  CPS096-POT-TCP-FIL-10D
+                            PIC 9           VALUE ZERO.
+    03  CPS096-POT-TCF-PREPAY-CYCLES                             
+                            PIC 99          VALUE ZERO.          
+    03  CPS096-POT-JOINING-FEE                                   
+                            PIC S9(5)V99    COMP-3               
+                                            VALUE ZEROES.        
+    03  CPS096-POT-LATE-CHARGE-FLAG                              
+                            PIC 9(01)       VALUE ZERO.          
+    03  CPS096-POT-OVRLMT-FEE-PERCENT  PIC S9V99  COMP-3.        
+    03  FILLER              PIC X(12)       VALUE SPACES.        
+    03  CPS096-USER-FILLER  PIC X(61)       VALUE SPACES.        

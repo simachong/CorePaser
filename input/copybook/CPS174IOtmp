@@ -1,0 +1,11 @@
+    03  'ABP'-H-KEY.                                             
+        05  'ABP'-H-ORG-NMBR       PIC S9(3)  COMP-3.            
+            88  'ABP'-HEADER-RECORD           VALUE +000.        
+            88  'ABP'-TRAILER-RECORD          VALUE +999.        
+        05  'ABP'-H-TYP-NMBR       PIC S9(3)  COMP-3.            
+        05  'ABP'-H-ACCOUNT-NMBR   PIC S9(16) COMP-3.            
+        05  'ABP'-H-ACT-BAL-SEQ-NMBR                             
+                                   PIC S9(4)  COMP-3.            
+    03  'ABP'-FILE-PROC-DTE        PIC S9(7)     COMP-3.         
+    03  'ABP'-FILE-TIME-STAMP      PIC S9(11)    COMP-3.         
+    03  FILLER                     PIC X(774).                   

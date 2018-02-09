@@ -28,9 +28,14 @@ public class Lexer {
 						currSentence += line;
 						String copy = lexCopy(lineNum);
 						if (!copy.isEmpty()) {
+							if (!currSentence.isEmpty() && !currExpStr.isEmpty()) {
+								currSentence = currSentence.replace(currExpStr, copy);
+								line = currSentence;
+							}
+							else {
+								line = copy;
+							}
 							
-							currSentence = currSentence.replace(currExpStr, copy);
-							line = currSentence;
 						}
 						sb.append(line);
 						sb.append("\n");
@@ -52,33 +57,44 @@ public class Lexer {
 		
 		String [] tokens = currSentence.split(" ");
 		int len = tokens.length;
+		if (len == 0) {
+			//System.out.println(currSentence);
+			return "";
+		}
 		if (tokens[len - 1].endsWith(".")) {
 			
 			
+			boolean expFlag = false;
 			for (int i = 0; i < len; ++i) {
 				
 				tokens[i] = tokens[i].trim();
+	
 				if (tokens[i].equalsIgnoreCase("COPY")) {
 					currExpStr = "";
 					currExpStr += tokens[i];
 					exp = GlobalDef.expressions.get(tokens[i].toUpperCase());				
-					
+					expFlag = true;
 				}
-				//currExpStr += " " + tokens[i];
-				if (exp != null && exp.getEndInd().contains(tokens[i])) {
-					
-					if (i == len) {
+				
+				else if (expFlag && !tokens[i].isEmpty()) {
+					currExpStr += " " + tokens[i];
+				}
+				if (exp != null && expFlag == true && !tokens[i].isEmpty() &&(exp.getEndInd().contains(tokens[i]) || tokens[i].endsWith("."))) {
+					expFlag = false;
+					if (i == len - 1) {
 						currSentence = "";
 					}
-					
-					String expand = exp.execute(currExpStr, lineNum);
+					exp.setExp(currExpStr);
+					System.out.println(currExpStr);
+					String expand = exp.execute(lineNum);
 					currExpStr = "";
 					return expand;
 				}
 				
-				if (tokens[i].endsWith(".")) {
+				if (tokens[i].endsWith(".") && i == len - 1) {
 					currSentence = "";
 				}
+				
 			}
 		}
 		return "";
@@ -105,7 +121,8 @@ public class Lexer {
 					if (i == len) {
 						currSentence = "";
 					}
-					exp.execute(expStr, lineNum);
+					exp.setExp(expStr);
+					exp.execute(lineNum);
 				}
 			}
 		}

@@ -1,0 +1,13 @@
+                            RECORD CONTAINS 315 CHARACTERS       
+                            BLOCK CONTAINS 0 RECORDS             
+                            LABEL RECORDS ARE STANDARD.          
+01  RECONCILIATION-RECORD   PICTURE X(315).                      
+01  RECONCILIATION-HEADER.                                       
+    03  RC-HEADER-KEY.                                           
+        05  RC-ORGN-NMBR        PIC S9(3)   COMP-3.              
+            88  RC-HEADER       VALUE +000.                      
+    03  RC-DATA.                                                 
+        05  RC-PROC-DATE        PIC S9(7)   COMP-3.              
+        05  RC-TIME-STAMP       PIC S9(10)  COMP-3.              
+    03  FILLER                  PIC X(23).                       
+    03  RC-CCB-EXTENSION        PIC X(280).                      

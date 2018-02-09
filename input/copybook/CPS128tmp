@@ -1,0 +1,435 @@
+01  CARDHLD-REPORT-RECORD.
+    03  CRR-MAJOR-KEY.
+        05  CRR-FORM-NMBR       PIC 99.
+        05  CRR-ORGN-NMBR       PIC 999.
+        05  CRR-CURR-NMBR       PIC 999.                         
+        05  CRR-GROUP-NMBR      PIC 99.
+        05  CRR-RPT-NMBR        PIC 99.
+        05  CRR-TYPE-NMBR       PIC 999.
+    03  CRR-SEQ-NMBR            REDEFINES CRR-MAJOR-KEY.
+        05  FILLER              PICTURE 9(15).                   
+    03  CRR-MINOR-KEY.
+        05  CRR-ACCOUNT-KEY.
+            07  FILLER          PIC X(16).
+        05  CRR-ACCOUNT-KEY-R   REDEFINES CRR-ACCOUNT-KEY.
+            07  CRR-AK-BEGIN-REL-REC-NBR
+                                PIC S9(18)                COMP.
+            07  FILLER          PIC X(8).
+        05  CRR-ACCT-TYPE       PIC S999                  COMP-3.
+        05  CRR-ACCOUNT-NMBR
+                                PIC S9(16)                COMP-3.
+    03  CRP-MINOR-KEY  REDEFINES CRR-MINOR-KEY.                  
+        05  CRP-CARD-NMBR       PIC X(19).                       
+        05  CRP-TRAN-DATE       PIC S9(07)                COMP-3.
+        05  CRP-TRAN-CODE       PIC S9(04)                COMP-3.
+        05  FILLER              PIC X(01).                       
+    03  CRR-REPORT-DATA-AREA.
+        05  CRR-SHORT-NAME      PIC X(15).
+        05  CRR-BLOCK-CODE      PIC X.
+        05  CRR-ALT-BLOCK-CODE
+                                PIC X.
+        05  CRR-STATUS          PIC X.
+        05  CRR-CYCLE           PIC 9(2).
+        05  CRR-USER-CODE       PIC X(2).
+        05  CRR-USER-CODE-2     PIC X(2).
+        05  CRR-USER-CODE-3     PIC X(2).
+        05  CRR-CRLIMIT         PIC S9(9)                 COMP-3.
+        05  CRR-CURR-BALANCE    PIC S9(9)V99              COMP-3.
+        05  CRR-DTE-OPENED      PIC S9(7)                 COMP-3.
+        05  CRR-DTE-PYMT-DUE
+                                PIC S9(7)                 COMP-3.
+        05  CRR-DTE-LST-DELQ
+                                PIC S9(7)                 COMP-3.
+        05  CRR-CARD-EXPIR-DTE
+                            PIC S9(5)       COMP-3.
+        05  CRR-OFFICER     PIC X(3).
+        05  CRR-CURR-COLLECTOR
+                            PIC X(3).
+        05  CRR-PERM-COLLECTOR
+                            PIC X(3).
+        05  CRR-AFFINITY-FLAG                                    
+                            PIC X.                               
+        05  CRR-POT-SELECT-CODE                                  
+                            PIC XX.                              
+        05  CRR-CHGOFF-STATUS-FLAG                               
+                            PIC 9.                               
+        05  CRR-VARIABLE-DATA-AREA.
+            07  FILLER      PIC X(104).
+        05  CRR-R01-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRR-R01-TAX-AMNT                                 
+                            PIC S9(9)V99    COMP-3.              
+            07  FILLER      PIC X(98).                           
+        05  CRR-R05-VARIABLE-DATA
+                            REDEFINES CRR-VARIABLE-DATA-AREA.
+            07  CRR-R05-NMBR-REQUESTED
+                            PIC 9(2).
+            07  CRR-R05-AGENT-BANK-NMBR
+                            PIC S9(5)       COMP-3.
+            07  CRR-R05-EMBOSSER-NAME-1
+                            PIC X(26).                           
+            07  CRR-R05-CARD-TYPE-1                              
+                            PIC 9(2).                            
+            07  CRR-R05-EMBOSSER-NAME-2
+                            PIC X(26).                           
+            07  CRR-R05-CARD-TYPE-2                              
+                            PIC 9(2).                            
+            07  CRR-R05-FILLER
+                            PIC X(43).                           
+        05  CRR-R06-VARIABLE-DATA
+                            REDEFINES CRR-VARIABLE-DATA-AREA.
+            07  CRR-R06-DTE-LST-ACTIVE
+                            PIC S9(7)       COMP-3.
+            07  CRR-R06-DTE-LST-STMT
+                            PIC S9(7)       COMP-3.
+            07  CRR-R06-DTE-CLOSED
+                            PIC S9(7)       COMP-3.
+            07  CRR-R06-CYCLE-DUE                                
+                            PIC 9.                               
+            07  CRR-R06-XFR-IND                                  
+                            PIC 9.                               
+            07  CRR-R06-FILLER                                   
+                            PIC X(90).                           
+        05  CRR-R12-VARIABLE-DATA
+                            REDEFINES CRR-VARIABLE-DATA-AREA.
+            07  CRR-R12-DOMICILE-BRANCH
+                            PIC S9(5)       COMP-3.
+            07  CRR-R12-AGENT-BANK-NMBR
+                            PIC S9(5)       COMP-3.
+            07  CRR-R12-DTE-LST-PYMT
+                            PIC S9(7)       COMP-3.
+            07  CRR-R12-LST-PYMT-AMNT
+                            PIC S9(7)V99    COMP-3.
+            07  CRR-R12-RTL-AMNT-CHARGE-OFF
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R12-CASH-AMNT-CHARGE-OFF
+                            PIC S9(9)V99    COMP-3.
+            07  FILLER      PIC X(5).
+            07  CRR-R12-DELQ-COUNTER            OCCURS 9 TIMES
+                                                INDEXED BY
+                                                X-R12-DC
+                            PIC 9(2).
+            07  CRR-R12-FILLER
+                            PIC X(54).
+        05  CRR-R18-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRR-R18-CRLIMIT-TEMP          PIC S9(9)  COMP-3. 
+            07  CRR-R18-AVAIL-CREDIT          PIC S9(9)  COMP-3. 
+            07  CRR-R18-CRLIMIT-TEMP-EFF-DTE  PIC S9(7)  COMP-3. 
+            07  CRR-R18-CRLIMIT-TEMP-EXP-DTE  PIC S9(7)  COMP-3. 
+            07  CRR-R18-FILLER                PIC X(86).         
+        05  CRR-R45-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRR-R45-PYMT-TERM                                
+                            PIC S999        COMP-3.              
+            07  CRR-R45-TOT-LOAN-AMT                             
+                            PIC S9(7)V99    COMP-3.              
+            07  CRR-R45-TOT-PAID                                 
+                            PIC S9(7)V99    COMP-3.              
+            07  CRR-R45-SETLMNT-DATE                             
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R45-SETLMNT-AMT                              
+                            PIC S9(7)V99    COMP-3.              
+            07  CRR-R45-REBATE-AMT                               
+                            PIC S9(7)V99    COMP-3.              
+            07  CRR-R45-DATE-1ST-PYMT                            
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R45-DEPOSIT-AMT                              
+                            PIC S9(7)V99    COMP-3.              
+            07  CRR-R45-PRINCIPAL-AMT                            
+                            PIC S9(7)V99    COMP-3.              
+            07  CRR-R45-REJECT-CODE                              
+                            PIC 99.                              
+            07  CRR-R45-DEPOSIT-DATE                             
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R45-BILLING-CYCLE                            
+                            PIC XX.                              
+            07  FILLER      PIC X(56).                           
+        05  CRR-R48-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRR-R48-INS-PRODUCT                              
+                            PIC XX.                              
+            07  CRR-R48-DTE-EFFECTIVE                            
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R48-DTE-LST-BILL                             
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R48-DTE-LST-CANCL                            
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R48-DTE-LST-REINST                           
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R48-LAST-PREMIUM                             
+                            PIC S9(5)V99    COMP-3.              
+            07  CRR-R48-INS-STATUS                               
+                            PIC X.                               
+            07  CRR-R48-INS-REASON                               
+                            PIC X.                               
+            07  FILLER      PIC X(80).                           
+        05  CRR-R51-VARIABLE-DATA
+                            REDEFINES CRR-VARIABLE-DATA-AREA.
+            07  CRR-R51-DTE-LST-PYMT
+                            PIC S9(7)       COMP-3.
+            07  CRR-R51-CUSTOMER-NUMBER.                         
+                09  CRR-R51-CUSTOMER-ORG                         
+                            PIC S9(3)       COMP-3.              
+                09  CRR-R51-CUSTOMER-NMBR                        
+                            PIC S9(16)      COMP-3.
+            07  CRR-R51-ALT-CUSTOMER-NUMBER.                     
+                09  CRR-R51-ALT-CUSTOMER-ORG                     
+                            PIC S9(3)       COMP-3.              
+                09  CRR-R51-ALT-CUSTOMER-NMBR                    
+                            PIC S9(16)      COMP-3.
+            07  CRR-R51-DTE-LST-STMT
+                            PIC S9(7)       COMP-3.
+            07  CRR-R51-LST-PYMT-AMNT
+                            PIC S9(7)V99    COMP-3.
+            07  CRR-R51-ALT-CUST-EXPIR-DTE
+                            PIC S9(7)       COMP-3.
+            07  CRR-R51-REAGE-ELIGIBLE-SW                        
+                            PIC X.                               
+            07  FILLER      PIC X(3).                            
+            07  CRR-R51-TOTAL-AMNT-DUE
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R51-BILLING-BUCKETS.
+                09  CRR-R51-CURR-DUE
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R51-PAST-DUE
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R51-30DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R51-60DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R51-90DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R51-120DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R51-150DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R51-180DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R51-210DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R51-BILLING-BUCKETS-TABLE
+                            REDEFINES CRR-R51-BILLING-BUCKETS
+                            OCCURS 9 TIMES
+                            INDEXED BY X-R51-BB.
+                09  CRR-R51-BILLING-BKT-AMT
+                                PIC S9(9)V99              COMP-3.
+            07  CRR-R51-CYCLE-DUE
+                            PIC 9.
+        05  CRR-R62-VARIABLE-DATA
+                            REDEFINES CRR-VARIABLE-DATA-AREA.
+            07  CRR-R62-DTE-LST-ACTIVE
+                            PIC S9(7)       COMP-3.
+            07  CRR-R62-DTE-LST-PYMT
+                            PIC S9(7)       COMP-3.
+            07  CRR-R62-DTE-INTO-COLLECTION
+                            PIC S9(7)       COMP-3.
+            07  CRR-R62-NMBR-CARDS
+                            PIC 9(2).
+            07  CRR-R62-RTL-NMBR-DB                              
+                            PIC 9(5).                            
+            07  CRR-R62-CASH-NMBR-DB                             
+                            PIC 9(5).                            
+            07  CRR-R62-DTE-BLOCK-CODE                           
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R62-DTE-ALT-BLOCK-CODE                       
+                            PIC S9(7)       COMP-3.              
+            07  FILLER      PIC X(07).                           
+            07  CRR-R62-TOTAL-AMNT-DUE
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R62-BILLING-BUCKETS.
+                09  CRR-R62-CURR-DUE
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R62-PAST-DUE
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R62-30DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R62-60DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R62-90DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R62-120DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R62-150DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R62-180DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R62-210DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R62-CYCLE-DUE
+                            PIC 9.
+            07  CRR-R62-FILLER
+                            PIC X(4).
+        05  CRR-R65-VARIABLE-DATA
+                            REDEFINES CRR-VARIABLE-DATA-AREA.
+            07  CRR-R65-AVAIL-CREDIT
+                            PIC S9(9)       COMP-3.
+            07  CRR-R65-RTL-ACCRUED-INTR
+                            PIC S9(9)V9(4)  COMP-3.
+            07  CRR-R65-CASH-ACCRUED-INTR
+                            PIC S9(9)V9(4)  COMP-3.
+            07  CRR-R65-RTL-YTD-INTR
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R65-CASH-YTD-INTR
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R65-DTE-LST-ACTIVE
+                            PIC S9(7)       COMP-3.
+            07  FILLER      PIC X(2).                            
+            07  CRR-R65-WRITE-OFF-DAYS                           
+                            PIC S9(3)       COMP-3.              
+            07  CRR-R65-TOTAL-AMNT-DUE
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R65-BILLING-BUCKETS.
+                09  CRR-R65-CURR-DUE
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R65-PAST-DUE
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R65-30DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R65-60DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R65-90DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R65-120DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R65-150DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R65-180DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+                09  CRR-R65-210DAYS-DELQ
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R65-CYCLE-DUE
+                            PIC 9.
+            07  CRR-R65-FILLER
+                            PIC X(4).
+        05  CRR-R67-VARIABLE-DATA
+                            REDEFINES CRR-VARIABLE-DATA-AREA.
+            07  CRR-R67-DTE-LST-ACTIVE
+                            PIC S9(7)       COMP-3.
+            07  CRR-R67-DTE-LST-PYMT
+                            PIC S9(7)       COMP-3.
+            07  CRR-R67-DTE-CR-BALANCE
+                            PIC S9(7)       COMP-3.
+            07  CRR-R67-CUSTOMER-NUMBER.                         
+                09  CRR-R67-CUSTOMER-NMBR                        
+                            PIC  X(18).                          
+            07  CRR-R67-CYCLE-DUE
+                            PIC 9.
+            07  CRR-R67-CR-BAL-REFUND-DAYS                       
+                            PIC S9(3)       COMP-3.              
+            07  CRR-R67-FILLER                                   
+                            PIC X(71).                           
+        05  CRR-R69-VARIABLE-DATA
+                            REDEFINES CRR-VARIABLE-DATA-AREA.
+            07  CRR-R69-DTE-LST-DELQ
+                            PIC S9(7)       COMP-3.
+            07  CRR-R69-DTE-LST-PYMT
+                            PIC S9(7)       COMP-3.
+            07  CRR-R69-DTE-LST-STMT
+                            PIC S9(7)       COMP-3.
+            07  CRR-R69-CORP-ACCT-NMBR
+                            PIC  X(18).                          
+            07  CRR-R69-LST-PYMT-AMNT
+                            PIC S9(7)V99    COMP-3.
+            07  CRR-R69-RTL-NMBR-DB                              
+                            PIC 9(5).                            
+            07  CRR-R69-RTL-AMNT-DB
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R69-CASH-NMBR-DB                             
+                            PIC 9(5).                            
+            07  CRR-R69-CASH-AMNT-DB
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R69-NBR-DB-TODAY
+                            PIC 9(3).                            
+            07  CRR-R69-AMT-DB-TODAY
+                            PIC S9(9)V99    COMP-3.
+            07  CRR-R69-CUSTOMER-NMBR
+                            PIC S9(16)      COMP-3.
+            07  CRR-R69-CYCLE-DUE
+                            PIC 9.
+            07  CRR-R69-FILLER
+                            PIC X(19).                           
+        05  CRR-R93-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRR-R93-AMNT-PREPAID                             
+                            PIC S9(9)V99    COMP-3.              
+            07  CRR-R93-PREPAY-CYCLES-LEFT                       
+                            PIC 99.                              
+            07  CRR-R93-DTE-LST-STMT                             
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R93-FILLER                                   
+                            PIC X(92).                           
+        05  CRR-R96-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRR-R96-DTE-CHGOFF-STAT-CHANGE                   
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R96-DTE-LST-ACTIVE                           
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R96-RTL-IBNP                                 
+                            PIC S9(9)V99    COMP-3.              
+            07  CRR-R96-CASH-IBNP                                
+                            PIC S9(9)V99    COMP-3.              
+            07  CRR-R96-RTL-SVC-BNP                              
+                            PIC S9(5)V99    COMP-3.              
+            07  CRR-R96-CASH-SVC-BNP                             
+                            PIC S9(5)V99    COMP-3.              
+            07  CRR-R96-RTL-INSUR-BNP                            
+                            PIC S9(5)V99    COMP-3.              
+            07  CRR-R96-RTL-MEMBER-BNP                           
+                            PIC S9(5)V99    COMP-3.              
+            07  CRR-R96-RTL-BALANCE                              
+                            PIC S9(9)V99    COMP-3.              
+            07  CRR-R96-CASH-BALANCE                             
+                            PIC S9(9)V99    COMP-3.              
+            07  CRR-R96-RTL-MISC                                 
+                            PIC S9(9)V99    COMP-3.              
+            07  CRR-R96-CHGOFF-RSN-CODE                          
+                            PIC XX.                              
+            07  CRR-R96-FILLER                                   
+                            PIC X(48).                           
+        05  CRR-R94-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRR-R94-DTE-CO-STAT-CHANGE                       
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R94-DAYS-TO-CHGOFF                           
+                            PIC S9(7)       COMP-3.              
+            07  CRR-R94-CYCLE-DUE                                
+                            PIC S9          COMP-3.              
+            07  CRR-R94-FILLER                                   
+                            PIC X(95).                           
+        05  CRP-R01-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRP-R01-EMBOSSER-NAME1                           
+                            PIC X(26).                           
+            07  CRP-R01-EMBOSSER-NAME2                           
+                            PIC X(26).                           
+            07  CRP-R01-NMBR-REQUESTED                           
+                            PIC 9(02).                           
+            07  CRP-R01-CARD-TYPE                                
+                            PIC 9(05).                           
+            07  CRP-R01-FILLER                                   
+                            PIC X(45).                           
+        05  CRP-R02-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRP-R02-EMBOSSER-NAME1                           
+                            PIC X(26).                           
+            07  CRP-R02-DTE-CLOSED                               
+                            PIC S9(07)      COMP-3.              
+            07  CRP-R02-DTE-LST-ACTIVE                           
+                            PIC S9(07)      COMP-3.              
+            07  CRP-R02-UPGRADE-IND                              
+                            PIC X(01).                           
+            07  CRP-R02-FILLER                                   
+                            PIC X(69).                           
+        05  CRP-R04-VARIABLE-DATA                                
+                            REDEFINES CRR-VARIABLE-DATA-AREA.    
+            07  CRP-R04-CRLIMIT-TEMP                             
+                            PIC S9(09)      COMP-3.              
+            07  CRP-R04-AVAIL-CREDIT                             
+                            PIC S9(09)      COMP-3.              
+            07  CRP-R04-TEMP-LIMIT-EFF-DTE                       
+                            PIC S9(07)      COMP-3.              
+            07  CRP-R04-TEMP-LIMIT-EXP-DTE                       
+                            PIC S9(07)      COMP-3.              
+            07  CRP-R04-FILLER                                   
+                            PIC X(86).                           

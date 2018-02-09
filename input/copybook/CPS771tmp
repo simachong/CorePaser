@@ -1,0 +1,42 @@
+01  CMA-INSURANCE-RECORD.                                        
+    03  CMA-INS-KEY.                                             
+        05  CMA-INS-ORG-NMBR          PIC S9(03)    COMP-3.      
+        05  CMA-INS-TYPE              PIC S9(03)    COMP-3.      
+        05  CMA-INS-CARD-NMBR         PIC S9(16)    COMP-3.      
+        05  CMA-INS-REC-TYPE          PIC X.                     
+    03  CMA-INS-REC-STATUS            PIC X.                     
+        88  CMA-INS-ACCT-TO-PURGE     VALUE '9'.                 
+    03  CMA-INSURANCE-DETAILS.                                   
+        05  CMA-INS-MAKER-DOB         PIC S9(07)    COMP-3.      
+        05  CMA-INS-COMAKER-DOB       PIC S9(07)    COMP-3.      
+        05  CMA-INS-NO-PLANS          PIC S9(04)    COMP.        
+        05  CMA-INS-GROUP-PLANS.                                 
+            07  CMA-INS-PLANS         OCCURS 6 TIMES             
+                                      INDEXED BY X-CMA-INS.      
+                09  CMA-INS-PRODUCT   PIC XX.                    
+                09  CMA-INS-RATE-STATE                           
+                                      PIC XX.                    
+                09  CMA-INS-PREMIUM   PIC S9(05)V99 COMP-3.      
+                09  CMA-INS-STATUS    PIC X.                     
+                    88  CMA-INS-IN-FORCE            VALUE 'F'.   
+                    88  CMA-INS-CANCD-DELQ          VALUE 'D'.   
+                    88  CMA-INS-CANCD-REQUESTED     VALUE 'R'.   
+                    88  CMA-INS-CANCD-UNDERWRITING  VALUE 'U'.   
+                    88  CMA-INS-CANCD-AGE           VALUE 'A'.   
+                    88  CMA-INS-CANCD-CLOSED        VALUE 'P'.   
+                    88  CMA-INS-CANCD-TRUNC         VALUE 'T'.   
+                    88  CMA-INS-CANCD-OTHER         VALUE 'X'.   
+                09  CMA-INS-REASON-CANCD                         
+                                      PIC X.                     
+                09  CMA-INS-DATE-LAST-BILLED                     
+                                      PIC S9(07)    COMP-3.      
+                09  CMA-INS-LAST-PREMIUM                         
+                                      PIC S9(05)V99 COMP-3.      
+                09  CMA-INS-EFFECTIVE-DATE                       
+                                      PIC S9(07)    COMP-3.      
+                09  CMA-INS-DATE-LAST-CLAIM                      
+                                      PIC S9(07)    COMP-3.      
+                09  CMA-INS-CANCELLATION-DATE                    
+                                      PIC S9(07)    COMP-3.      
+                09  CMA-INS-REINSTATEMENT-DATE                   
+                                      PIC S9(07)    COMP-3.      

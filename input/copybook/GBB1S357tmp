@@ -1,0 +1,33 @@
+01  WSEVT-WORK-AREA.                                             
+    03 WSEVT-TRACE-ID.                                           
+       05 WSEVT-SAFE-NMBR         PIC X(06).                     
+       05 WSEVT-SAFE-MACHINE-NMBR PIC X(03).                     
+       05 WSEVT-DATE-TIME-NMBR    PIC 9(10).                     
+       05 WSEVT-SEQ-NMBR          PIC 9(06).                     
+    03 WSEVT-SYS-SND-SERIAL-NO    PIC X(10).                     
+    03 WSEVT-PROGRAM              PIC X(08).                     
+    03 WSEVT-CARDEVT-EOF          PIC X VALUE 'N'.               
+       88  CARDEVT-EOF            VALUE 'Y'.                     
+    03 WSEVT-PGM-FOUND-FLAG       PIC X VALUE 'N'.               
+    03 WSEVT-YYYYMMDD             PIC 9(08).                     
+    03 WSEVT-YYYYMMDD-X REDEFINES WSEVT-YYYYMMDD.                
+       05  WSEVT-YYYY             PIC 9(04).                     
+       05  WSEVT-MM               PIC 9(02).                     
+       05  WSEVT-DD               PIC 9(02).                     
+    03  WSEVT-TIME                PIC 9(08).                     
+    03  FILLER          REDEFINES WSEVT-TIME.                    
+        05  WSEVT-TIME-HH         PIC 9(02).                     
+        05  WSEVT-TIME-MM         PIC 9(02).                     
+        05  WSEVT-TIME-SS         PIC 9(02).                     
+        05  FILLER                PIC 9(02).                     
+    03  WSEVT-REAL-CURR-SECONDS   PIC 9(10).                     
+    03  WSEVT-REAL-CURR-SECONDS1  PIC 9(10).                     
+    03  WSEVT-REAL-CURR-SECONDS2  PIC 9(10).                     
+01  WS-CCEVT-ARRAY.                                              
+    03  WS-CCEVT-ARRAY-DETAIL     OCCURS  999 TIMES              
+                                  INDEXED BY WS-CCEVT-IDX.       
+        05  WS-CCEVT-PROGRAM-NMBR PIC X(08)  VALUE  SPACE.       
+        05  WS-CCEVT-FILLER       PIC X(01)  VALUE  SPACE.       
+        05  WS-CCEVT-SAFE-MACHINE-NMBR                           
+                                  PIC X(03)  VALUE  ZEROS.       
+    03  WS-CCEVT-MAX-IDX          PIC S9(03) BINARY VALUE ZEROS. 

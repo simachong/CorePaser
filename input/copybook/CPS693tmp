@@ -1,0 +1,137 @@
+01  EXP-INTACR-INIT-RECORD.                                      
+    03  EII-KEY.                                                 
+        05  EII-ORG-NMBR        PIC S9(3)      COMP-3 VALUE ZERO.
+        05  EII-TYPE            PIC S999       COMP-3 VALUE ZERO.
+        05  EII-CARD-NMBR       PIC S9(16)     COMP-3 VALUE ZERO.
+        05  EII-STMT-NO         PIC S9(3)      COMP-3 VALUE ZERO.
+        05  EII-DTE-ACCR-THRU   PIC S9(7)      COMP-3 VALUE ZERO.
+    03  EII-HEADER-REC.                                          
+        05  EII-CUST-NUMBER.                                     
+            07  FILLER          PIC X(18)           VALUE SPACES.
+        05  FILLER              PIC S9(7)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(7)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC X(05)           VALUE SPACES.
+        05  FILLER              PIC X(08)           VALUE SPACES.
+        05  FILLER              PIC X(224)          VALUE SPACES.
+01  EXP-INTACR-INIT-RECORD2.                                     
+    03  EII-KEY2.                                                
+        05  EII-ORG-NMBR2       PIC S9(3)      COMP-3 VALUE ZERO.
+        05  EII-TYPE2           PIC S999       COMP-3 VALUE ZERO.
+        05  EII-CARD-NMBR2      PIC S9(16)     COMP-3 VALUE ZERO.
+        05  EII-STMT-NO2        PIC S9(3)      COMP-3 VALUE ZERO.
+        05  EII-DTE-ACCR-THRU2  PIC S9(7)      COMP-3 VALUE ZERO.
+    03  CPS693-EXP-DETAIL.                                       
+        05  FILLER              PIC 9(2)              VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC X(05) VALUE SPACES.          
+        05  FILLER              PIC X(08) VALUE SPACES.          
+        05  FILLER              PIC X(18)  VALUE SPACES.         
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC X(104) VALUE SPACES.         
+01  WS-INTACR-RECORD.                                            
+    03  WS-INTACR-KEY.                                           
+        05  WS-INTACR-ORG-NMBR       PIC S9(3)      COMP-3.      
+            88  WS-INTACR-FILE-HEADER      VALUE +000.           
+            88  WS-INTACR-FILE-TRAILER     VALUE +999.           
+        05  WS-INTACR-TYPE           PIC S9(3)      COMP-3.      
+        05  WS-INTACR-CARD-NMBR      PIC S9(16)     COMP-3.      
+        05  WS-INTACR-STMT-NO        PIC S9(3)      COMP-3.      
+        05  WS-INTACR-DTE-ACCR-THRU  PIC S9(7)      COMP-3.      
+            88  WS-INTACR-ACCR-HDR         VALUE +000000.        
+    03  WS-INTACR-HEADER.                                        
+        05  WS-INTACR-CUST-NUMBER.                               
+            07  WS-INTACR-CUST-NBR   PIC X(18).                  
+        05  WS-INTACR-DTE-STMT       PIC S9(7)      COMP-3.      
+        05  WS-INTACR-DTE-LST-STMT   PIC S9(7)      COMP-3.      
+        05  WS-INTACR-RTL-LIMIT-1    PIC S9(9)      COMP-3.      
+        05  WS-INTACR-RTL-LIMIT-2    PIC S9(9)      COMP-3.      
+        05  WS-INTACR-RTL-RATE-1     PIC SV9(7)     COMP-3.      
+        05  WS-INTACR-RTL-RATE-2     PIC SV9(7)     COMP-3.      
+        05  WS-INTACR-RTL-RATE-3     PIC SV9(7)     COMP-3.      
+        05  WS-INTACR-CSH-LIMIT-1    PIC S9(9)      COMP-3.      
+        05  WS-INTACR-CSH-LIMIT-2    PIC S9(9)      COMP-3.      
+        05  WS-INTACR-CSH-RATE-1     PIC SV9(7)     COMP-3.      
+        05  WS-INTACR-CSH-RATE-2     PIC SV9(7)     COMP-3.      
+        05  WS-INTACR-CSH-RATE-3     PIC SV9(7)     COMP-3.      
+        05  WS-INTACR-HD-MULTI-TENANCY-ID PIC X(05).             
+        05  WS-INTACR-HD-TYPE-ID          PIC X(08).             
+        05  FILLER                   PIC X(224).                 
+    03  WS-INTACR-DETAIL REDEFINES WS-INTACR-HEADER.             
+                                                                 
+        05  WS-INTACR-NO-OF-DAYS     PIC 9(2).                   
+        05  WS-INTACR-RTL-PRIN-BAL   PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-IBNP       PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-SVC-BNP    PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-MISC-FEE   PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-MEMBER-BNP PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-INSUR-BNP  PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-DISPUTED-BAL                           
+                                     PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-ABP-BAL                                
+                                     PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-BEARING-BAL                            
+                                     PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-RTL-PYMT-CTD   PIC S9(9)V99 COMP-3.        
+        05  WS-INTACR-RTL-PER-DIEM   PIC S9(9)V9(4) COMP-3.      
+        05  WS-INTACR-RTL-ACCRUED-TODAY                          
+                                     PIC S9(9)V9(4) COMP-3.      
+        05  WS-INTACR-RTL-INTR-BKDT  PIC S9(9)V9(4) COMP-3.      
+                                                                 
+        05  WS-INTACR-RTL-ACCRUED    PIC S9(9)V9(4) COMP-3.      
+        05  WS-INTACR-CSH-PRIN-BAL   PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-CSH-IBNP       PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-CSH-SVC-BNP    PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-CSH-DISPUTED-BAL                           
+                                     PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-CSH-ABP-BAL                                
+                                     PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-CSH-BEARING-BAL                            
+                                     PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-CSH-PYMT-CTD  PIC S9(9)V99   COMP-3.       
+        05  WS-INTACR-CSH-PER-DIEM   PIC S9(9)V9(4) COMP-3.      
+        05  WS-INTACR-CSH-ACCRUED-TODAY                          
+                                     PIC S9(9)V9(4) COMP-3.      
+        05  WS-INTACR-CSH-INTR-BKDT                              
+                                     PIC S9(9)V9(4) COMP-3.      
+        05  WS-INTACR-CSH-ACCRUED    PIC S9(9)V9(4) COMP-3.      
+        05  WS-INTACR-MULTI-TENANCY-ID PIC X(05).                
+        05  WS-INTACR-TYPE-ID          PIC X(08).                
+        05  WS-INTACR-DTL-CUST-NBR   PIC X(18).                  
+        05  WS-INTACR-RTL-CURR-BAL   PIC S9(9)V99   COMP-3.      
+        05  WS-INTACR-CSH-CURR-BAL   PIC S9(9)V99   COMP-3.      
+        05  FILLER                   PIC X(104).                 

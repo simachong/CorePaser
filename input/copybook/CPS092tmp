@@ -1,0 +1,24 @@
+    RECORDING MODE  IS F                                         
+    BLOCK CONTAINS  0  RECORDS                                   
+    RECORD CONTAINS 1000 CHARACTERS                              
+    LABEL  RECORDS  ARE STANDARD.                                
+01  SWAPPED-MONETARY-HEADER.                                     
+    03  MONETARY-TRANSACTION         PIC X(908).                 
+    03  CARDHOLDER-TRANSACTION REDEFINES MONETARY-TRANSACTION    
+                                     PIC X(908).                 
+    03  CMT-RECORD REDEFINES MONETARY-TRANSACTION.               
+        05  CMT-ACCOUNT-NMBR.                                    
+            07  CMT-AN-ORG           PIC S999      COMP-3.       
+                88  CMT-HEADER       VALUE +000.                 
+                88  CMT-TRAILER      VALUE +999.                 
+            07  CMT-AN-TYPE          PIC S999      COMP-3.       
+            07  CMT-AN-ACCT          PIC S9(16)    COMP-3.       
+        05  CMTH-CARD-NMBR.                                      
+            07  CMT-AN-CARD-ORG      PIC S999      COMP-3.       
+            07  CMT-AN-CARD-TYPE     PIC S999      COMP-3.       
+            07  CMT-AN-CARD-NBR      PIC S9(16)    COMP-3.       
+        05  CMTH-PROC-DTE            PIC S9(07)    COMP-3.       
+        05  CMTH-TIME-STAMP          PIC S9(10)    COMP-3.       
+        05  FILLER                   PIC X(372).                 
+        05  FILLER                   PIC X(500).                 
+    03  FILLER                       PIC X(092).                 

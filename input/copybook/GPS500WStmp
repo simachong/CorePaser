@@ -1,0 +1,60 @@
+01  WS-FILE-STATUS-AREA.                                         
+    03  WS-CPDBAL-STATUS        PIC X(02).                       
+    03  WS-CPDBALB-STATUS       PIC X(02).                       
+    03  WS-CPCDL-STATUS         PIC X(02).                       
+    03  WS-CPS45-STATUS         PIC X(02).                       
+    03  WS-CPTACM-STATUS          PIC X(02).                     
+    03  WS-GPCORPX-STATUS         PIC X(02).                     
+    03  WS-CPCORPCR-STATUS        PIC X(02).                     
+    03  WS-GPFREXO-STATUS         PIC X(02).                     
+    03  WS-GPTCRDF-STATUS         PIC X(02).                     
+    03  WS-EPTAPMP-STATUS         PIC X(02).                     
+    03  WS-EPITYPE-STATUS         PIC X(02).                     
+    03  WS-EPTIAE-STATUS          PIC X(02).                     
+01  WS-EPTIAE-MAINT-DATE.                                        
+    03  WS-EPTIAE-MAINT-DATE-YEAR PIC 9(04)       VALUE ZEROES.  
+    03  WS-EPTIAE-MAINT-DATE-MON  PIC 9(02)       VALUE ZEROES.  
+    03  WS-EPTIAE-MAINT-DATE-DAY  PIC 9(02)       VALUE ZEROES.  
+01  WS-CPCCX-END-FLAG             PIC X  VALUE 'N'.              
+01  WS-PERFORM-END-FLAG           PIC X  VALUE 'N'.              
+01  WS-AMT-TEMP-F7            PIC S9(9)V99 COMP-3 VALUE ZEROES.  
+01  WS-INT-TEMP-F7            PIC S9(9)V99 COMP-3 VALUE ZEROES.  
+01  WS-FIRST-SW                 PIC X         VALUE SPACES.      
+    88  WS-FIRST-RECORD         VALUE 'Y'.                       
+    88  WS-NOT-FIRST-RECORD     VALUE 'N'.                       
+01  WS-CURR-ORG                 PIC S999        COMP-3           
+                                              VALUE ZEROS.       
+01  WS-CURR-TYPE                PIC S999        COMP-3           
+                                              VALUE ZEROS.       
+01  WS-PRI-BAL-OFF              PIC S9(9)V99    COMP-3.          
+01  WS-FEE-OFF                  PIC S9(9)V99    COMP-3.          
+01  WS-TOTAL-IBNP-OFF           PIC S9(9)V99    COMP-3.          
+01  WS-PRI-BAL                  PIC S9(9)V99    COMP-3.          
+01  WS-PRI-BAL-BRANCH           PIC S9(9)V99    COMP-3.          
+01  WS-FEE                      PIC S9(9)V99    COMP-3.          
+01  WS-TOTAL-IBNP               PIC S9(9)V99    COMP-3.          
+01  WS-TOTAL-INT-ON-INT-BNP     PIC S9(9)V99    COMP-3.          
+01  WS-TOTAL-INT-ACCR       PIC S9(13)V99   COMP-3 value +0.     
+01  WS-BRANCH-IDX               PIC S9(4)   COMP-3 VALUE ZERO.   
+01  WS-BRANCH-NBR               PIC 9(9)      VALUE ZEROES.      
+01  WS-BRANCH-INDEX             PIC 9(3)      VALUE ZEROES.      
+01  WS-BRANCH-BAL-TBL.                                           
+    03  WS-BRANCH-BAL           OCCURS 999 TIMES                 
+                                INDEXED BY X-BRANCH-INDEX.       
+        05  WS-DB-BRANCH              PIC 9(03)       COMP-3.    
+        05  WS-DB-NORMAL-PRI-BAL      PIC S9(13)V99   COMP-3.    
+        05  WS-DB-DEL3089-PRI-BAL     PIC S9(13)V99   COMP-3.    
+        05  WS-DB-DEL90179-PRI-BAL    PIC S9(13)V99   COMP-3.    
+        05  WS-DB-DEL180-PRI-BAL      PIC S9(13)V99   COMP-3.    
+        05  WS-DB-EXCESS-PRI-BAL      PIC S9(13)V99   COMP-3.    
+        05  WS-DB-INTEREST-RECEIVABLE PIC S9(13)V99   COMP-3.    
+        05  WS-DB-INTEREST-COLLECTIVE PIC S9(13)V99   COMP-3.    
+        05  WS-DB-FEE-BAL             PIC S9(13)V99   COMP-3.    
+        05  WS-DB-INSTL-PRI-BAL       PIC S9(13)V99   COMP-3.    
+                                COPY GPS081.                     
+                                COPY GCP96S05.                   
+                                COPY GPS082.                     
+                                COPY GPS083.                     
+                                COPY GPS084.                     
+                                COPY GPS086.                     
+                                COPY GPS087.                     

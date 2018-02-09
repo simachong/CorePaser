@@ -1,0 +1,15 @@
+    SET WS-FIRST-RECORD TO TRUE.                                 
+    INITIALIZE BRANCH-DAILY-BALANCE-RECORD.                      
+    PERFORM VARYING WS-BRANCH-IDX FROM 1 BY 1                    
+              UNTIL WS-BRANCH-IDX > 999                          
+      MOVE ZEROES     TO WS-DB-BRANCH             (WS-BRANCH-IDX)
+                         WS-DB-NORMAL-PRI-BAL     (WS-BRANCH-IDX)
+                         WS-DB-DEL3089-PRI-BAL    (WS-BRANCH-IDX)
+                         WS-DB-DEL90179-PRI-BAL   (WS-BRANCH-IDX)
+                         WS-DB-DEL180-PRI-BAL     (WS-BRANCH-IDX)
+                         WS-DB-EXCESS-PRI-BAL     (WS-BRANCH-IDX)
+                         WS-DB-INTEREST-RECEIVABLE(WS-BRANCH-IDX)
+                         WS-DB-INTEREST-COLLECTIVE(WS-BRANCH-IDX)
+                         WS-DB-FEE-BAL            (WS-BRANCH-IDX)
+                         WS-DB-INSTL-PRI-BAL      (WS-BRANCH-IDX)
+    END-PERFORM.                                                 

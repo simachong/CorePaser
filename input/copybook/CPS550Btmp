@@ -1,0 +1,23 @@
+BAT-GET-ORG-TYPE.                                                
+                                                                 
+GOT-INIT.                                                        
+    MOVE ZERO                   TO WS-GOT-ORG.                   
+    MOVE ZERO                   TO WS-GOT-TYPE.                  
+    MOVE ZERO                   TO WS-TXN-IND.                   
+    MOVE ZERO                   TO WS-ON-US-TYPE.                
+GOT-TEST-CARD.                                                   
+    CALL 'GPD550B'  USING                                        
+           WS-CPS350-WORK-FIELDS    WS-MERCHANT-X                
+           WS-BREAK-MERCH           WS-INET-INCOMING-SW          
+           WS-VISA-INCOMING-SW      WS-GOT-CODE                  
+           WS-CARDHLD-X             WS-SAVE-ACCT-X               
+           WS-REFORMAT-ACCT-X       WS-FILE-SPLIT-AREA           
+           WS-EMERG-CARD-FLAG       WS-OTH-NETWORK-INCOM-SW      
+           WS-CCB-EMERG-CARD-PFX                                 
+           WS-CCB-PL-AC-FLAG        WS-CCB-CORP-FLAG             
+           WS-CARD-SCHEME           WS-PROD-CODE                 
+           WS-MISC-FIELDS-XX        CCB350-USER-AREAS            
+           WS-GCPBINF-RECORD.                                    
+    GO TO GOT-EXIT.                                              
+GOT-EXIT.                                                        
+    EXIT.                                                        

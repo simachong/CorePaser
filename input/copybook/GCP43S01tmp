@@ -1,0 +1,29 @@
+01 GPSYDHK-RECORD.                                               
+  03 GPSYDHK-HEADER.                                             
+    05 GPSYDHK-COLLC-ACCT-REF-NO       PIC X(15).                
+    05 GPSYDHK-COLLC-TYP               PIC X(01).                
+    05 GPSYDHK-TOTL-ITEM               PIC 9(10).                
+    05 GPSYDHK-TOTL-AMT                PIC 9(11)V99.             
+    05 GPSYDHK-PRE-AMTDATE             PIC X(8).                 
+    05 FILLER                          PIC X(153).               
+  03 GPSYDHK-DETAIL  REDEFINES GPSYDHK-HEADER.                   
+    05 GPSYDHK-TX-SEQNO2               PIC 9(7).                 
+    05 GPSYDHK-BO-CA-SYM               PIC X(1).                 
+    05 GPSYDHK-ACCT-NO                 PIC X(28).                
+    05 GPSYDHK-BSC-EXP                 PIC 9(11)V99.             
+    05 GPSYDHK-AUTH-FLG                PIC X(1).                 
+    05 GPSYDHK-CARDHOLDER-INFO.                                  
+       10 GPSYDHK-CERDIT-CARD-NO       PIC X(16).                
+       10 GPSYDHK-CURR-CODE            PIC X(3).                 
+       10 GPSYDHK-EXCHANGE-RATE        PIC 9(5)V9(5).            
+       10 GPSYDHK-BUY-FLAG             PIC X(1).                 
+       10 GPSYDHK-BRANCH               PIC X(5).                 
+       10 GPSYDHK-BUY-AMT              PIC 9(9)V99.              
+       10 GPSYDHK-COLL-TYPE            PIC X(01).                
+       10 GPSYDHK-CREDIT-CARD-BRANCH   PIC X(05).                
+       10 GPSYDHK-FIRST-DD-FLAG        PIC 9(01).                
+       10 GPSYDHK-YDHK-TYPE            PIC 9(3).                 
+       10 GPSYDHK-PAY-AMNT             PIC 9(11)V99.             
+       10 GPSYDHK-TYPE                 PIC 9(03).                
+       10 GPSYDHK-CORP-ID-2            PIC X(02).                
+       10 FILLER                       PIC X(76).                

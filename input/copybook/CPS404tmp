@@ -1,0 +1,46 @@
+01  CPS404-REQUEST-BLOCK.
+    03  CPS404-FILE-REQUEST-BLOCK.
+        05  CPS404-REQUEST-CODE
+                            PIC X(01).
+            88  CPS404-OPEN-FILE            VALUE 'O'.
+            88  CPS404-CLOSE-FILE           VALUE 'C'.
+            88  CPS404-READ-RECORD          VALUE 'R'.
+            88  CPS404-WRITE-RECORD         VALUE 'W'.
+            88  CPS404-DELETE-RECORD        VALUE 'D'.
+        05  CPS404-REQUEST-FUNCTION
+                            PIC X(01).
+            88  CPS404-INPUT                VALUE 'I'.
+            88  CPS404-OUTPUT               VALUE 'O'.
+            88  CPS404-INPUT-OUTPUT         VALUE 'B'.
+            88  CPS404-RANDOM-READ          VALUE 'R'.
+            88  CPS404-READ-NEXT            VALUE 'N'.
+            88  CPS404-START-EQUAL          VALUE 'S'.
+            88  CPS404-START-GTE            VALUE 'G'.
+            88  CPS404-START-GTE-ONLY       VALUE 'H'.           
+            88  CPS404-WRITE                VALUE 'W'.
+            88  CPS404-UPDATE               VALUE 'U'.
+        05  CPS404-FILE-TYPE
+                            PIC X(01).
+            88  CPS404-SEQUENTIAL           VALUE 'S'.
+            88  CPS404-DYNAMIC              VALUE 'D'.
+            88  CPS404-RANDOM               VALUE 'R'.
+            88  CPS404-COMPRESS             VALUE 'P'.
+            88  CPS404-EXPAND               VALUE 'E'.
+        05  CPS404-RETURN-CODE
+                            PIC 9(02).
+        05  CPS404-FILE-STATUS
+                            PIC X(02).
+        05  CPS404-RETURN-MSG
+                            PIC X(28).
+        05  CPS404-SYS-FILE-REC-TYPE                             
+                            PIC X(01).                           
+            88  CPS404-SYS-REC              VALUE 'S'.           
+            88  CPS404-ORG-REC              VALUE 'O'.           
+            88  CPS404-TYPE-REC             VALUE 'T'.           
+            88  CPS404-LEDGER-REC           VALUE 'L'.           
+        05  CPS404-SEGMENTATION-SW                               
+                            PIC 9(01).                           
+        05  CPS404-SEGMENT-USED                                  
+                            PIC 9(01).                           
+        05  CPS404-FILE-NMBR PIC 9(01).                          
+        05  FILLER          PIC X(26).                           

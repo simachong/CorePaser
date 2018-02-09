@@ -1,0 +1,48 @@
+CCSI-JUL-TO-GREG.
+    IF (WS-DTE-JULDAYS IS EQUAL TO ZERO OR                       
+        WS-DTE-JULDAYS IS GREATER THAN 366)                      
+        MOVE ZEROS              TO WS-DTE-JULIAN.
+    IF  WS-DTE-JULIAN IS EQUAL TO ZERO
+        MOVE ZERO               TO WS-DTE-DATE
+        MOVE ZERO               TO WS-DTE-DATE-L6                
+        MOVE ZERO               TO WS-DTE-MDY
+        MOVE ZERO               TO WS-DTE-DMY                    
+        GO TO CCSI-JTG-EXIT.
+    IF  WS-DTE-JULYR IS LESS THAN 100
+        IF  WS-DTE-JULYR IS LESS THAN 50
+            ADD 2000            TO WS-DTE-JULYR
+        ELSE
+            ADD 1900            TO WS-DTE-JULYR.
+    COMPUTE WS-DTE-WORK         =  WS-DTE-JULYR * 250.           
+    IF  WS-DTE-RMDR IS GREATER THAN ZERO OR                      
+        WS-DTE-SPECIAL-LEAP-YEAR-SKIP                            
+        MOVE WS-DTE-TABLE-REGULAR-YEAR                           
+                                TO WS-DTE-TABLE                  
+    ELSE                                                         
+        MOVE WS-DTE-TABLE-LEAP-YEAR                              
+                                TO WS-DTE-TABLE.                 
+    PERFORM CCSI-JTG-NULL  THRU  CCSI-JTG-NULL-EXIT
+        VARYING X-WS-DTE-DOM  FROM 1 BY 1
+        UNTIL WS-DTE-JULDAYS IS NOT GREATER THAN
+        WS-DTE-DDM (X-WS-DTE-DOM).
+    SET X-WS-DTE-DOM            DOWN BY 1.
+    SET WS-DTE-MON              TO X-WS-DTE-DOM.
+    SUBTRACT WS-DTE-DDM (X-WS-DTE-DOM) FROM WS-DTE-JULDAYS
+      GIVING  WS-DTE-DAY.
+    MOVE WS-DTE-MON             TO WS-DTE-MM WS-DTE-MMX.         
+    MOVE WS-DTE-DAY             TO WS-DTE-DD WS-DTE-DDX.         
+    MOVE WS-DTE-JULYR           TO WS-DTE-YEAR.
+    MOVE WS-DTE-ZYEAR           TO WS-DTE-YY WS-DTE-YYX.         
+    MOVE WS-DTE-TABLE-REGULAR-YEAR TO WS-DTE-TABLE.
+    IF  WS-DATE-FORMAT IS EQUAL TO 1                             
+        MOVE WS-DTE-MMX         TO WS-DTE-XMON                   
+        MOVE WS-DTE-DDX         TO WS-DTE-XDAY                   
+        MOVE WS-DTE-DMY         TO WS-DTE-DATE-L6                
+    ELSE                                                         
+        MOVE WS-DTE-MDY         TO WS-DTE-DATE-L6.               
+    GO TO CCSI-JTG-EXIT.
+CCSI-JTG-NULL.
+CCSI-JTG-NULL-EXIT.
+    EXIT.
+CCSI-JTG-EXIT.
+    EXIT.

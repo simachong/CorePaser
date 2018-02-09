@@ -1,0 +1,510 @@
+01  CARDPAC-MONETARY-TRANSACTION.
+    03  CMT-DETAIL          PIC X(908).                          
+    03  CMT-GROUP           REDEFINES  CMT-DETAIL.
+        05  CMT-SORT-KEY    PIC X(45).                           
+        05  FILLER          PIC X(863).                          
+    03  CARDHOLDER-MONETARY-TRANS
+                            REDEFINES  CMT-DETAIL.
+        05  CMT-ACCT-NMBR.
+            07  CMT-ORGN-NMBR
+                            PIC S999        COMP-3.
+            07  CMT-TYPE    PIC S999        COMP-3.
+            07  CMT-ACCT-NBR                                     
+                            PIC S9(16)      COMP-3.
+        05  CMT-CARD-NMBR.                                       
+            07  CMT-CARD-ORG                                     
+                            PIC S999        COMP-3.              
+            07  CMT-CARD-TYPE                                    
+                            PIC S999        COMP-3.              
+            07  CMT-CARD-NBR                                     
+                            PIC S9(16)      COMP-3.              
+        05  CMT-EFFECTIVE-DTE
+                            PIC S9(7)       COMP-3.
+        05  CMT-CODE        PIC 99.
+            88  MEMO-TRANSACTION            VALUE 96.
+            88  AUTHORIZATION               VALUE 98.
+            88  AUTHORIZATION-REVERSAL      VALUE 97.
+            88  CASH-DISPUTE-REL-CUSTOMER   VALUE 02.
+            88  CASH-DISPUTE-REL-BANK       VALUE 03.
+            88  CASH-DISPUTE-REL            VALUE 02 03.
+            88  DISPUTED-CASH-ITEM          VALUE 04.
+            88  RETAIL-DISPUTE-REL-CUSTOMER VALUE 05.
+            88  RETAIL-DISPUTE-REL-BANK     VALUE 06.
+            88  RETAIL-DISPUTE-REL          VALUE 05 06.
+            88  DISPUTED-RETAIL-ITEM        VALUE 07.
+            88  DISPUTE-RELEASE             VALUE 02 03 05 06.
+            88  DISPUTED-ITEM               VALUE 04 07.
+            88  DISPUTED-TRANSACTION        VALUE 02 THRU 07.
+            88  INTR-EARNED-DB-ADJ          VALUE 08.            
+            88  INTR-EARNED-CR-ADJ          VALUE 09.            
+            88  CASH-INTR-DB-ADJUST         VALUE 10.
+            88  CASH-INTR-CR-ADJUST         VALUE 11.
+            88  RETAIL-INTR-DB-ADJUST       VALUE 12.
+            88  RETAIL-INTR-CR-ADJUST       VALUE 13.
+            88  CASH-SVC-CHRG-DB-ADJUST     VALUE 14.
+            88  CASH-SVC-CHRG-CR-ADJUST     VALUE 15.
+            88  RETAIL-SVC-CHRG-DB-ADJUST   VALUE 16.
+            88  RETAIL-SVC-CHRG-CR-ADJUST   VALUE 17.
+            88  CHEQUE-PAYMENT              VALUE 19.            
+            88  NON-DIRECTED-PAYMENT        VALUE 20.
+            88  CASH-PAYMENT                VALUE 21.
+            88  RETAIL-PAYMENT              VALUE 22.
+            88  PRE-PAYMENT                 VALUE 23.
+            88  CASH-PAYMENT-REVERSAL       VALUE 24.
+            88  RETAIL-PAYMENT-REVERSAL     VALUE 25.
+            88  CREDIT-BALANCE-REFUND       VALUE 26 29.         
+            88  NON-DIRECTED-PYMT-REVERSAL  VALUE 27 28.
+            88  RETURNED-CHECK              VALUE 28.
+            88  PAYMENT-REVERSAL            VALUE 24 25 27 28.
+            88  CASH-ADVANCE                VALUE 30 34 35.
+            88  CASH-ADVANCE-REVERSAL       VALUE 31.
+            88  CASH-DEBIT-ADJUST           VALUE 32 38.
+            88  CASH-CREDIT-ADJUST          VALUE 33 39.
+            88  CASH-ADJUSTMENT             VALUE 32 33 38 39.
+            88  CHECK-ITEM                  VALUE 34.
+            88  TRANSFER                    VALUE 35.
+            88  CASH-ADV-PER-FEE-REVERSAL   VALUE 36.            
+            88  CASH-ADV-PER-FEE            VALUE 37.            
+            88  CASH-WRITE-OFF-DEBIT        VALUE 38.
+            88  CASH-WRITE-OFF-CREDIT       VALUE 39.
+            88  RETAIL-PURCHASE             VALUE 40.
+            88  RETURNED-ITEM               VALUE 41.
+            88  RETAIL-DEBIT-ADJUST         VALUE 42 48.
+            88  RETAIL-CREDIT-ADJUST        VALUE 43 49.
+            88  RETAIL-ADJUSTMENT           VALUE 42 43 48 49.
+            88  RETAIL-WRITE-OFF-DEBIT      VALUE 48.
+            88  RETAIL-WRITE-OFF-CREDIT     VALUE 49.
+            88  CHARGE-OFF                  VALUE 50.
+            88  CHARGE-OFF-REVERSAL         VALUE 51.
+            88  MISC-FEE-DEBIT              VALUE 60 62.
+            88  MISC-FEE-CREDIT             VALUE 61.
+            88  RETURN-CHECK-CHARGE         VALUE 62.
+            88  MISCELLANOUS-FEES           VALUE 60 61 62.
+            88  BONUS-BUCKS-DEBIT           VALUE 63.
+            88  BONUS-BUCKS-CREDIT          VALUE 64.
+            88  BONUS-BUCKS-TRANS           VALUE 63 64.
+            88  INSURANCE-PREMIUM           VALUE 65.            
+            88  INSURANCE-PREMIUM-REFUND    VALUE 66.            
+            88  DEPOSIT                     VALUE 67.            
+            88  DEPOSIT-REVERSAL            VALUE 68.            
+            88  MULTIPLE-PAYMENT            VALUE 69.            
+            88  VISA-CHARGEBACK             VALUE 71.
+            88  VISA-REQUEST                VALUE 72.
+            88  VISA-RESPONSE               VALUE 73.
+            88  VISA-FEE                    VALUE 74.
+            88  VISA-FUNDS-DISBURSE         VALUE 75.
+            88  VISA-CRB                    VALUE 76.
+            88  VISA-FRAUD                  VALUE 77.
+            88  VISA-NMAS                   VALUE 79.            
+            88  RETRIEVAL-REQUEST           VALUE 81.
+            88  GOOD-RETRIEVAL-RESPONSE     VALUE 83.
+            88  CHARGE-BACK                 VALUE 84.
+            88  MASTERCARD-RCL              VALUE 85.
+            88  MASTERCARD-TERM-MERCH       VALUE 86.
+            88  MASTERCARD-FEE-DISBURSEMENT VALUE 87.
+            88  INTEREST-ADJUSTMENT         VALUE 10 THRU 13.
+            88  SERVICE-CHARGE-ADJUSTMENT   VALUE 14 THRU 17.
+            88  PAYMENT                     VALUE 19 THRU 23     
+                                                  69.            
+            88  INTR-GEN-CASH-TRANS         VALUE 21 30 THRU 35
+                                                  38 39.
+            88  INTR-GEN-RTL-TRANS          VALUE 22 40 THRU 43
+                                          48 49 67 68.           
+            88  DEBIT-TRANSACTIONS          VALUE 08 10 12       
+                                                  14 16          
+                                                  30 32 34 35 38
+                                                  37 29          
+                                                  24 25 26 27 28
+                                                  40 42 48 51 60
+                                                  65             
+                                                  62 68 90.      
+            88  GL-DEBIT-TRANS        VALUE 03 06 08             
+                                            10 12 14 16 29       
+                                            24 25 26 27 28       
+                                            30 32 34 35 37       
+                                            40 42 46 48          
+                                            51 38                
+                                            60 62 63 65 68       
+                                            89.                  
+            88  CREDIT-TRANSACTIONS         VALUE 09 11 13       
+                                                  15 17 19 20 21 
+                                                  22 23 31 33 39
+                                                  41 43 49 50 61 
+                                                  66 67 69 91 36 
+                                                  94 95.         
+            88  GL-CREDIT-TRANS       VALUE 02 04 05 07 09       
+                                            11 13 15 17 19       
+                                            20 21 22 23          
+                                            31 33 36 39          
+                                            41 43 49             
+                                            50                   
+                                            61 64 66 67 69       
+                                            88 94 95.            
+            88  CASH-TRANSACTIONS           VALUE 03 04 08 09 10 
+                                                  11 14 15 21 24 
+                                                  30 THRU 35
+                                                  36 37          
+                                                  38 39 94.      
+            88  RETAIL-TRANSACTIONS         VALUE 06 07 12 13 16
+                                                  17 22 25
+                                                  40 THRU 43
+                                                  48 49
+                                                  65 95          
+                                                  60 61 62       
+                                                  66 67 68.      
+        88  PROVIS-INTR-TXN                 VALUE 40 41 42 43 48 
+                                                  49 67 68.      
+        88  PROVIS-INTR-DB-TXN              VALUE 40 42 48 68.   
+        88  PROVIS-INTR-CR-TXN              VALUE 41 43 49 67.   
+            88  MERCHANT-DEPOSIT-ITEMS      VALUE 30 40 41.
+            88  VISA-TRANS                  VALUE 71 THRU 77 79. 
+            88  MASTERCHG-TRANS             VALUE 81 THRU 87.
+            88  VALID-TRANSACTIONS          VALUE 02 THRU 10     
+                                                  11             
+                                                  12             
+                                                  13             
+                                                  14 THRU 17     
+                                                  19 THRU 29     
+                                                  30 THRU 35
+                                                  36 37          
+                                                  38 39
+                                                  40 THRU 43
+                                                  48 49
+                                                  50 51
+                                                  60 61 62 63 64
+                                                  65             
+                                                  66 THRU 69     
+                                                  71 THRU 77 79  
+                                                  81 THRU 87
+                                                  94 THRU 95     
+                                                  96 THRU 98.
+            88  PAYMENT-TRANSACTIONS        VALUE 19 THRU 23     
+                                                  69.            
+            88  AUTHORIZATION-TRANS         VALUE 97 98.
+            88  BAL-CREDIT-ADJM             VALUE 94 95.         
+            88  BAL-CASH-CREDIT-ADJUST      VALUE 94.            
+            88  BAL-RTL-CREDIT-ADJUST       VALUE 95.            
+            88  CCB-CTD-MISC-DB        VALUE 08 10 12 14 16 37   
+                                             60 62 65.           
+        05  CMT-TRANS-CODE  PIC S9(04)    COMP-3.                
+        05  CMT-AMNT        PIC S9(9)V99    COMP-3.              
+        05  CMT-POSTING-DTE PIC S9(7)       COMP-3.
+        05  CMT-SOURCE-CODE PIC S9(4)       COMP-3.
+            88  LOCAL-INPUT                 VALUE +0.
+            88  USER-IPT                    VALUE +1.
+            88  GENERATED                   VALUE +2.
+            88  TRANSFERED-HISTORY          VALUE +3 +33.        
+            88  INCLEARING                  VALUE +4 +14 +5 +15  
+                                                  +20 +21.       
+            88  VISA-INCLEARING             VALUE +4 +14.        
+            88  INET-INCLEARING             VALUE +5 +15.        
+            88  JCB-INCLEARING              VALUE +20 +21.       
+            88  TRANSFERRED-DETAIL          VALUE +6 +7.
+            88  TRANSFER-DET-ORIG-INCLEAR   VALUE +6.
+            88  TRANSFER-DET-NOT-ORIG-INCLEAR
+                                            VALUE +7.
+            88  DATA-CAPTURE-FROM-VISA      VALUE +8.
+            88  CONTRA                      VALUE +9.            
+            88  ATM-LOCAL                   VALUE +10.           
+            88  ATM-USER                    VALUE +11.           
+            88  ATM-VISA                    VALUE +14.           
+            88  ATM-MC                      VALUE +15.           
+            88  ATM-JCB                     VALUE +21.           
+            88  TRANSFER-HIST-INCLEAR       VALUE +33.           
+        05  CMT-AUTH-CODE   PIC X(6).
+        05  CMT-REFERENCE-NMBR
+                            PIC X(7).
+        05  CMT-RN          REDEFINES  CMT-REFERENCE-NMBR.
+            07  CMT-RN-DTE  PIC S999        COMP-3.
+            07  CMT-RN-BATCH-NMBR
+                            PIC S9(5)       COMP-3.
+            07  CMT-RN-SEQ-NMBR
+                            PIC S999        COMP-3.
+        05  CMT-MERCH-NMBR  PIC X(7).                            
+        05  FILLER          REDEFINES CMT-MERCH-NMBR.            
+            07  CMT-MERCH-ORGN
+                            PIC S999        COMP-3.
+            07  CMT-MERCH-ACCT
+                            PIC S9(9)       COMP-3.
+        05  CMT-MERCH-CATEGORY
+                            PIC S9(5)       COMP-3.
+        05  CMT-DBA-DESCRIPTION.
+            07  CMT-DBA-NAME
+                            PIC X(25).
+            07  CMT-DBA-NAME-X
+                            REDEFINES CMT-DBA-NAME.
+                09  CMT-DBA-AIRLINE
+                            PIC X(11).
+                09  CMT-AIR-TCKT-DELIM
+                            PIC X.
+                09  CMT-AIR-TCKT-NBR
+                            PIC X(13).
+            07  FILLER  PIC X(15).                               
+        05  CMT-MERCH-STATE                                      
+                            PIC X(2).                            
+        05 CMT-AUTH-FLAG                PIC X.                   
+           88  MATCHED-AUTH                        VALUE 'M'.    
+        05  CMT-SPLIT-CHAR  PIC X.                               
+        05  CMT-WHSED-FLAG  PIC 9.
+            88  TRANS-FROM-WHSE-FILE        VALUE 1.
+        05  CMT-REVERSAL-IND REDEFINES CMT-WHSED-FLAG            
+                            PIC 9.                               
+            88  REVERSAL-TRXN               VALUE 2.             
+        05  CMT-POSTING-FLAG
+                            PIC 99.
+            88  GOOD-TRANSACTION            VALUE 00.
+            88  WAREHOUSED                  VALUE 01.
+            88  QUALIFIED-REJECT            VALUE 99.
+            88  INV-CARD-NMBR               VALUE 98.            
+            88  CARD-BLOCKED                VALUE 97.            
+            88  CARD-CLOSED                 VALUE 96.            
+            88  CARD-TRANSFERED             VALUE 95.            
+            88  INV-ACCT-NMBR               VALUE 10.
+            88  ACCOUNT-BLOCKED             VALUE 11.
+            88  ACCOUNT-CLOSED              VALUE 12.
+            88  ACCOUNT-TRANSFERED          VALUE 13.
+            88  INV-TRANS-CODE              VALUE 14.
+            88  PRIOR-YEAR-TRANS            VALUE 15.
+            88  ACCOUNT-CHARGED-OFF         VALUE 16.
+            88  PRE-PAY-NOT-ALLOWED         VALUE 17.
+            88  UNMATCHED-RELEASE           VALUE 18.
+            88  INV-AMOUNT                  VALUE 19.
+            88  INV-INSUR-TRANS             VALUE 21.            
+            88  INV-FTL-TRANSACTION         VALUE 22.            
+            88  INV-SUSPENSE-TRANS          VALUE 23.            
+            88  INV-DISPUTED-TRANS          VALUE 24.            
+            88  NO-BAL-PROG-ID              VALUE 25.            
+            88  INV-BAL-PROG-ID             VALUE 26.            
+            88  UNMATCHED-BAL-PROG-ID       VALUE 27.            
+            88  INV-DEBIT-TRANS             VALUE 28.            
+            88  POSTING-REJECT              VALUE 70.            
+            88  WHSE-POSTING-REJ            VALUE 71.            
+      05  CMT-REV-TRAN-ID   PIC 99.                              
+      05  CMT-TRAN-ID       PIC S9(15)      COMP-3.              
+      05  CMT-ACQ-REF-NBR   PIC X(23).                           
+      05  CMT-PYMT-TYPE-IND PIC 9.                               
+      05  CMT-RPS           PIC X(01).                           
+      05  CMT-CHGBK-RT      PIC X(02).                           
+      05  CMT-AHF-ORIG-CURR-GROUP.                               
+          07  CMT-AHF-ORIG-CURR-DATA.                            
+              09  CMT-AHF-ORIG-CURR-CODE                         
+                            PIC S9(3)       COMP-3.              
+              09  CMT-AHF-ORIG-CURR-AMT                          
+                            PIC S9(10)V99   COMP-3.              
+              09  CMT-AHF-ORIG-CURR-DECIMAL                      
+                            PIC 99.                              
+              09  CMT-AHF-ONUS-CURR-CONV                         
+                            PIC 9.                               
+      05  CMTV-ORIG-CPD            PIC S9(4) COMP-3.             
+      05  FILLER REDEFINES CMTV-ORIG-CPD.                        
+          07  CMT-MC-AUTH-SECLVL.                                
+              09  CMT-MC-SEC-PROTOCOL                            
+                                   PIC X(01).                    
+              09  CMT-MC-CH-AUTHENTIC                            
+                                   PIC X(01).                    
+              09  CMT-MC-UCAF-IND                                
+                                   PIC X(01).                    
+        05  CMT-SETL-IND    PIC X.
+        05  CMT-TRAN-TYPE   PIC 9.
+        05  CMT-INTL-FLAGS.
+            07  CMT-INTL-ACQ
+                            PIC X.
+            07  CMT-INTL-ISS
+                            PIC X.
+            07  CMT-INTL-MER
+                            PIC X.
+        05  FILLER          PIC X.                               
+        05  CMT-CARD-CARD-TYPE                                   
+                            PIC X.                               
+        05  CMT-ALIAS-CARDHLD-NBR
+                            PIC S9(17)      COMP-3.
+        05  CMT-AUTH-DATA     REDEFINES CMT-ALIAS-CARDHLD-NBR.   
+            07  CMT-AUTH-AMT  PIC S9(12)    COMP-3.              
+            07  CMT-AUTH-CCY  PIC S9(03)    COMP-3.              
+        05  CMT-ORIG-SOURCE-CODE                                 
+                            PIC 9(4).                            
+        05  WS-NUM-TEST-SOURCE-CODE                              
+                            REDEFINES CMT-ORIG-SOURCE-CODE       
+                            PIC X(4).                            
+        05  CMT-POS-MODE    PIC X(2).                            
+        05  FILLER          PIC X.                               
+        05  CMT-INSTALLMENT-IND          PIC X.                  
+            88  CMT-ITEM-PRICE     VALUE '1'.                    
+            88  CMT-INSTALLMENT    VALUE '2'.                    
+            88  CMT-LARGE-ITEM-PRICE        VALUE '3'.           
+            88  CMT-LARGE-INSTALLMENT       VALUE '4'.           
+            88  CMT-CASH-ITEM-PRICE         VALUE '5'.           
+            88  CMT-CASH-INSTALLMENT        VALUE '6'.           
+        05  CMT-LONGKA-MERCH-ID    PIC X(15).                    
+        05  CMT-CARD-REJECT-FLAG PIC 9(01).                      
+            88  CARD-TRANSFERED-REJ         VALUE 1.             
+            88  CARD-BLOCK-REJ              VALUE 2.             
+            88  CARD-CLOSED-REJ             VALUE 3.             
+            88  INVALID-CARD-NUM-REJ        VALUE 4.             
+            88  CARD-INACTIVE-REJ           VALUE 5.             
+            88  CARD-DTE-EXPIRE-REJ         VALUE 6.             
+        05  CMT-DISPOSITION        PIC X(04).                    
+            88  REPOST-FROM-SUSPEND   VALUE 'RPST'.              
+            88  GEN-FROM-CPD096       VALUE 'GENF'.              
+        05  CMT-ORIG-SUS-DATA.                                   
+            07  CMT-ORIG-SUS-KEY.                                
+               09  CMT-ORIG-SUS-ORGN  PIC S9(03) COMP-3.         
+               09  CMT-ORIG-SUS-TYPE  PIC S9(03) COMP-3.         
+               09  CMT-ORIG-SUS-ACCT  PIC S9(16) COMP-3.         
+            07  CMT-ORIG-SUS-AMT   PIC S9(9)V99  COMP-3.         
+        05  CMT-CONV-RATE          PIC S9(6)V9999 COMP-3.        
+        05  CMT-MULT-CARD-FLAG     PIC 9.                        
+        05  FILLER                 PIC X(19).                    
+        05  CMT-PRAU-TYPE   PIC X(01).                           
+        05  CMT-FILE-DAYS   PIC 9(02).                           
+        05  CMT-MULT-SEQ-NBR       PIC 9(02).                    
+        05  CMT-MULT-SEQ-TOTAL-CNT PIC 9(02).                    
+        05  CMT-DPAN-NBR    PIC X(19).                           
+        05  CMT-MULT-IND           PIC X(01).                    
+            88  MULT-CLR-PARTIAL   VALUE 'P'.                    
+            88  MULT-CLR-FINAL     VALUE 'F'.                    
+        05  FILLER          PIC X(43).                           
+        05  FILLER          PIC X(81).
+        05  CMT-CCB-INNER-DATA.                                  
+            07  CMT-LIMIT-NBR      PIC X(02).                    
+            07  CMT-POSTING-PRI    PIC 9(04).                    
+            07  CMT-INNER-CUST-ID  PIC X(18).                    
+            07  CMT-ATM-LOCAL-IND  PIC X(01).                    
+            07  CMT-CLRG-CCYCD     PIC X(03).                    
+            07  CMT-CLRG-AMT       PIC S9(13)V99 COMP-3.         
+            07  CMT-FEE-ADJ-STT-DATE  PIC S9(07) COMP-3.         
+            07  CMT-FEE-ADJ-END-DATE  PIC S9(07) COMP-3.         
+        05  CMT-CCB-USER-DATA.                                   
+            07  CMT-DBA-COUNTRY    PIC X(03).                    
+            07  CMT-DBA-CITY       PIC X(13).                    
+            07  CMT-ORIG-TRANS-DATE  PIC S9(7) COMP-3.           
+            07  CMT-TRANS-TIME       PIC S9(7) COMP-3.           
+            07  CMT-PYMT-BANK-NUM  PIC X(14).                    
+            07  CMT-BAL-PROG-ID    PIC X(04).                    
+            07  CMT-BAL-SEQ-NMBR     PIC S9(04)  COMP-3.         
+            07  CMT-EVT-TRACE-ID   PIC X(25).                    
+            07  CMT-ORIG-EVT-TRACE-ID  PIC X(25).                
+            07  CMT-PYMT-ACCT      PIC X(32).                    
+            07  CMT-RELATIONSHIP   PIC X(01).                    
+            07  CMT-SYS-SND-SERIAL-NO                            
+                                   PIC X(10).                    
+            07  CMT-SYS-TX-TYPE    PIC X(06).                    
+            07  CMT-FPRJ-ECD       PIC X(07).                    
+        05  CMT-FILEID      PIC X(7).                            
+        05  CMT-CUST-ID     PIC X(18).                           
+        05  FILLER          PIC X(278).                          
+    03  CMT-DETAIL-1        REDEFINES CMT-DETAIL.
+        05  CMT-COMMON-DATA-AREA
+                            PIC X(329).                          
+        05  CMT-INTERCHANGE-DATA
+                            PIC X(81).
+        05  CMT-INET        REDEFINES CMT-INTERCHANGE-DATA.
+            07  CMTI-SETL-CURR-AMT
+                            PIC S9(11)V99   COMP-3.
+            07  CMTI-SETL-CURR-CODE
+                            PIC XXX.
+            07  CMTI-SETL-CURR-EXPT
+                            PIC 9.
+            07  FILLER      PIC X(1).                            
+            07  FILLER                                           
+                            PIC X(1).                            
+            07  CMTI-MERCH-ID                                    
+                            PIC X(15).                           
+            07  CMTI-TER-ID                                      
+                            PIC X(8).                            
+            07  CMTI-BANKNET-REF                                 
+                            PIC X(9).                            
+            07  CMTI-BANKNET-DTE.                                
+                09  CMTI-BANKNET-MM                              
+                            PIC X(2).                            
+                09  CMTI-BANKNET-DD                              
+                            PIC X(2).                            
+            07  CMTI-PC-ENDPOINT                                 
+                            PIC X(2).                            
+            07  CMTI-PARTIAL-AMT                                 
+                            PIC X(1).                            
+            07  CMTI-EDIT-EXC-IND                                
+                            PIC X(1).                            
+            07  CMTI-INTRA-FLAG  REDEFINES CMTI-EDIT-EXC-IND     
+                            PIC X(1).                            
+            07  CMTI-EDIT-BYPASS-IND.                            
+                09  CMTI-BYPASS-IND           PIC X(01).         
+                09  CMTI-SPECL-COND-IND       PIC X(01).         
+            07  CMTI-CAT-LEVEL                PIC X(01).         
+            07  FILLER                        PIC X(08).         
+            07  CMTI-CHGBKREF                                    
+                            PIC 9(10).                           
+            07  FILLER      PIC X(07).                           
+        05  CMT-VISA        REDEFINES CMT-INTERCHANGE-DATA.
+            07  CMTV-REIMB-ATT
+                            PIC X.
+            07  CMTV-INTL-FEE-IND    PIC X.                      
+            07  CMTV-INTRA-FLAG      PIC X.                      
+            07  CMTV-CAT-IND                                     
+                            PIC X.                               
+            07  CMTV-SPECL-COND
+                            PIC XX.
+            07  CMTV-TMP-MCAS-GROUP.
+                09  CMTV-PREPAID-IND                             
+                            PIC X.                               
+                09  CMTV-AUTH-RESP                               
+                            PIC X(2).                            
+                09  CMTV-AUTH-SRCE
+                            PIC X.
+                09  CMTV-ENTRY-CAPABILITY
+                            PIC X.
+                09  CMTV-ENTRY-MODE
+                            PIC X(2).                            
+                09  CMTV-CRDHLD-ID-METH
+                            PIC X.
+            07  CMTV-FLOOR-LIMIT-IND
+                            PIC X.
+            07  CMTV-CWB-CRB-IND
+                            PIC X.
+            07  CMTV-LCS-IND
+                            PIC X.
+            07  CMTV-MER-ZIP
+                            PIC S9(5)       COMP-3.
+            07  CMTV-CASH-BACK
+                                   PIC S9(7)V99  COMP-3.         
+            07  FILLER      REDEFINES CMTV-CASH-BACK.            
+                09  CMTV-VALIDATION-CODE                         
+                            PIC X(04).                           
+                09  CMTV-CRS-PROC-CODE                           
+                            PIC X(01).                           
+            07  CMTV-NON-SETL-REIMB-FEE
+                            PIC S9(11)V99   COMP-3.
+            07  CMTV-ACI    PIC X(01).                           
+            07  CMTV-INTERFACE-TRACE
+                            PIC X(6).
+            07  CMTV-CARD-ACCEPTOR-ID
+                            PIC X(15).
+            07  CMTV-TERMINAL-ID
+                            PIC X(8).
+            07  CMTV-MAIL-PHONE-IND
+                            PIC X.
+            07  CMTV-ACCT-EXTENSION-3
+                            PIC X(3).
+            07  CMTV-ATM-ACCT-SEL
+                            PIC X.
+            07  CMTV-MER-MEMBER-ID
+                            PIC 9(8).
+            07  FILLER             PIC X(6).                     
+      05  CMT-ORIG-CURR-GROUP                                    
+                            REDEFINES  CMT-INTERCHANGE-DATA.     
+          07  FILLER        PIC X(69).                           
+          07  CMT-ORIG-CURR-DATA.                                
+              09  CMT-ORIG-CURR-CODE                             
+                            PIC S9(3)       COMP-3.              
+              09  CMT-ORIG-CURR-AMT                              
+                            PIC S9(10)V99   COMP-3.              
+              09  CMT-PRINCIPAL-AMT REDEFINES                    
+                  CMT-ORIG-CURR-AMT      PIC S9(10)V99 COMP-3.   
+              09  CMT-ORIG-CURR-DECIMAL                          
+                            PIC 99.                              
+              09  CMT-ONUS-CURR-CONV                             
+                            PIC 9.                               
+      05  FILLER          PIC X(195).                            
+      05  CMT-1-FILEID    PIC X(7).                              
+      05  CMT-1-CUST-ID   PIC X(18).                             
+      05  FILLER          PIC X(278).                            

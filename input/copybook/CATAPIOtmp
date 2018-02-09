@@ -1,0 +1,104 @@
+CIA-ABP-OPEN-INPUT.                                              
+    MOVE 'O'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'I'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-OI-EXIT.                                                 
+    EXIT.                                                        
+CIA-ABP-OPEN-OUTPUT.                                             
+    MOVE 'O'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'O'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-OO-EXIT.                                                 
+    EXIT.                                                        
+CIA-ABP-OPEN-IO.                                                 
+    MOVE 'O'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'B'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-OIO-EXIT.                                                
+    EXIT.                                                        
+CIA-ABP-CLOSE.                                                   
+    MOVE 'C'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-C-EXIT.                                                  
+    EXIT.                                                        
+CIA-ABP-READ-RANDOM.                                             
+    MOVE 'R'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'R'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-RR-EXIT.                                                 
+    EXIT.                                                        
+CIA-ABP-READ-SEQ.                                                
+    MOVE 'R'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'N'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-RSEQ-EXIT.                                               
+    EXIT.                                                        
+CIA-ABP-START-EQUAL.                                             
+    MOVE 'R'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'S'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-SEQ-EXIT.                                                
+    EXIT.                                                        
+CIA-ABP-START-GTEQ.                                              
+    MOVE 'R'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'G'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-SGE-EXIT.                                                
+    EXIT.                                                        
+CIA-ABP-DELETE.                                                  
+    MOVE 'D'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'U'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-D-EXIT.                                                  
+    EXIT.                                                        
+CIA-ABP-RECORD-ADD.                                              
+    MOVE 'W'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'W'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-ADD-EXIT.                                                
+    EXIT.                                                        
+CIA-ABP-UPDATE.                                                  
+    MOVE 'W'                    TO CPS404-REQUEST-CODE.          
+    MOVE 'U'                    TO CPS404-REQUEST-FUNCTION.      
+    MOVE 'D'                    TO CPS404-FILE-TYPE.             
+    PERFORM CIA-ABP-CALL-SUB    THRU CIA-ACS-EXIT.               
+CIA-ABP-UPD-EXIT.                                                
+    EXIT.                                                        
+CIA-ABP-CALL-SUB.                                                
+    EVALUATE CPS404-FILE-NMBR                                    
+       WHEN 0                                                    
+          CALL 'CPBAPIO'  USING CPS404-FILE-REQUEST-BLOCK        
+                                CPS400-COMMON-IO                 
+                                'ABP-RECORD'                     
+       WHEN 1                                                    
+          CALL 'CPBAPIO1' USING CPS404-FILE-REQUEST-BLOCK        
+                                CPS400-COMMON-IO                 
+                                'ABP-RECORD'                     
+       WHEN OTHER                                                
+          MOVE ZERO             TO WS-ABEND-STATUS               
+          MOVE 'INVALID FILE NMBR - CPBABPX'                     
+                                TO WS-ABENDMSG                   
+          PERFORM CCSI-ABEND THRU CCSI-ABEND-EXIT                
+    END-EVALUATE.                                                
+    IF  CPS404-RETURN-CODE IS EQUAL ZERO                         
+        NEXT SENTENCE                                            
+    ELSE                                                         
+        MOVE CPS404-FILE-STATUS TO WS-ABEND-STATUS               
+        MOVE CPS404-RETURN-MSG  TO WS-ABENDMSG                   
+        PERFORM CCSI-ABEND THRU CCSI-ABEND-EXIT.                 
+    IF  CPS404-FILE-STATUS IS EQUAL 05                           
+        MOVE CPS404-FILE-STATUS TO WS-ABEND-STATUS               
+        MOVE CPS404-RETURN-MSG  TO WS-ABENDMSG                   
+        PERFORM CCSI-ABEND THRU CCSI-ABEND-EXIT.                 
+CIA-ACS-EXIT.                                                    
+    EXIT.                                                        

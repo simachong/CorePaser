@@ -1,0 +1,10 @@
+          RECORD CONTAINS 510 CHARACTERS                         
+          LABEL RECORDS ARE STANDARD.
+01  P-O-T-HEADER-REC.
+    03  POT-H-SELECT-KEY.
+        05  POT-H-ASC-ORG   PIC 999.
+        05  POT-H-ASC-TYPE  PIC 999.
+        05  POT-H-SELECT    PIC 99.
+    03  POT-PROC-DATE   PIC S9(7)           COMP-3.
+    03  POT-TIME-STAMP  PIC S9(10)          COMP-3.
+    03  FILLER              PIC X(492).                          

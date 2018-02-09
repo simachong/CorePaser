@@ -1,0 +1,19 @@
+                            RECORD CONTAINS 271 CHARACTERS       
+                            BLOCK CONTAINS 0 RECORDS             
+                            LABEL RECORDS ARE STANDARD.          
+01  INTEREST-CHAIN-RECORD.                                       
+    03  CPICF-56-KEY.                                            
+      05  CPICF-ORGN-NMBR   PICTURE S999        COMPUTATIONAL-3. 
+        88  ICF-HEADER                  VALUE +000.              
+        88  ICF-TRAILER                 VALUE +999.              
+      05  CPICF-TYPE-NMBR   PICTURE S999        COMPUTATIONAL-3. 
+      05  CPICF-ACCT-NMBR   PICTURE S9(16)      COMPUTATIONAL-3. 
+      05  CPICF-SEQ-NMBR    PICTURE S999        COMPUTATIONAL-3. 
+    03  IC-ACCT-NMBR  REDEFINES  CPICF-56-KEY                    
+                            PICTURE X(15).                       
+    03  IC-HEADER.                                               
+      05  ICR-PROC-DTE      PICTURE S9(7)       COMPUTATIONAL-3. 
+      05  ICR-TIME-STAMP    PICTURE S9(10)      COMPUTATIONAL-3. 
+      05  FILLER            PICTURE X(246).                      
+    03  IC-CLEAR            REDEFINES  IC-HEADER
+                            PICTURE X(256).                      

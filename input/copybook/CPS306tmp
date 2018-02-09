@@ -1,0 +1,86 @@
+01  AFFILIATED-PROCESSOR-CONTROL.                                
+    03  APC-ENTRIES.                                             
+        05  FILLER          PIC X(22)                            
+                            VALUE '4000004999994444440018'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '4862134862134444440016'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+        05  FILLER          PIC X(22)                            
+                            VALUE '9999999999999999999998'.      
+    03  APC-ENTRY-X         REDEFINES   APC-ENTRIES              
+                                        OCCURS 20 TIMES.         
+        05  APC-LOW-BIN     PIC 9(6).                            
+        05  APC-HIGH-BIN    PIC 9(6).                            
+        05  APC-REPORT-BIN  PIC 9(6).                            
+        05  APC-ORG         PIC 9(3).                            
+        05  APC-XMIT-SWITCH PIC 9.                               
+01  NON-SETTLED-INTERCHANGE-TABLE.                               
+    03  NSI-ENTRIES.                                             
+        05  FILLER          PIC X(42)       VALUE                
+            '492970 492980 492971 001 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+        05  FILLER          PIC X(42)       VALUE                
+            '999999 999999 999999 999 7 0000000 0000000'.        
+    03  NSI-ENTRY-X         REDEFINES   NSI-ENTRIES              
+                                        OCCURS 10 TIMES.         
+        05  NSI-LOW-BIN     PIC 9(06).                           
+        05  FILLER          PIC X(01).                           
+        05  NSI-HIGH-BIN    PIC 9(06).                           
+        05  FILLER          PIC X(01).                           
+        05  NSI-REPORT-BIN  PIC 9(06).                           
+        05  FILLER          PIC X(01).                           
+        05  NSI-ORG         PIC 9(03).                           
+        05  FILLER          PIC X(01).                           
+        05  NSI-SETTLE-FLAG PIC 9(01).                           
+        05  FILLER          PIC X(01).                           
+        05  NSI-PER-ITEM    PIC 9(02)V9(05).                     
+        05  FILLER          PIC X(01).                           
+        05  NSI-PERCENT     PIC 9(02)V9(05).                     

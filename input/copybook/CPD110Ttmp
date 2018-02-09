@@ -1,0 +1,107 @@
+    IF ACCOUNT-OVER-LIMIT                                        
+      IF CM-BLOCK-CODE IS NOT EQUAL TO 'H'                       
+        MOVE 'H' TO WS-BLOCK-CODE                                
+        MOVE OC-TODAYS-JULIAN   TO WS-DTE-BLOCK-CODE             
+        MOVE FM-BLOCK-CODE-FLAG TO WS-LST-FM-BLKCD-FLAG          
+        MOVE 1 TO FM-BLOCK-CODE-FLAG                             
+        PERFORM SET-BLOCK-CODE THRU SBC-XIT.                     
+    COMPUTE WS-AMNT ROUNDED =                                    
+      CM-CRLIMIT * TCM-OVER-LIMIT -                              
+                   (CM-RTL-BALANCE + CM-CASH-BALANCE).           
+    MOVE ZERO                   TO WS-OL-COLL-SW.                
+    MOVE ZERO                   TO WS-GEN-RPT-76-77-SW.          
+    IF  CM-CRLIMIT IS NOT LESS THAN CM-CURR-BALANCE              
+        MOVE ZERO TO CM-OL-AMT-DUE.                              
+    IF  WS-AMNT IS LESS THAN 0.00                                
+        IF  ACCOUNT-OVER-LIMIT OR                                
+            TRANSFERED OR TRANSFER-STMT                          
+            NEXT SENTENCE                                        
+        ELSE                                                     
+            MOVE 1              TO CM-OL-FLAG                    
+            MOVE 'H'            TO WS-BLOCK-CODE                 
+            MOVE OC-TODAYS-JULIAN                                
+                                TO WS-DTE-BLOCK-CODE             
+            MOVE 1              TO WS-OL-COLL-SW                 
+            MOVE 1              TO WS-GEN-RPT-76-77-SW           
+            MOVE FM-BLOCK-CODE-FLAG TO WS-LST-FM-BLKCD-FLAG      
+            MOVE 1              TO FM-BLOCK-CODE-FLAG            
+            PERFORM SET-BLOCK-CODE  THRU  SBC-XIT                
+            IF  WAIVE-OVER-LIMIT-FEE                             
+                NEXT SENTENCE                                    
+            ELSE                                                 
+                PERFORM USER-OVERLIMIT-SETUP-FEE  THRU  UOSF-EXIT
+                IF  WS-OVERLIMIT-FEE IS GREATER THAN ZERO        
+                    PERFORM GENERATE-BASIC-TRANS  THRU  GBT-XIT  
+                    MOVE WS-OVERLIMIT-FEE   TO GT-AMNT           
+                    MOVE '1000055'          TO GT-FPRJ-ECD       
+                    ADD WS-OVERLIMIT-FEE    TO WS-BILL-INTR-FEES 
+                    MOVE WSSC-AT-TC-OVER-LMT-FEE                 
+                                            TO GT-TRANS-CODE     
+                                               WS-TRAN-CODE-GL   
+                    PERFORM GET-TRANS-DESC THRU GET-TR-DE-EXIT   
+                    MOVE ZEROS              TO WSTCR-SRCH-ORG    
+                    MOVE GT-TRANS-CODE      TO WSTCR-SRCH-TXCD   
+                    PERFORM LOCATE-TRANS-CODE-RTN                
+                                        THRU LO-TRANS-CODE-EXIT  
+                    MOVE TCR-BAL-PROG-ID    TO GT-BAL-PROG-ID    
+                    IF TCR-BAL-PROG-ID NOT EQUAL TO SPACE        
+                       SET WS-ABP-TRANS-THRU   TO TRUE           
+                    ELSE                                         
+                       SET WS-ABP-TRANS-NOTHRU TO TRUE           
+                    END-IF                                       
+                    MOVE SPACES          TO WS-BAL-TYPE-TC       
+                    MOVE SPACES          TO WS-R-B-IND-TC        
+                    MOVE TCR-BAL-TYPE    TO WS-BAL-TYPE-TC       
+                    MOVE TCR-R-B-IND     TO WS-R-B-IND-TC        
+                    MOVE 'N'         TO WS-PRE-STMT-FLAG         
+                    MOVE MONETARY-TRANSACTION                    
+                                TO GENERATED-TRANSACTION-HOLD-3  
+                    MOVE GENERATED-TRANSACTION                   
+                                TO MONETARY-TRANSACTION          
+                    PERFORM COMMON-POSTING-BAL-PROC              
+                                         THRU CPBP-EXIT          
+                    MOVE GENERATED-TRANSACTION-HOLD-3            
+                                TO MONETARY-TRANSACTION          
+                                                                 
+                    ADD GT-AMNT      TO CM-RTL-AMNT-DB           
+                    ADD GT-AMNT      TO WSAR-TCBD-MISC-FEES (2)  
+                    ADD GT-AMNT      TO WSAR-TCCF-OVER-LIMIT (1) 
+                    ADD 1            TO CM-RTL-NMBR-DB           
+                    ADD 1            TO WSAR-TCBD-MF-NMBR (2)    
+                    ADD 1            TO WSAR-TCCF-OL-NMBR (1)    
+                    PERFORM GENERATE-MISC-TRANS  THRU  GMT-XIT   
+                    IF  NOT  WAIVE-INTR-ON-MISC-FEES(2)          
+                        IF  INTR-FROM-DTE-POSTING (2) OR         
+                                INTR-FROM-DTE-TRANS (2)          
+                            PERFORM CALC-INT-ON-GEN-TRANS        
+                                THRU  CIOG-XIT.                  
+    COMPUTE WS-AMNT ROUNDED =                                    
+      CM-CRLIMIT * TCM-OVER-LIMIT -                              
+                   (CM-RTL-BALANCE + CM-CASH-BALANCE).           
+    IF WS-AMNT IS NOT LESS THAN ZERO                             
+        MOVE ZERO TO CM-OL-FLAG                                  
+        IF  CM-BLOCK-CODE IS EQUAL TO 'H'                        
+            MOVE CM-ALT-BLOCK-CODE TO CM-BLOCK-CODE              
+            MOVE CM-DTE-ALT-BLOCK-CODE                           
+                                TO CM-DTE-BLOCK-CODE             
+            MOVE CM-BLOCK-CODE TO ALPHA-BLOCK (29)               
+            PERFORM NULL-PARA  THRU  NP-XIT                      
+               VARYING AB-IDX FROM 1 BY 1                        
+                  UNTIL ALPHA-BLOCK (AB-IDX) IS EQUAL TO         
+                     ALPHA-BLOCK (29)                            
+            IF  AB-IDX IS GREATER THAN 28  OR                    
+                AB-IDX IS LESS THAN 2                            
+                SET IBC TO 1                                     
+                MOVE CM-ALT-BLOCK-CODE TO WSA-NEW-BLOCK          
+                MOVE OC-TODAYS-JULIAN                            
+                                TO CM-DTE-ALT-BLOCK-CODE         
+                MOVE SPACE TO CM-ALT-BLOCK-CODE                  
+                MOVE 2 TO FM-BLOCK-CODE-FLAG                     
+            ELSE                                                 
+                MOVE 2 TO FM-BLOCK-CODE-FLAG                     
+                SET IBC TO AB-IDX                                
+                MOVE CM-ALT-BLOCK-CODE TO WSA-NEW-BLOCK          
+                MOVE OC-TODAYS-JULIAN                            
+                                TO CM-DTE-ALT-BLOCK-CODE         
+                MOVE SPACE TO CM-ALT-BLOCK-CODE.                 
+                                                                 

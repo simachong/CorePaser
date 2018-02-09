@@ -1,0 +1,154 @@
+01  P-O-T-RECORD.
+    03  P-POT-01-KEY.
+        05  P-ORG-NMBR      PIC 999.
+        05  P-TYPE-NMBR     PIC 999.
+        05  P-SELECTION     PIC 99.
+    03  P-STATUS            PIC X.
+    03  P-EXP-DATE          PIC S9(7)       COMP-3.
+        88  P-SEL-NEVER-EXPIRES             VALUE  +9999999.
+    03  P-ORIG-SWITCH       PIC X.
+        88  P-TYPE-LEVEL-ENTRY              VALUE 'T'.
+        88  P-DELETED-ENTRY                 VALUE 'D'.
+        88  P-LOCKED-ENTRY                  VALUE 'L'.
+        88  P-NO-ENTRY                      VALUE ' '.
+    03  P-DESCRIPTION       PIC X(20).
+    03  P-DTE-LST-MAINT     PIC S9(7)       COMP-3.
+    03  P-TCSC-FLAG         PIC 9.
+            88  P-SERVICE-CHARGE-OPTIONS-USED VALUE 1.
+    03  P-TCSC-MAXIMUM      PIC S9(6)V99    COMP-3.              
+    03  P-TCSC-TABLE
+                                            OCCURS 6 TIMES       
+                                            INDEXED BY IPSC.
+        05  P-TCSC-TRANS-CODE
+                            PIC 99.
+            88  P-TSC-RETAIL                VALUE 12 13 16 17
+                                                  22 25
+                                                  40 THRU 43
+                                                  60 THRU 62.
+        05  P-TCSC-RATE-1   PIC S999V99     COMP-3.
+        05  P-TCSC-LIMIT    PIC 99.
+        05  P-TCSC-RATE-2   PIC S999V99     COMP-3.
+     03  FILLER             PIC X(40).                           
+    03  P-TCF-ACCRUAL-METHOD  PIC 9.
+        88  P-NO-ACCRUAL                    VALUE  0.            
+        88  P-DAILY-ACCRUAL                  VALUE  1.
+        88  P-MONTHLY-ACCRUAL                VALUE  2.
+        88  P-SPOT-ACCRUAL                  VALUE  3.            
+    03  P-TCF-SKIP-ALLOWED  PIC 9.
+        88  P-SKIP-PAYMENTS-NOT-ALLOWED      VALUE  0.
+        88  P-SKIP-PAYMENTS-ALLOWED          VALUE  1.
+    03  P-TCF-SKIP-EXPIRATION-DATE
+                            PIC S9(7)       COMP-3.
+    03  P-TCF-PAY-AHEAD     PIC 9.
+        88  P-PRE-PYMTS-NOT-ALLOWED         VALUE 0.             
+        88  P-PRE-PAY-TRAN23-ONLY           VALUE 1.             
+        88  P-PRE-PYMT-ALL-TRANS            VALUE 2.             
+    03  P-TCF-YEAR-BASE     PIC 9.
+        88  P-YEAR-BASE-365                 VALUE  0.
+        88  P-YEAR-BASE-366                 VALUE  1.
+        88  P-YEAR-BASE-360                 VALUE  2.
+    03  P-TCF-INTEREST-TYPE  PIC 9.
+        88  P-STANDARD-INTEREST              VALUE  0.
+        88  P-CHAINED-INTEREST               VALUE  1  2.
+        88  P-COMBINED-INTEREST              VALUE  2.
+    03  P-TCF-MIN-INT-FLAG  PIC 9.
+        88  P-DISREGARD-MIN-INTR            VALUE  0.
+        88  P-CHARGE-MIN-INTR               VALUE  1  3.
+        88  P-WAIVE-ALL-INTR-ON-ZERO        VALUE  2.
+        88  P-WAIVE-MIN-INTR-ON-ZERO        VALUE  3.
+    03  P-TCF-GRACE-DAYS-FLAG PIC 9.
+        88  P-DIREGARD-GRACE-DAYS           VALUE  0.
+        88  P-GRACE-DAYS-TO-CASH            VALUE  1  3.
+        88  P-GRACE-DAYS-TO-RTL             VALUE  2  3.
+        88  P-GRACE-DAYS-TO-BOTH            VALUE  3.
+    03  P-TCM-LATE-CHARGE   PIC S9(5)V99    COMP-3.              
+    03  P-TCM-LC-PERCENT    PIC SV999       COMP-3.
+    03  P-TCM-LC-MAXIMUM    PIC S9(5)V99    COMP-3.              
+    03  P-TCM-LC-MINIMUM    PIC S9(5)V99    COMP-3.              
+    03  P-TCM-OVERLIMIT-FEE PIC S9(5)V99    COMP-3.              
+    03  P-TCM-OVER-LIMIT    PIC S9V99       COMP-3.
+    03  P-TCM-LATE-DAYS     PIC 99.
+    03  P-TCM-MIN-INTR      PIC S9(4)V99    COMP-3.              
+    03  P-TCM-MIN-INTR-BALANCE                                   
+                            PIC S9(6)V99    COMP-3.              
+    03  P-TCM-GRACE-DAYS    PIC 99.
+    03  P-TCM-PAYMENT-TERM  PIC S999        COMP-3.
+    03  P-TCM-DUE-DAYS      PIC 99.
+    03  P-TCM-MINIMUM-PYMT  PIC S9(5)V99    COMP-3.              
+    03  P-TC-INTEREST-VARIABLES
+                                             OCCURS 2 TIMES.
+        05  P-TCIV-CHANGE-IND
+                            PIC 9.
+            88  P-NO-RATE-CHANGE-TODAY    VALUE  0.
+            88  P-RATE-CHANGED-TODAY      VALUE  1.
+        05  P-TCIV-CHANGE-TYPE
+                            PIC 9.
+            88  P-TCIV-CHANGE-INTR-ANYTIME  VALUE 0.             
+            88  P-TCIV-CHANGE-INTR-ON-DEBIT VALUE 1.             
+            88  P-TCIV-CHANGE-INTR-ON-STMT  VALUE 2.             
+        05  P-TCIV-ADJUST-FLAG
+                            PIC 9.
+            88  P-INTR-ADJUST-NOT-ALLOWED VALUE  0.
+            88  P-INTR-ADJUST-ALLOWED     VALUE  1.
+        05  P-TCIV-COMP-INTR-SW
+                            PIC 9.
+            88  P-WAIVE-INTR-ON-INTR      VALUE  0.
+            88  P-INTR-ON-INTR            VALUE  1.
+        05  P-TCIV-SVC-INTR-SW
+                            PIC 9.
+            88  P-WAIVE-INTR-ON-SVC-CHRG  VALUE  0.
+            88  P-INTR-ON-SVC-CHRG        VALUE  1.
+        05  P-TCIV-INS-INTR-SW
+                            PIC 9.
+            88  P-WAIVE-INTR-ON-INSUR     VALUE  0.
+            88  P-INTR-ON-INSUR           VALUE  1.
+        05  P-TCIV-MEMBER-INTR-SW
+                            PIC 9.
+            88  P-WAIVE-INTR-ON-MEMBER    VALUE  0.
+            88  P-INTR-ON-MEMBER          VALUE  1.
+        05  P-TCIV-MISC-INTR-SW
+                            PIC 9.
+            88  P-WAIVE-INTR-ON-MISC-FEES VALUE  0.
+            88  P-INTR-ON-MISC-FEES       VALUE  1.
+        05  P-TCIV-DEBIT-INTR-SW
+                            PIC 9.
+            88  P-INTR-FROM-STATEMENT      VALUE  0.
+            88  P-INTR-FROM-DTE-POSTING    VALUE  1.
+            88  P-INTR-FROM-DTE-TRANS      VALUE  2.
+        05  P-TCIV-DEFERRED-SW
+                            PIC 9.
+            88  P-DO-NOT-DEFER-1ST-STMT     VALUE  0.
+            88  P-DEFER-1ST-STMT            VALUE  1.
+        05  P-TCIV-CEILING  PIC SV9(7)      COMP-3.
+        05  P-TCIV-FLOOR    PIC SV9(7)      COMP-3.
+        05  P-TCIV-RATE-1   PIC SV9(7)      COMP-3.
+        05  P-TCIV-RATE-2   PIC SV9(7)      COMP-3.
+        05  P-TCIV-RATE-3   PIC SV9(7)      COMP-3.              
+        05  P-TCIV-LIMIT-1  PIC S9(9)       COMP-3.              
+        05  P-TCIV-LIMIT-2  PIC S9(9)       COMP-3.              
+        05  P-TCIV-LIMIT-OPTION
+                            PIC 9.
+            88  P-TCIV-SPLIT-RTLCSH-MULTIRATE                    
+                                            VALUE 0.             
+            88  P-TCIV-SPLIT-RTLCSH-1RATE   VALUE 1.             
+            88  P-TCIV-COMP-RTLCSH-1RATE    VALUE 2.             
+    03  P-TCP-MATRIX                        OCCURS 10 TIMES
+                                            INDEXED BY IPOM.
+        05  P-TCP-LOWER-LIMIT
+                            PIC S9(7)V99    COMP-3.
+        05  P-TCP-UPPER-LIMIT
+                            PIC S9(7)V99    COMP-3.
+        05  P-TCP-AMNT    PIC S9(7)         COMP-3.
+        05  P-TCP-PERCENT REDEFINES         P-TCP-AMNT
+                            PIC S999V9(4)   COMP-3.
+        05  P-TCP-PYMT-FLAG
+                            PIC 9.
+            88  P-PYMT-AS-PERCENT           VALUE  0.
+            88  P-PYMT-AS-DOLLARS           VALUE  1.
+    03  P-TCF-PREPAY-CYCLES PIC 99.                              
+    03  P-TCM-JOINING-FEE   PIC S9(5)V99    COMP-3.              
+    03  P-TCF-LATE-CHARGE-FLAG                                   
+                            PIC 9(01).                           
+    03  P-TCM-OVRLMT-FEE-PERCENT   PIC S9V99  COMP-3.            
+    03  FILLER              PIC X(12).                           
+    03  USER-FILLER         PIC X(61).                           

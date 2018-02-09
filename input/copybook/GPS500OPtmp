@@ -1,0 +1,77 @@
+    OPEN OUTPUT DAILY-BALANCE-FILE.                              
+    IF  WS-CPDBAL-STATUS NOT = '00'                              
+        MOVE 00030                   TO WS-ABEND-CODE            
+        MOVE WS-CPDBAL-STATUS        TO WS-ABEND-STATUS          
+        MOVE 'CPDBAL  OPEN ERROR'    TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN OUTPUT BRANCH-DAILY-BALANCE-FILE.                       
+    IF  WS-CPDBALB-STATUS NOT = '00'                             
+        MOVE 00033                   TO WS-ABEND-CODE            
+        MOVE WS-CPDBALB-STATUS       TO WS-ABEND-STATUS          
+        MOVE 'CPDBALB OPEN ERROR'    TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN OUTPUT CARDHOLDER-DEL-LEDGER-FILE.                      
+    IF  WS-CPCDL-STATUS NOT = '00'                               
+        MOVE 00040                   TO WS-ABEND-CODE            
+        MOVE WS-CPCDL-STATUS         TO WS-ABEND-STATUS          
+        MOVE 'CPCDL OPEN ERROR'      TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN OUTPUT S45-BLOCK-CODE-FILE.                             
+    IF  WS-CPS45-STATUS NOT = '00'                               
+        MOVE 00050                   TO WS-ABEND-CODE            
+        MOVE WS-CPS45-STATUS         TO WS-ABEND-STATUS          
+        MOVE 'CPS45   OPEN ERROR'    TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN OUTPUT TACM-FILE.                                       
+    IF  WS-CPTACM-STATUS NOT = '00'                              
+        MOVE 00060                   TO WS-ABEND-CODE            
+        MOVE WS-CPTACM-STATUS         TO WS-ABEND-STATUS         
+        MOVE 'CPTACM   OPEN ERROR'    TO WS-ABENDMSG             
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN OUTPUT GPCORPX-FILE.                                    
+    IF  WS-GPCORPX-STATUS NOT = '00'                             
+        MOVE 00093                   TO WS-ABEND-CODE            
+        MOVE WS-GPCORPX-STATUS       TO WS-ABEND-STATUS          
+        MOVE 'GPCORPX OPEN ERROR'    TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN OUTPUT CPCORPCR-FILE.                                   
+    IF  WS-CPCORPCR-STATUS NOT = '00'                            
+        MOVE 00095                   TO WS-ABEND-CODE            
+        MOVE WS-CPCORPCR-STATUS      TO WS-ABEND-STATUS          
+        MOVE 'CPCORPCR OPEN ERROR'   TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN OUTPUT GPTCRDF-FILE.                                    
+    IF  WS-GPTCRDF-STATUS  NOT = '00'                            
+        MOVE 00096                   TO WS-ABEND-CODE            
+        MOVE WS-GPTCRDF-STATUS       TO WS-ABEND-STATUS          
+        MOVE 'GPTCRDF OPEN ERROR'    TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN INPUT  CEPP-CHANEL-EPTAPMP.                             
+    IF  WS-EPTAPMP-STATUS  NOT = '00'                            
+        MOVE 00097                   TO WS-ABEND-CODE            
+        MOVE WS-EPTAPMP-STATUS       TO WS-ABEND-STATUS          
+        MOVE 'EPTAPMP OPEN ERROR'    TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN INPUT  CEPP-NUMBER-EPITYPE.                             
+    IF  WS-EPITYPE-STATUS  NOT = '00'                            
+        MOVE 00098                   TO WS-ABEND-CODE            
+        MOVE WS-EPITYPE-STATUS       TO WS-ABEND-STATUS          
+        MOVE 'EPITYPE OPEN ERROR'    TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      
+    OPEN OUTPUT CEPP-EPTIAE-FILE.                                
+    IF  WS-EPTIAE-STATUS   NOT = '00'                            
+        MOVE 00099                   TO WS-ABEND-CODE            
+        MOVE WS-EPTIAE-STATUS        TO WS-ABEND-STATUS          
+        MOVE 'EPTIAE  OPEN ERROR'    TO WS-ABENDMSG              
+        PERFORM CCSI-ABEND           THRU CCSI-ABEND-EXIT        
+    END-IF.                                                      

@@ -1,0 +1,24 @@
+     MOVE CPS861I-RECONCILIATION-RCRD                            
+                                  TO RECONCILIATION-RCRD.        
+     MOVE CM-ORG-NMBR             TO RC-CH-ORGN.                 
+     MOVE CM-TYPE                 TO RC-CH-TYPE.                 
+     MOVE ZEROES                  TO RC-CH-AGENT-BANK.           
+     MOVE CM-DOMICILE-BRANCH      TO RC-CH-BRANCH.               
+     MOVE CM-STATUS               TO RC-CH-STATUS.               
+     MOVE ZEROES                  TO RC-CH-POST-RESULT.          
+     MOVE CM-POT-SELECT-CODE      TO RC-CH-POT-NMBR.             
+     MOVE 0                       TO RC-CH-POST-RESULT.          
+     MOVE 02                      TO RC-ROUTING-IND.             
+     MOVE 02                      TO RC-TRAN-TYPE.               
+     MOVE 3000                    TO RC-TRAN-CODE.               
+     MOVE CM-CASH-AMNT-CHARGE-OFF TO RC-AMOUNT.                  
+     PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.              
+     MOVE 06                      TO RC-ROUTING-IND.             
+     PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.              
+     MOVE CM-RTL-AMNT-CHARGE-OFF  TO RC-AMOUNT                   
+     MOVE 02                      TO RC-TRAN-TYPE.               
+     MOVE 4000                    TO RC-TRAN-CODE.               
+     MOVE 02                      TO RC-ROUTING-IND.             
+     PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.              
+     MOVE 06                      TO RC-ROUTING-IND.             
+     PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.              

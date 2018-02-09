@@ -1,0 +1,23 @@
+  01  WS-PAYMENT-GL.                                             
+      03  WS-GL-GEN-COD                  PIC 9(02).              
+          88 WSPT-CSH-CURR-MON-BAL       VALUE 19.               
+          88 WSPT-CSH-PRIN-STMT-BAL      VALUE 21.               
+          88 WSPT-CSH-INTR-CTD           VALUE 12.               
+          88 WSPT-CSH-INTR-BNP           VALUE 12.               
+          88 WSPT-CSH-SVC-CTD            VALUE 16.               
+          88 WSPT-CSH-SVC-BNP            VALUE 16.               
+          88 WSPT-RTL-CURR-MON-BAL       VALUE 20.               
+          88 WSPT-RTL-PRIN-STMT-BAL      VALUE 22.               
+          88 WSPT-RTL-INTR-CTD           VALUE 14.               
+          88 WSPT-RTL-INTR-BNP           VALUE 14.               
+          88 WSPT-RTL-SVC-CTD            VALUE 18.               
+          88 WSPT-RTL-SVC-BNP            VALUE 18.               
+          88 WSPT-RTL-MISC-CTD           VALUE 60.               
+          88 WSPT-RTL-MISC-BNP           VALUE 60.               
+          88 WSPT-RTL-INSUR-CTD          VALUE 65.               
+          88 WSPT-RTL-INSUR-BNP          VALUE 65.               
+          88 WSPT-RTL-MEMBER-CTD         VALUE 62.               
+          88 WSPT-RTL-MEMBER-BNP         VALUE 62.               
+          88 WSPT-INSTL-CUR-MON-BAL      VALUE 23.               
+          88 WSPT-INSTL-BNP              VALUE 24.               
+          88 WSPT-DEPOSIT-BAL            VALUE 70.               

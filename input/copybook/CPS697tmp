@@ -1,0 +1,74 @@
+01  INTM-INTACR-RECORD.                                          
+    03  INTM-INTACR-KEY.                                         
+        05  INTM-INTACR-ORG-NMBR        PIC S999     COMP-3.     
+            88  INTM-INTACR-HEADER      VALUE +000.              
+            88  INTM-INTACR-TRAILER     VALUE +999.              
+        05  INTM-INTACR-TYPE            PIC S999     COMP-3.     
+        05  INTM-INTACR-CARD-NMBR       PIC S9(16)   COMP-3.     
+        05  INTM-INTACR-STMT-NO         PIC S9(3)    COMP-3.     
+        05  INTM-INTACR-DTE-ACCR-THRU   PIC S9(7)    COMP-3.     
+            88  INTM-INTACR-ACCR-HDR    VALUE +0000000.          
+    03  INTM-INTACR-CONTROL-AREA.                                
+        05  INTM-INTACR-PROC-DTE        PIC S9(7)  COMP-3.       
+        05  INTM-INTACR-TIME-STAMP      PIC S9(11) COMP-3.       
+        05  FILLER                      PIC X(171).              
+    03  INTM-INTACR-HEADER                                       
+                 REDEFINES INTM-INTACR-CONTROL-AREA.             
+        05  INTM-INTACR-CUST-NUMBER.                             
+            07  INTM-INTACR-CUST-NBR    PIC X(18).               
+        05  INTM-INTACR-DTE-STMT        PIC S9(7)   COMP-3.      
+        05  INTM-INTACR-DTE-LST-STMT    PIC S9(7)   COMP-3.      
+        05  INTM-INTACR-RTL-LIMIT-1     PIC S9(9)   COMP-3.      
+        05  INTM-INTACR-RTL-LIMIT-2     PIC S9(9)   COMP-3.      
+        05  INTM-INTACR-RTL-RATE-1      PIC SV9(7)  COMP-3.      
+        05  INTM-INTACR-RTL-RATE-2      PIC SV9(7)  COMP-3.      
+        05  INTM-INTACR-RTL-RATE-3      PIC SV9(7)  COMP-3.      
+        05  INTM-INTACR-CSH-LIMIT-1     PIC S9(9)   COMP-3.      
+        05  INTM-INTACR-CSH-LIMIT-2     PIC S9(9)   COMP-3.      
+        05  INTM-INTACR-CSH-RATE-1      PIC SV9(7)  COMP-3.      
+        05  INTM-INTACR-CSH-RATE-2      PIC SV9(7)  COMP-3.      
+        05  INTM-INTACR-CSH-RATE-3      PIC SV9(7)  COMP-3.      
+        05  INTM-INTACR-HD-MULTI-TENANCY-I  PIC X(05).           
+        05  INTM-INTACR-HD-TYPE-ID          PIC X(08).           
+        05  FILLER                      PIC X(098).              
+    03  INTM-INTACR-DETAIL                                       
+                 REDEFINES INTM-INTACR-CONTROL-AREA.             
+        05  INTM-INTACR-NO-OF-DAYS      PIC 9(2).                
+        05  INTM-INTACR-RTL-PRIN-BAL    PIC S9(9)V99 COMP-3.     
+        05  INTM-INTACR-RTL-IBNP        PIC S9(9)V99 COMP-3.     
+        05  INTM-INTACR-RTL-SVC-BNP     PIC S9(9)V99 COMP-3.     
+        05  INTM-INTACR-RTL-MISC-FEE    PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-RTL-MEMBER-BNP  PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-RTL-INSUR-BNP   PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-RTL-DISPUTED-BAL                         
+                                        PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-RTL-ABP-BAL                              
+                                        PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-RTL-BEARING-BAL PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-RTL-PYMT-CTD    PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-RTL-PER-DIEM    PIC S9(9)V9(4) COMP-3.   
+        05  INTM-INTACR-RTL-ACCRUED-TODAY                        
+                                        PIC S9(9)V9(4) COMP-3.   
+        05  INTM-INTACR-RTL-INTR-BKDT   PIC S9(9)V9(4) COMP-3.   
+        05  INTM-INTACR-RTL-ACCRUED     PIC S9(9)V9(4) COMP-3.   
+        05  INTM-INTACR-CSH-PRIN-BAL    PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-CSH-IBNP        PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-CSH-SVC-BNP     PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-CSH-DISPUTED-BAL                         
+                                        PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-CSH-ABP-BAL                              
+                                        PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-CSH-BEARING-BAL                          
+                                        PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-CSH-PYMT-CTD    PIC S9(9)V99   COMP-3.   
+        05  INTM-INTACR-CSH-PER-DIEM    PIC S9(9)V9(4) COMP-3.   
+        05  INTM-INTACR-CSH-ACCRUED-TODAY                        
+                                        PIC S9(9)V9(4) COMP-3.   
+        05  INTM-INTACR-CSH-INTR-BKDT   PIC S9(9)V9(4) COMP-3.   
+        05  INTM-INTACR-CSH-ACCRUED     PIC S9(9)V9(4) COMP-3.   
+        05  INTM-INTACR-MULTI-TENANCY-ID PIC X(05).              
+        05  INTM-INTACR-TYPE-ID          PIC X(08).              
+        05  INTM-INTACR-DTL-CUST-NBR    PIC X(18).               
+        05  INTM-INTACR-RTL-CURR-BAL    PIC S9(9)V99 COMP-3.     
+        05  INTM-INTACR-CSH-CURR-BAL    PIC S9(9)V99 COMP-3.     
+        05  FILLER                      PIC X(78).               

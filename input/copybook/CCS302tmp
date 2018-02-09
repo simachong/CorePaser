@@ -1,0 +1,109 @@
+01  WS-ABEND-WORK-AREA.
+    03  WS-ABEND-SYSTEM     PIC X           VALUE 'I'.
+    03  WS-ABEND-SP-X.
+        05  WS-ABEND-SP     PIC S99   COMP-3.                    
+    03  WS-ABEND9           PIC 9.
+    03  WS-ABEND-STARS      PIC X(69)       VALUE ALL '*'.
+    03  WS-ABEND-MSG.
+        05  WS-ABEND-PRT.
+            07  WS-ABEND-CODE-X.
+                09  WS-ABEND-CODE
+                            PIC 9(5)        VALUE ZERO.
+        05  WS-ABEND-REQ-LIT
+                            PIC X(5)        VALUE ' REQ='.
+        05  WS-ABEND-REQUEST
+                            PIC XX          VALUE SPACES.
+        05  WS-ABEND-STA-LIT
+                            PIC X(5)        VALUE ' STA='.
+        05  WS-ABEND-STATUS PIC XX          VALUE SPACES.
+        05  WS-ABEND-LOC-LIT
+                            PIC X(5)        VALUE ' LOC='.
+        05  WS-ABEND-LOCATION
+                            PIC X(4)        VALUE SPACES.
+        05  WS-ABEND-SPB    PIC X(2)        VALUE SPACES.
+        05  FILLER          PIC X(4)        VALUE 'MSG='.
+        05  WS-ABENDMSG                     VALUE SPACES.
+            07  WS-ABENDMSG1
+                            PIC X(20).
+            07  WS-ABENDMSG2
+                            PIC X(15).
+        05  WS-ABENDMSGA    REDEFINES WS-ABENDMSG.
+            07  WS-ABENDMSG3
+                            PIC X(25).
+            07  WS-ABENDMSG4
+                            PIC X(10).
+        05  WS-ABENDMSGB    REDEFINES WS-ABENDMSG.
+            07  WS-ABENDMSG5
+                            PIC X(15).
+            07  WS-ABENDMSG6
+                            PIC X(20).
+        05  WS-ABENDMSGC    REDEFINES WS-ABENDMSG.
+            07  WS-ABENDMSG7.
+                09  WS-ABEND-PROG-ID
+                            PIC X(6).
+            07  WS-ABENDMSG8
+                            PIC X(29).
+    03  WS-PRINT-OPENED     PIC X           VALUE 'N'.
+    03  WS-FILE-STATUS      PIC X(2)        VALUE 'ZZ'.
+        88  WS-FS-IS-INITIALIZED            VALUE 'ZZ'.
+        88  WS-FS-IS-SUCCESSFUL             VALUE '00'.
+        88  WS-FS-IS-SUCCESSFUL-BUT-DUPKEY  VALUE '02'.
+        88  WS-FS-IS-END-OF-FILE            VALUE '10'.
+        88  WS-FS-IS-INVALID-KEY            VALUE '20'.
+        88  WS-FS-IS-SEQUENCE-ERROR         VALUE '21'.
+        88  WS-FS-IS-DUPLICATE-RECORD       VALUE '22'.
+        88  WS-FS-IS-NO-RECORD-FOUND        VALUE '23'.
+        88  WS-FS-IS-KSDS-RRDS-BOUNDARY     VALUE '24'.
+        88  WS-FS-IS-BOUNDARY-VIOLATION     VALUE '24' '34'.
+        88  WS-FS-IS-IO-ERROR               VALUE '30'.
+        88  WS-FS-IS-ESDS-BOUNDARY          VALUE '34'.
+        88  WS-FS-IS-OTHER-ERROR            VALUE '90'.
+        88  WS-FS-IS-PASSWORD-FAILURE       VALUE '91'.
+        88  WS-FS-IS-LOGIC-ERROR            VALUE '92'.
+        88  WS-FS-IS-RESOURCE-NOT-AVAIL     VALUE '93'.
+        88  WS-FS-IS-NO-CURR-REC-POINTER    VALUE '94'.
+        88  WS-FS-IS-INVALID-FILE-INFO      VALUE '95'.
+        88  WS-FS-IS-NO-FILE-ID             VALUE '96'.
+        88  WS-FS-IS-SUBROUTINE-ERROR       VALUE '99'.
+    03  WS-INITIALIZE-STATUS
+                            PIC X(2)        VALUE 'ZZ'.
+    03  WS-SUCCESSFUL-STATUS
+                            PIC X(2)        VALUE '00'.
+    03  WS-SUCCESSFUL-BUT-DUPKEY-STAT
+                            PIC X(2)        VALUE '02'.
+    03  WS-END-OF-FILE-STATUS
+                            PIC X(2)        VALUE '10'.
+    03  WS-INVALID-KEY-STATUS
+                            PIC X(2)        VALUE '20'.
+    03  WS-SEQUENCE-ERROR-STATUS
+                            PIC X(2)        VALUE '21'.
+    03  WS-DUPLICATE-RECORD-STATUS
+                            PIC X(2)        VALUE '22'.
+    03  WS-NO-RECORD-FOUND-STATUS
+                            PIC X(2)        VALUE '23'.
+    03  WS-KSDS-RRDS-BOUNDARY-STATUS
+                            PIC X(2)        VALUE '24'.
+    03  WS-IO-ERROR-STATUS
+                            PIC X(2)        VALUE '30'.
+    03  WS-ESDS-BOUNDARY-STATUS
+                            PIC X(2)        VALUE '34'.
+    03  WS-OTHER-ERROR-STATUS
+                            PIC X(2)        VALUE '90'.
+    03  WS-PASSWORD-FAILURE-STATUS
+                            PIC X(2)        VALUE '91'.
+    03  WS-LOGIC-ERROR-STATUS
+                            PIC X(2)        VALUE '92'.
+    03  WS-RESOURCE-NOT-AVAIL-STATUS
+                            PIC X(2)        VALUE '93'.
+    03  WS-NO-CURR-REC-POINTER-STATUS
+                            PIC X(2)        VALUE '94'.
+    03  WS-INVALID-FILE-INFO-STATUS
+                            PIC X(2)        VALUE '95'.
+    03  WS-NO-FILE-ID-STATUS
+                            PIC X(2)        VALUE '96'.
+    03  WS-SUBROUTINE-ERROR-STATUS
+                            PIC X(2)        VALUE '99'.
+    03  WS-CONSOLE-ACCEPT-SW                                     
+                            PIC X(1)        VALUE 'Y'.           
+    03  WS-CONSOLE-DISPLAY-SW                                    
+                            PIC X(1)        VALUE 'Y'.           

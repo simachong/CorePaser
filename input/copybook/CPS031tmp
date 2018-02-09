@@ -1,0 +1,22 @@
+                            RECORD CONTAINS 740 CHARACTERS       
+                            BLOCK CONTAINS 00 RECORDS            
+                            LABEL RECORDS ARE STANDARD.          
+                                                                 
+01  'DHI'-RECORD.                                                
+    03  'DHI'-SORT-KEY         PICTURE X(44).                    
+    03  'DHI'-HEADER-RECORD    REDEFINES  'DHI'-SORT-KEY.        
+      05  'DHI'-ACCT.                                            
+        07  'DHI'-AN-ORG       PICTURE S999   COMPUTATIONAL-3.   
+           88  'DHI'-HEADER      VALUE +000.                     
+           88  'DHI'-TRAILER     VALUE +999.                     
+        07  'DHI'-AN-TYPE      PICTURE S999   COMPUTATIONAL-3.   
+        07  'DHI'-AN-ACCT      PICTURE S9(16) COMPUTATIONAL-3.   
+      05  'DHI'-CARD.                                            
+        07  'DHI'-AN-CARD-ORG  PICTURE S999   COMPUTATIONAL-3.   
+        07  'DHI'-AN-CARD-TYPE PICTURE S999   COMPUTATIONAL-3.   
+        07  'DHI'-AN-CARD-NBR  PICTURE S9(16) COMPUTATIONAL-3.   
+      05  'DHI'-PROC-DTE       PICTURE S9(7)  COMPUTATIONAL-3.   
+      05  'DHI'-TIME-STAMP     PICTURE S9(10) COMPUTATIONAL-3.   
+      05  FILLER               PICTURE X(8).                     
+    03  FILLER                 PICTURE X(696).                   
+01  'DHI'-HISTORY-RECORD       PICTURE X(740).                   

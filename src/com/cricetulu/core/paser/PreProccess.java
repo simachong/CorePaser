@@ -9,7 +9,7 @@ import com.cricetulu.core.utils.FileOperation;
 
 public class PreProccess {
 	
-	public static StringBuffer preProcess(String fileName) {
+	public static StringBuffer preProcess(String fileName, String outName) {
 		
 		StringBuffer sb = new StringBuffer();
 
@@ -35,9 +35,9 @@ public class PreProccess {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
-			System.out.println("File does not exist");
+			System.out.println("File does not exist" + fileName);
 		}
-		FileOperation.createFile("D:\\CPD110_PREPROCESS", sb.toString());
+		FileOperation.createFile(outName, sb.toString());
 		return sb;
 	}
 	

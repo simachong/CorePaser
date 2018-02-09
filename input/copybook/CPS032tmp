@@ -1,0 +1,6 @@
+FD  CHECK-FILE
+    RECORD CONTAINS 128 CHARACTERS
+    BLOCK CONTAINS 0  RECORDS                                    
+    LABEL RECORDS ARE STANDARD.
+01  CPCHK-FD-RECORD.
+    03  FILLER                  PIC X(128).

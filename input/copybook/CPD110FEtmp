@@ -1,0 +1,5 @@
+CCB-WAIVE-FEES.                                                  
+          SET WAIVE-LATE-CHARGES TO TRUE                         
+          SET WAIVE-OVER-LIMIT-FEE TO TRUE                       
+          MOVE 0                     TO CM-REQUEST-DISPLAY.      
+CCBWF-XIT.                                                       

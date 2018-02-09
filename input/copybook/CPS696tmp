@@ -1,0 +1,26 @@
+FD  INTM-INTR-ACCRUAL-FILE                                       
+    RECORDING MODE IS F                                          
+    RECORD CONTAINS  300 CHARACTERS                              
+    BLOCK CONTAINS 00 RECORDS                                    
+    LABEL RECORDS ARE STANDARD.                                  
+01  INTM-IAF-RECORD.                                             
+    03  INTM-IAF-KEY.                                            
+        05  INTM-IAF-ORG-NMBR           PIC S999   COMP-3.       
+            88  INTM-IAF-HEADER                 VALUE +000.      
+            88  INTM-IAF-TRAILER                VALUE +999.      
+        05  INTM-IAF-ACCR-TYPE          PIC S999   COMP-3.       
+        05  INTM-IAF-ACCR-CARD-NMBR     PIC S9(16) COMP-3.       
+        05  INTM-IAF-ACCR-STMT-NO       PIC S9(3)  COMP-3.       
+        05  INTM-IAF-ACCR-DTE-ACCR-THRU PIC S9(7)  COMP-3.       
+            88  INTM-IAF-ACCR-HDR               VALUE +0000000.  
+    03  INTM-IAF-PROC-DTE               PIC S9(7)  COMP-3.       
+    03  INTM-IAF-TIME-STAMP             PIC S9(11) COMP-3.       
+    03  FILLER                          PIC X(271).              
+01  INTM-IAF-HDR-RECORD.                                         
+    03  FILLER                          PIC X(19).               
+    03  INTM-IAF-HDR-DETAIL             PIC X(63).               
+    03  FILLER                          PIC X(218).              
+01  INTM-IAF-DET-RECORD.                                         
+    03  FILLER                          PIC X(19).               
+    03  INTM-IAF-DET                    PIC X(155).              
+    03  FILLER                          PIC X(126).              

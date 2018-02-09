@@ -1,0 +1,65 @@
+01  INTR-ACCR-INIT-RECORD.                                       
+    03  IAI-KEY.                                                 
+        05  IAI-ORG-NMBR         PIC S999      COMP-3 VALUE ZERO.
+        05  IAI-TYPE             PIC S999      COMP-3 VALUE ZERO.
+        05  IAI-CARD-NMBR        PIC S9(16)    COMP-3 VALUE ZERO.
+        05  IAI-STMT-NO          PIC S9(3)     COMP-3 VALUE ZERO.
+        05  IAI-DTE-ACCR-THRU    PIC S9(7)     COMP-3 VALUE ZERO.
+    03  IAI-HEADER-RECORD.                                       
+        05  IAI-CUST-NUMBER.                                     
+            07  FILLER         PIC X(18)            VALUE SPACES.
+        05  FILLER               PIC S9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(7)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)      COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC SV9(7)     COMP-3 VALUE ZERO.
+        05  FILLER              PIC X(05)      VALUE SPACES.     
+        05  FILLER              PIC X(08)      VALUE SPACES.     
+        05  FILLER              PIC X(198)     VALUE SPACES.     
+01  INTR-ACCR-INIT-RECORD2.                                      
+    03  IAI-KEY2.                                                
+        05  IAI-ORG-NMBR2        PIC S999      COMP-3 VALUE ZERO.
+        05  IAI-TYPE2            PIC S999      COMP-3 VALUE ZERO.
+        05  IAI-CARD-NMBR2       PIC S9(16)    COMP-3 VALUE ZERO.
+        05  IAI-STMT-NO2         PIC S9(3)     COMP-3 VALUE ZERO.
+        05  IAI-DTE-ACCR-THRU2   PIC S9(7)     COMP-3 VALUE ZERO.
+    03  IAI-DETAIL-RECORD.                                       
+        05  FILLER              PIC 9(2)       VALUE ZERO.       
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V9(4) COMP-3 VALUE ZERO.
+        05  FILLER              PIC X(05) VALUE SPACES.          
+        05  FILLER              PIC X(08) VALUE SPACES.          
+        05  FILLER              PIC X(18)  VALUE SPACES.         
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC S9(9)V99   COMP-3 VALUE ZERO.
+        05  FILLER              PIC X(78)  VALUE SPACES.         

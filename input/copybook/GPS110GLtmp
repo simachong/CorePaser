@@ -1,0 +1,717 @@
+GPS110GL-EXCESS-PYMT.                                            
+    IF RC-CH-ORGN IS NOT NUMERIC                                 
+       MOVE CPS861I-RECONCILIATION-RCRD                          
+                                         TO RECONCILIATION-RCRD  
+    END-IF                                                       
+    IF RC-CH-TYPE = ZEROS                                        
+       MOVE CM-TYPE          TO RC-CH-TYPE                       
+    END-IF                                                       
+    IF CM-CURR-BALANCE < 0                                       
+       COMPUTE WS-AMOUNT-GL = (CM-CURR-BALANCE * -1)             
+                            - WS-TOT-EXCESS-PYMT                 
+       IF WS-AMOUNT-GL > 0                                       
+          GO TO GPS110GL-CR-EXCESS-PYMT                          
+       END-IF                                                    
+       COMPUTE WS-AMOUNT-GL = WS-AMOUNT-GL * -1                  
+    ELSE                                                         
+       MOVE WS-TOT-EXCESS-PYMT TO WS-AMOUNT-GL                   
+    END-IF.                                                      
+    IF WS-AMOUNT-GL = ZERO                                       
+       GO TO GPS110GL-EP-EXIT.                                   
+    MOVE 27                     TO WS-TC-GL-12.                  
+    MOVE 70                     TO WS-TC-GL-34.                  
+    PERFORM GENERATE-BASIC-RECON-REC THRU GBRR-XIT.              
+    MOVE WS-AMOUNT-GL           TO RC-AMOUNT.                    
+    MOVE WS-TRAN-CODE-GL        TO RC-TRAN-CODE.                 
+    MOVE 02                     TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+    MOVE 27                     TO WS-TC-GL-12.                  
+    MOVE 70                     TO WS-TC-GL-34.                  
+    MOVE WS-TRAN-CODE-GL        TO RC-TRAN-CODE.                 
+    IF  CM-CHGOFF-STATUS-FLAG IS EQUAL TO 2 OR 3 OR 5            
+        MOVE 06                 TO RC-ROUTING-IND                
+    ELSE                                                         
+        MOVE 05                 TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+    GO TO GPS110GL-EP-EXIT.                                      
+                                                                 
+GPS110GL-CR-EXCESS-PYMT.                                         
+    MOVE 32                     TO WS-TC-GL-12.                  
+    MOVE 70                     TO WS-TC-GL-34.                  
+    MOVE WS-AMOUNT-GL           TO RC-AMOUNT.                    
+    MOVE WS-TRAN-CODE-GL        TO RC-TRAN-CODE.                 
+    MOVE 02                     TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+    MOVE 32                     TO WS-TC-GL-12.                  
+    MOVE 70                     TO WS-TC-GL-34.                  
+    MOVE WS-TRAN-CODE-GL        TO RC-TRAN-CODE.                 
+    IF  CM-CHGOFF-STATUS-FLAG IS EQUAL TO 2 OR 3 OR 5            
+        MOVE 06                 TO RC-ROUTING-IND                
+    ELSE                                                         
+        MOVE 05                 TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+GPS110GL-EP-EXIT.                                                
+    EXIT.                                                        
+GPS110GL-GL-EXTENSION.                                           
+     IF CM-TRAILER-RECORD                                        
+        GO TO GPS110GL-GE-EXIT.                                  
+     IF INV-ACCT-NMBR OR (INVALID-CARD-NUM-REJ AND TRANS-PROCESS)
+        OR (CMT-ACCT-NMBR IS LESS THAN CM-KEY  AND TRANS-PROCESS)
+        MOVE CMT-CARD-NBR     TO GPS861-PP-NBR                   
+     ELSE                                                        
+        MOVE CM-CARD-NMBR         TO GPS861-PP-NBR.              
+     MOVE WSA-BEG-BLOCK        TO GPS861-BLOCK-CODE.             
+     MOVE WS-ORIG-POSTING-FLAG TO GPS861-ORIG-POSTING-FLAG.      
+     IF TRANS-PROCESS                                            
+        MOVE CMT-SOURCE-CODE   TO GPS861-TRAN-SOURCE             
+        IF CMT-CODE        = 50                                  
+           MOVE CM-SHORT-NAME       TO GPS861-TRAN-DESC          
+        ELSE                                                     
+           MOVE CMT-DBA-DESCRIPTION TO GPS861-TRAN-DESC          
+        END-IF                                                   
+        MOVE CMT-INSTALLMENT-IND  TO GPS861-INSTALLMENT-IND      
+     END-IF.                                                     
+    IF  RELATED-TRANS-SEQ                                        
+        MOVE WS-GPS861-REF-BATCH-REL TO GPS861-TRAN-REF-BATCH    
+        MOVE WS-GPS861-REF-SEQ-REL TO GPS861-TRAN-REF-SEQ        
+    ELSE                                                         
+        MOVE WS-GPS861-REF-BATCH   TO GPS861-TRAN-REF-BATCH      
+        MOVE WS-GPS861-REF-SEQ     TO GPS861-TRAN-REF-SEQ.       
+     IF NOT TRANS-PROCESS                                        
+        GO  TO GPS110GL-GE-CARD-DETAIL.                          
+     IF  CMT-CONV-RATE    IS NUMERIC                             
+         MOVE CMT-CONV-RATE     TO GPS861-CONV-RATE              
+     ELSE                                                        
+         MOVE ZEROS             TO GPS861-CONV-RATE.             
+     IF  CMT-PYMT-TYPE-IND IS NUMERIC                            
+         MOVE CMT-PYMT-TYPE-IND TO GPS861-PYMT-TYPE-IND          
+     ELSE                                                        
+         MOVE ZEROS             TO GPS861-PYMT-TYPE-IND.         
+     IF CMT-ORIG-CURR-CODE  NOT NUMERIC                          
+        MOVE ZEROS TO CMT-ORIG-CURR-CODE.                        
+     IF CMT-ORGN-NMBR NOT EQUAL TO 999                           
+     IF DUAL-CURRENCY AND WS-PREFIX-FLAG-BACKUP ='Y' AND         
+        (INCLEARING OR TRANSFER-DET-ORIG-INCLEAR) AND            
+        (CMT-ORIG-CURR-CODE = WS-DC-CURR-BACKUP) AND             
+        (CMT-ORGN-NMBR NOT = WS-DC-SORG-BACKUP )                 
+        MOVE CMT-EFFECTIVE-DTE TO GPS861-POST-DATE               
+        MOVE 'S'               TO GPS861-TRAN-SOURCE-X           
+        IF  WS-GPS861-LOC-CCY-AMT IS NUMERIC                     
+            MOVE WS-GPS861-LOC-CCY-AMT TO GPS861-LOC-CCY-AMT     
+        ELSE                                                     
+            MOVE ZEROS         TO GPS861-LOC-CCY-AMT.            
+     IF CMT-MULT-CARD-FLAG = '1'                                 
+        MOVE 'S'               TO GPS861-TRAN-SOURCE-X           
+        IF  WS-GPS861-LOC-CCY-AMT IS NUMERIC                     
+            MOVE WS-GPS861-LOC-CCY-AMT TO GPS861-LOC-CCY-AMT     
+        ELSE                                                     
+            MOVE ZEROS         TO GPS861-LOC-CCY-AMT.            
+     IF CMT-PYMT-TYPE-IND  = '1' OR '2' OR '3' OR '6'            
+        IF  WS-GPS861-LOC-CCY-AMT IS NUMERIC                     
+            MOVE WS-GPS861-LOC-CCY-AMT TO GPS861-LOC-CCY-AMT     
+        ELSE                                                     
+            MOVE ZEROS         TO GPS861-LOC-CCY-AMT.            
+     MOVE TC-MEMBERSHIP-AR     TO GPS861-MEMBERSHIP-AR.          
+GPS110GL-GE-CARD-DETAIL.                                         
+     PERFORM GPS110GL-GE-NEWGEN THRU GPS110GL-GN-EXIT.           
+     IF INV-ACCT-NMBR OR (INVALID-CARD-NUM-REJ AND TRANS-PROCESS)
+        CONTINUE                                                 
+     ELSE                                                        
+        IF CM-CORP-ACCT-NUMBER IS EQUAL TO SPACES OR             
+           CM-CORP-ACCT-NUMBER IS EQUAL TO ZEROS OR              
+           CM-CORP-ACCT-NUMBER IS EQUAL TO LOW-VALUE             
+           MOVE 'P'            TO GPS861-CUST-TYPE               
+        ELSE                                                     
+           MOVE 'C'            TO GPS861-CUST-TYPE               
+        END-IF                                                   
+        MOVE CM-CUSTOMER-NMBR   TO GPS861-CST-ID                 
+        MOVE CM-TYPE-ID         TO GPS861-TYPE-ID                
+        MOVE CM-BRANCH-ID       TO GPS861-BRANCH-ID              
+        MOVE WS-BFE-ACCT-LEDGER-STATUS                           
+                                TO GPS861-ACCT-LEDGER-STATUS     
+     END-IF.                                                     
+GPS110GL-GE-EXIT.                                                
+    EXIT.                                                        
+GPS110GL-SUSPENSE.                                               
+    MOVE WS-CPS700-CARD-NMBR    TO GPS861-PP-NBR.                
+    IF CMT-CODE NOT = 20                                         
+       OR CMT-ORGN-NMBR = 998                                    
+       GO TO GPS110GL-SP-EXIT.                                   
+    MOVE CMT-CODE               TO WS-TC-GL-12.                  
+    MOVE 20                     TO WS-TC-GL-34.                  
+    MOVE WS-TRAN-CODE-GL        TO RC-TRAN-CODE.                 
+    IF  CHARGED-OFF-ACCOUNT                                      
+        MOVE 06                 TO RC-ROUTING-IND                
+    ELSE                                                         
+        MOVE 05                 TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+    MOVE CMT-CODE               TO WS-TC-GL-12.                  
+    MOVE ZEROES                 TO WS-TC-GL-34.                  
+    MOVE WS-TRAN-CODE-GL        TO RC-TRAN-CODE.                 
+GPS110GL-SP-EXIT.                                                
+    EXIT.                                                        
+GPS110GL-SUSPENSE-SOURCE.                                        
+    IF CMT-CODE NOT = 20                                         
+       OR CMT-ORGN-NMBR = 998                                    
+       GO TO GPS110GL-SPS-EXIT.                                  
+    MOVE 04                     TO RC-ROUTING-IND.               
+    MOVE CMT-CODE               TO WS-TC-GL-12.                  
+    MOVE 20                     TO WS-TC-GL-34.                  
+    MOVE WS-TRAN-CODE-GL        TO RC-TRAN-CODE.                 
+    MOVE CMT-AMNT               TO RC-AMOUNT.                    
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+GPS110GL-SPS-EXIT.                                               
+    EXIT.                                                        
+GPS110GL-INTER-INTR-PRIN.                                        
+    MOVE 70                     TO WS-TC-GL-34.                  
+    MOVE WS-AMOUNT-GL           TO RC-AMOUNT.                    
+    MOVE WS-TRAN-CODE-GL        TO RC-TRAN-CODE.                 
+    MOVE 02                     TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+    IF  CM-CHGOFF-STATUS-FLAG IS EQUAL TO 2 OR 3 OR 5            
+        MOVE 06                 TO RC-ROUTING-IND                
+    ELSE                                                         
+        MOVE 05                 TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+GPS110GL-IIP-EXIT.                                               
+    EXIT.                                                        
+GPS110GL-RTL-CHARGES.                                            
+     IF CM-RTL-BALANCE IS LESS THAN CM-RTL-CURR-MON-BAL          
+        AND CM-RTL-BALANCE IS NOT LESS THAN ZERO                 
+        MOVE CM-RTL-BALANCE      TO CM-RTL-CURR-MON-BAL          
+     END-IF.                                                     
+     IF CM-RTL-BALANCE IS LESS THAN ZERO                         
+        MOVE ZERO                TO CM-RTL-CURR-MON-BAL          
+     END-IF.                                                     
+    IF WS-STORE-TC = 61                                          
+       SUBTRACT CMT-AMNT FROM CM-RTL-MISC-FEES                   
+       SUBTRACT CMT-AMNT FROM WSAR-TCBD-CREDIT-ADJUST (2)        
+       SUBTRACT CMT-AMNT FROM WSAR-TCBD-MISC-FEES (2)            
+       ADD 1 TO WSAR-TCBD-MF-NMBR (2)                            
+       IF NOT GENERATED                                          
+          SUBTRACT CMT-AMNT FROM WSAR-TCCF-FEE-ADJ (1)           
+          ADD 1 TO WSAR-TCCF-FA-NMBR (1)                         
+       END-IF                                                    
+       IF CM-RTL-MISC-FEES IS LESS THAN ZERO                     
+          MOVE ZERO TO CM-RTL-MISC-FEES                          
+       END-IF                                                    
+       GO TO GPS110GL-RC-EXIT.                                   
+    IF BAL-RTL-CREDIT-ADJUST AND                                 
+       CMT-DBA-DESCRIPTION (1:2) = '13'                          
+       SUBTRACT CMT-AMNT FROM CM-RTL-IBNP                        
+       SUBTRACT CMT-AMNT FROM CM-RTL-YTD-INTR-BILLED             
+       IF CM-RTL-IBNP IS LESS THAN 0.00                          
+          MOVE 12 TO  WS-TC-GL-12                                
+          COMPUTE WS-AMOUNT-GL = CM-RTL-IBNP * -1                
+          PERFORM GPS110GL-INTER-INTR-PRIN THRU GPS110GL-IIP-EXIT
+          MOVE ZERO TO CM-RTL-IBNP.                              
+GPS110GL-RC-EXIT.                                                
+    EXIT.                                                        
+GPS110GL-CSH-CHARGES.                                            
+     IF CM-CASH-BALANCE IS  LESS THAN CM-CASH-CURR-MON-BAL       
+        AND CM-CASH-BALANCE IS NOT LESS THAN ZERO                
+        MOVE CM-CASH-BALANCE     TO CM-CASH-CURR-MON-BAL         
+     END-IF.                                                     
+     IF CM-CASH-BALANCE IS LESS THAN ZERO                        
+        MOVE ZERO                TO CM-CASH-CURR-MON-BAL         
+     END-IF.                                                     
+    IF BAL-CASH-CREDIT-ADJUST AND                                
+       CMT-DBA-DESCRIPTION (1:2) = '11'                          
+       SUBTRACT CMT-AMNT FROM CM-CASH-IBNP                       
+       SUBTRACT CMT-AMNT FROM CM-CASH-YTD-INTR-BILLED            
+       IF CM-CASH-IBNP IS LESS THAN 0.00                         
+          MOVE 10 TO  WS-TC-GL-12                                
+          COMPUTE WS-AMOUNT-GL = CM-CASH-IBNP * -1               
+          PERFORM GPS110GL-INTER-INTR-PRIN THRU GPS110GL-IIP-EXIT
+          MOVE ZERO TO CM-CASH-IBNP                              
+       END-IF                                                    
+       GO TO GPS110GL-CC-EXIT.                                   
+    IF WS-STORE-TC = 15 OR 36                                    
+       SUBTRACT CMT-AMNT FROM CM-CASH-SVC-BNP                    
+       SUBTRACT CMT-AMNT FROM WSAR-TCCF-SVC-CHRG-ADJ (1)         
+       ADD 1 TO WSAR-TCCF-SA-NMBR (1)                            
+       IF CM-CASH-SVC-BNP IS LESS THAN 0.00                      
+          MOVE ZERO TO CM-CASH-SVC-BNP.                          
+GPS110GL-CC-EXIT.                                                
+    EXIT.                                                        
+GPS110GL-GL-DESC.                                                
+     IF WS-FX-FLAG = 'Y'                                         
+       AND RC-TRAN-CODE = WS-TRAN-CODE-GL-PH56                   
+        MOVE '+(!+d|j.                ' TO  GPS861-TRAN-DESC 
+     END-IF.                                                     
+    IF  GPS861-TRAN-DESC   IS NOT EQUAL TO SPACES                
+        GO    TO   GPS110GL-GD-EXIT                              
+    END-IF.                                                      
+    MOVE ZEROS                  TO WSTCR-SRCH-ORG.               
+    MOVE RC-TRAN-CODE           TO WSTCR-SRCH-TXCD.              
+    PERFORM LOCATE-TRANS-CODE-RTN  THRU LO-TRANS-CODE-EXIT.      
+    MOVE TCR-DESC               TO GPS861-TRAN-DESC.             
+GPS110GL-GD-EXIT.                                                
+    EXIT.                                                        
+GPS110GL-RTL-CR-USED.                                            
+    MOVE ZERO TO WS-RTL-CR-USED.                                 
+    IF WS-AMOUNT-GL > WS-CASH-CR-BAL                             
+       COMPUTE WS-RTL-CR-USED                                    
+                                = WS-AMOUNT-GL - WS-CASH-CR-BAL  
+       COMPUTE WS-RTL-CR-BAL    = WS-RTL-CR-BAL -                
+                                           WS-RTL-CR-USED        
+       COMPUTE CM-CASH-BALANCE  = CM-CASH-BALANCE -              
+                                           WS-RTL-CR-USED        
+       COMPUTE CM-RTL-BALANCE   = CM-RTL-BALANCE +               
+                                           WS-RTL-CR-USED        
+       MOVE ZERO                TO WS-CASH-CR-BAL                
+    ELSE                                                         
+       COMPUTE WS-CASH-CR-BAL = WS-CASH-CR-BAL - WS-AMOUNT-GL.   
+GPS110GL-RCU-EXIT.                                               
+    EXIT.                                                        
+GPS110GL-CASH-CR-USED.                                           
+    MOVE ZERO TO WS-CASH-CR-USED.                                
+    IF WS-AMOUNT-GL > WS-RTL-CR-BAL                              
+       COMPUTE WS-CASH-CR-USED                                   
+                                = WS-AMOUNT-GL - WS-RTL-CR-BAL   
+       COMPUTE WS-CASH-CR-BAL   = WS-CASH-CR-BAL -               
+                                           WS-CASH-CR-USED       
+       COMPUTE CM-CASH-BALANCE = CM-CASH-BALANCE +               
+                                           WS-CASH-CR-USED       
+       COMPUTE CM-RTL-BALANCE  = CM-RTL-BALANCE -                
+                                           WS-CASH-CR-USED       
+       MOVE ZERO                TO WS-RTL-CR-BAL                 
+    ELSE                                                         
+       COMPUTE WS-RTL-CR-BAL = WS-RTL-CR-BAL - WS-AMOUNT-GL.     
+GPS110GL-CCU-EXIT.                                               
+    EXIT.                                                        
+GPS110GL-ACC-BAL-CHANGE.                                         
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-RTL-IBNP       - WS-PRE-RTL-IBNP +              
+              CM-RTL-ICTD       - WS-PRE-RTL-ICTD.               
+    MOVE 'RTL '                    TO WS-BAL-TYPE-GL.            
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-INT-DB     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-RTL-INT-CR     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-RTL-SVC-BNP    - WS-PRE-RTL-SVC-BNP +           
+              CM-RTL-SVC-CTD    - WS-PRE-RTL-SVC-CTD.            
+    MOVE WS-GL-FEE-TYPE            TO WS-BAL-TYPE-GL.            
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-SVC-CHG-DB TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-RTL-SVC-CHG-CR TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-RTL-INSUR-BNP  - WS-PRE-RTL-INSUR-BNP +         
+              CM-RTL-INSUR-CTD  - WS-PRE-RTL-INSUR-CTD.          
+    MOVE WS-GL-FEE-TYPE         TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-INSUR-DB   TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-RTL-INSUR-CR   TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-RTL-MEMBER-BNP - WS-PRE-RTL-MEMBER-BNP +        
+              CM-RTL-MEMBER-CTD - WS-PRE-RTL-MEMBER-CTD.         
+    MOVE WS-GL-FEE-TYPE            TO WS-BAL-TYPE-GL.            
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-MEM-FEE-DB TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-RTL-MEM-FEE-CR TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-RTL-MISC-CTD   - WS-PRE-RTL-MISC-CTD +          
+              CM-RTL-MISC-FEES  - WS-PRE-RTL-MISC-FEES.          
+    MOVE WS-GL-FEE-TYPE         TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-MISC-FEE-DB TO RC-TRAN-CODE          
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-RTL-MISC-FEE-CR TO RC-TRAN-CODE          
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-CASH-IBNP      - WS-PRE-CASH-IBNP +             
+              CM-CASH-ICTD      - WS-PRE-CASH-ICTD.              
+    MOVE 'CSH '                 TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-CSH-INT-DB     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-CSH-INT-CR     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-CASH-SVC-BNP   - WS-PRE-CASH-SVC-BNP +          
+              CM-CASH-SVC-CTD   - WS-PRE-CASH-SVC-CTD.           
+    MOVE WS-GL-FEE-TYPE         TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-CSH-SVC-CHG-DB TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-CSH-SVC-CHG-CR TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+        CM-RTL-CURR-MON-BAL - WS-PRE-RTL-CURR-MON-BAL +          
+        CM-RTL-PRIN-STMT    - WS-PRE-RTL-PRIN-STMT.              
+    MOVE 'RTL '                 TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-BAL-DB     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-RTL-BAL-CR     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  CM-CASH-PRIN-STMT   < 0                                  
+        COMPUTE WS-BAL-CHANGED = ZEROS   - WS-PRE-CASH-PRIN-STMT 
+           +  CM-CASH-CURR-MON-BAL - WS-PRE-CASH-CURR-MON-BAL    
+    ELSE                                                         
+        COMPUTE WS-BAL-CHANGED =                                 
+                      CM-CASH-PRIN-STMT  - WS-PRE-CASH-PRIN-STMT 
+           +  CM-CASH-CURR-MON-BAL - WS-PRE-CASH-CURR-MON-BAL    
+    END-IF.                                                      
+    MOVE 'CSH '                 TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-CSH-BAL-DB     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-CSH-BAL-CR     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-INSTL-BAL      - WS-PRE-INSTL-BAL.              
+    MOVE 'INS '                    TO WS-BAL-TYPE-GL.            
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-BAL-DB     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        IF NOT CMT-INSTALLMENT                                   
+        MOVE WSSC-IN-TC-RTL-BAL-CR     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+              CM-LARGE-INSTL-BAL-OUTST -                         
+                          WS-PRE-LARGE-INSTL-BAL-OUTST.          
+    MOVE 'INS '                 TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-BAL-DB     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        IF NOT CMT-LARGE-INSTALLMENT                             
+        MOVE WSSC-IN-TC-RTL-BAL-CR     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    COMPUTE WS-BAL-CHANGED =                                     
+        CM-CSH-INSTL-BAL    - WS-PRE-CSH-INSTL-BAL.              
+    MOVE 'INS '                 TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-RTL-BAL-DB     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        IF NOT CMT-CASH-INSTALLMENT                              
+        MOVE WSSC-IN-TC-RTL-BAL-CR     TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  CM-CASH-BALANCE     < 0                                  
+        COMPUTE WS-BAL-CHANGED =                                 
+                CM-CASH-BALANCE - WS-PRE-CREDIT-BAL              
+    ELSE                                                         
+        COMPUTE WS-BAL-CHANGED =                                 
+                ZEROS           - WS-PRE-CREDIT-BAL              
+    END-IF.                                                      
+    MOVE 'CSH '                 TO WS-BAL-TYPE-GL.               
+    IF  WS-BAL-CHANGED >  0                                      
+        MOVE WSSC-IN-TC-CREDIT-BAL-DB  TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    IF  WS-BAL-CHANGED <  0                                      
+        MOVE WSSC-IN-TC-CREDIT-BAL-CR  TO RC-TRAN-CODE           
+        PERFORM GPS110GL-ACCT-BAL-GL THRU GPS110GL-ABG-EXIT.     
+    MOVE +8030                   TO CPS422-FUNCTION-CODE         
+    PERFORM ABPS-MAIN-FUNCTION THRU ABPS-MF-XIT.                 
+GPS110GL-ABC-EXIT.                                               
+    EXIT.                                                        
+GPS110GL-ACCT-BAL-GL.                                            
+    IF  WS-BAL-CHANGED     < 0                                   
+        COMPUTE  WS-BAL-CHANGED =  WS-BAL-CHANGED * -1           
+    END-IF.                                                      
+    MOVE CM-ORG-NMBR            TO RC-CH-ORGN.                   
+    MOVE CM-TYPE                TO RC-CH-TYPE.                   
+    MOVE 02                     TO RC-TRAN-TYPE.                 
+    MOVE WS-BAL-CHANGED         TO RC-AMOUNT.                    
+    MOVE 00                     TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+    IF  CM-CHGOFF-STATUS-FLAG IS EQUAL TO 2 OR 3 OR 5            
+        MOVE 06                 TO RC-ROUTING-IND                
+    ELSE                                                         
+        MOVE 05                 TO RC-ROUTING-IND.               
+    PERFORM WRITE-RECONCILIATION-REC THRU WRR-XIT.               
+GPS110GL-ABG-EXIT.                                               
+    EXIT.                                                        
+GPS110GL-CHARGE-OFF-GL.                                          
+    IF WS-ABP-TRANS-THRU                                         
+       MOVE +8040               TO CPS422-FUNCTION-CODE          
+       PERFORM ABPS-MAIN-FUNCTION THRU ABPS-MF-XIT               
+    ELSE                                                         
+       COMPUTE WS-AMOUNT-GL =                                    
+          CM-RTL-PRIN-STMT + CM-RTL-CURR-MON-BAL                 
+       COMPUTE WS-FEE-AMT-GL =                                   
+          CM-RTL-MISC-FEES + CM-RTL-INSUR-BNP + CM-RTL-MEMBER-BNP
+        + CM-RTL-MISC-CTD  + CM-RTL-INSUR-CTD + CM-RTL-MEMBER-CTD
+        + CM-RTL-SVC-BNP   + CM-RTL-SVC-CTD                      
+       COMPUTE WS-IBNP-GL =                                      
+          CM-RTL-IBNP + CM-RTL-ICTD                              
+       INITIALIZE GPS082-TRANSFER-DEL-RECORD                     
+       MOVE CM-ORG-NMBR TO GPS082-TD-ORG-NMBR                    
+       MOVE CM-TYPE TO GPS082-TD-TYPE                            
+       MOVE CM-CARD-NMBR TO GPS082-TD-CARD-NMBR                  
+       MOVE CM-LAST-PRI-BLOCK-CODE TO                            
+            GPS082-TD-CARD-PRE-BLOCK-CODE                        
+       MOVE CM-BLOCK-CODE TO GPS082-TD-CARD-BLOCK-CODE           
+       MOVE CM-ACCT-LEDGER-STATUS TO                             
+                             GPS082-TD-ACCT-LEDGER-STATUS        
+       MOVE CM-DOMICILE-BRANCH    TO GPS082-TD-BRANCH            
+       MOVE WS-AMOUNT-GL          TO GPS082-TD-CARD-PRI-BAL      
+       MOVE WS-IBNP-GL            TO GPS082-TD-CARD-IBNP         
+       MOVE WS-FEE-AMT-GL         TO GPS082-TD-CARD-FEE          
+       MOVE CM-PREV-ACCT-LEDGER-STATUS                           
+                               TO GPS082-TD-PRE-LEDGER-STATUS    
+       MOVE CM-CUSTOMER-NMBR      TO GPS082-TD-CST-ID            
+       MOVE 'RTL'                 TO GPS082-TD-BAL-TYPE          
+       MOVE SPACES                TO GPS082-TD-BP-ID             
+       MOVE SPACES                TO GPS082-TD-BP-USAGE          
+       MOVE GPS082-TRANSFER-DEL-RECORD TO CPCDL-REC              
+       WRITE CPCDL-REC                                           
+       IF  WS-CPCDL-STATUS NOT = '00'                            
+           MOVE 00141                TO WS-ABEND-CODE            
+           MOVE WS-CPCDL-STATUS      TO WS-ABEND-STATUS          
+           MOVE 'CPCDL WRITE ERROR'  TO WS-ABENDMSG              
+           PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT        
+       END-IF                                                    
+       COMPUTE WS-AMOUNT-GL =                                    
+          CM-CASH-PRIN-STMT + CM-CASH-CURR-MON-BAL               
+       COMPUTE WS-FEE-AMT-GL =                                   
+          CM-CASH-SVC-BNP + CM-CASH-SVC-CTD                      
+       COMPUTE WS-IBNP-GL =                                      
+          CM-CASH-IBNP + CM-CASH-ICTD                            
+       INITIALIZE GPS082-TRANSFER-DEL-RECORD                     
+       MOVE CM-ORG-NMBR TO GPS082-TD-ORG-NMBR                    
+       MOVE CM-TYPE TO GPS082-TD-TYPE                            
+       MOVE CM-CARD-NMBR TO GPS082-TD-CARD-NMBR                  
+       MOVE CM-LAST-PRI-BLOCK-CODE TO                            
+            GPS082-TD-CARD-PRE-BLOCK-CODE                        
+       MOVE CM-BLOCK-CODE TO GPS082-TD-CARD-BLOCK-CODE           
+       MOVE CM-ACCT-LEDGER-STATUS TO                             
+                             GPS082-TD-ACCT-LEDGER-STATUS        
+       MOVE CM-DOMICILE-BRANCH    TO GPS082-TD-BRANCH            
+       MOVE WS-AMOUNT-GL          TO GPS082-TD-CARD-PRI-BAL      
+       MOVE WS-IBNP-GL            TO GPS082-TD-CARD-IBNP         
+       MOVE WS-FEE-AMT-GL         TO GPS082-TD-CARD-FEE          
+       MOVE CM-PREV-ACCT-LEDGER-STATUS                           
+                               TO GPS082-TD-PRE-LEDGER-STATUS    
+       MOVE CM-CUSTOMER-NMBR      TO GPS082-TD-CST-ID            
+       MOVE 'CSH'                 TO GPS082-TD-BAL-TYPE          
+       MOVE SPACES                TO GPS082-TD-BP-ID             
+       MOVE SPACES                TO GPS082-TD-BP-USAGE          
+       MOVE GPS082-TRANSFER-DEL-RECORD TO CPCDL-REC              
+       WRITE CPCDL-REC                                           
+       IF  WS-CPCDL-STATUS NOT = '00'                            
+           MOVE 00241                TO WS-ABEND-CODE            
+           MOVE WS-CPCDL-STATUS      TO WS-ABEND-STATUS          
+           MOVE 'CPCDL WRITE ERROR'  TO WS-ABENDMSG              
+           PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT        
+       END-IF                                                    
+    END-IF.                                                      
+                                                                 
+GPS110GL-COG-EXIT.                                               
+    EXIT.                                                        
+GPS110GL-GE-NEWGEN.                                              
+     IF WS-GENERATE-TXN-NO                                       
+        MOVE CMT-EVT-TRACE-ID  TO GPS861-EVT-TRACE-ID            
+        MOVE CMT-SYS-SND-SERIAL-NO                               
+                               TO GPS861-SND-SERIAL-NO           
+     ELSE                                                        
+        MOVE GT-EVT-TRACE-ID   TO GPS861-EVT-TRACE-ID            
+        MOVE GT-SYS-SND-SERIAL-NO                                
+                               TO GPS861-SND-SERIAL-NO           
+     END-IF.                                                     
+     MOVE SPACE                TO GPS861-BP-ID                   
+                                  GPS861-BP-USAGE.               
+     IF WS-BAL-TYPE-GL NOT = SPACES                              
+        MOVE WS-BAL-TYPE-GL    TO GPS861-BAL-TYPE                
+     ELSE                                                        
+        MOVE 'RTL '            TO GPS861-BAL-TYPE                
+        IF CASH-TRANSACTIONS                                     
+           MOVE 'CSH '         TO GPS861-BAL-TYPE                
+        END-IF                                                   
+     END-IF.                                                     
+     MOVE ZEROES               TO GPS861-FEE-ADJ-STT-DATE.       
+     MOVE ZEROES               TO GPS861-FEE-ADJ-END-DATE.       
+     IF CMT-FEE-ADJ-STT-DATE IS NUMERIC AND                      
+        CMT-FEE-ADJ-END-DATE IS NUMERIC                          
+        MOVE CMT-FEE-ADJ-STT-DATE                                
+                               TO GPS861-FEE-ADJ-STT-DATE        
+        MOVE CMT-FEE-ADJ-END-DATE                                
+                               TO GPS861-FEE-ADJ-END-DATE        
+     END-IF.                                                     
+     MOVE WS-R-B-IND-TC        TO GPS861-R-B-IND.                
+     MOVE CM-ASTSCRTZ-CNTPR-ID TO GPS861-ASTSCRTZ-CNTPR-ID.      
+GPS110GL-GN-EXIT.                                                
+     EXIT.                                                       
+GPS110GL-WRITE-CPCDL.                                            
+    MOVE ZEROES           TO WS-PRI-BAL-OFF                      
+                             WS-TOTAL-IBNP-OFF                   
+                             WS-FEE-OFF                          
+                             WS-PRIN-AMT-GL                      
+                             WS-INTR-AMT-GL                      
+                             WS-FEE-AMT-GL.                      
+    COMPUTE WS-PRI-BAL-OFF =                                     
+        CM-RTL-PRIN-STMT + CM-RTL-CURR-MON-BAL.                  
+    COMPUTE WS-FEE-OFF =                                         
+      CM-RTL-MISC-FEES + CM-RTL-INSUR-BNP + CM-RTL-MEMBER-BNP    
+    + CM-RTL-MISC-CTD  + CM-RTL-INSUR-CTD + CM-RTL-MEMBER-CTD    
+    + CM-RTL-SVC-BNP   + CM-RTL-SVC-CTD.                         
+    COMPUTE WS-TOTAL-IBNP-OFF =                                  
+       CM-RTL-IBNP + CM-RTL-ICTD.                                
+    ADD WS-PRI-BAL-OFF            TO WS-PRIN-AMT-GL              
+    ADD WS-TOTAL-IBNP-OFF         TO WS-INTR-AMT-GL              
+    ADD WS-FEE-OFF                TO WS-FEE-AMT-GL.              
+    INITIALIZE GPS082-TRANSFER-DEL-RECORD                        
+    IF   WS-PRI-BAL-OFF >0 OR WS-TOTAL-IBNP-OFF > 0 OR           
+         WS-FEE-OFF > 0                                          
+       MOVE CM-ORG-NMBR TO GPS082-TD-ORG-NMBR                    
+       MOVE CM-TYPE TO GPS082-TD-TYPE                            
+       MOVE CM-CARD-NMBR TO GPS082-TD-CARD-NMBR                  
+       MOVE CM-LAST-PRI-BLOCK-CODE TO                            
+            GPS082-TD-CARD-PRE-BLOCK-CODE                        
+       MOVE CM-BLOCK-CODE TO GPS082-TD-CARD-BLOCK-CODE           
+       MOVE WS-082-CUR-ACCT-LEDGER-STATUS                        
+                                  TO GPS082-TD-ACCT-LEDGER-STATUS
+       MOVE CM-DOMICILE-BRANCH    TO GPS082-TD-BRANCH            
+       MOVE WS-PRI-BAL-OFF TO GPS082-TD-CARD-PRI-BAL             
+       MOVE WS-TOTAL-IBNP-OFF TO GPS082-TD-CARD-IBNP             
+       MOVE WS-FEE-OFF            TO GPS082-TD-CARD-FEE          
+       MOVE WS-082-PRV-ACCT-LEDGER-STATUS                        
+                              TO GPS082-TD-PRE-LEDGER-STATUS     
+       MOVE CM-CUSTOMER-NMBR  TO GPS082-TD-CST-ID                
+       MOVE 'RTL '            TO GPS082-TD-BAL-TYPE              
+       MOVE SPACES            TO GPS082-TD-BP-ID                 
+       MOVE SPACES            TO GPS082-TD-BP-USAGE              
+       IF (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO ZEROS ) AND       
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO SPACE ) AND       
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO LOW-VALUE)        
+           MOVE 'C'           TO GPS082-TD-CUST-TYPE             
+       ELSE                                                      
+           MOVE 'P'           TO GPS082-TD-CUST-TYPE             
+       END-IF                                                    
+       MOVE CM-ASTSCRTZ-CNTPR-ID  TO GPS082-ASTSCRTZ-CNTPR-ID    
+       MOVE GPS082-TRANSFER-DEL-RECORD TO CPCDL-REC              
+       WRITE CPCDL-REC                                           
+       IF  WS-CPCDL-STATUS NOT = '00'                            
+           MOVE 00141                TO WS-ABEND-CODE            
+           MOVE WS-CPCDL-STATUS      TO WS-ABEND-STATUS          
+           MOVE 'CPCDL WRITE ERROR'  TO WS-ABENDMSG              
+           PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT        
+       END-IF                                                    
+    END-IF.                                                      
+    MOVE ZEROES                  TO WS-PRI-BAL-OFF               
+                                    WS-FEE-OFF                   
+                                    WS-TOTAL-IBNP-OFF.           
+    COMPUTE WS-PRI-BAL-OFF =                                     
+        CM-CASH-PRIN-STMT + CM-CASH-CURR-MON-BAL.                
+    COMPUTE WS-FEE-OFF =                                         
+        CM-CASH-SVC-BNP + CM-CASH-SVC-CTD.                       
+    COMPUTE WS-TOTAL-IBNP-OFF =                                  
+        CM-CASH-IBNP + CM-CASH-ICTD.                             
+    ADD WS-PRI-BAL-OFF            TO WS-PRIN-AMT-GL              
+    ADD WS-TOTAL-IBNP-OFF         TO WS-INTR-AMT-GL              
+    ADD WS-FEE-OFF                TO WS-FEE-AMT-GL               
+    INITIALIZE GPS082-TRANSFER-DEL-RECORD.                       
+    IF   WS-PRI-BAL-OFF >0 OR WS-TOTAL-IBNP-OFF > 0 OR           
+         WS-FEE-OFF > 0                                          
+       MOVE CM-ORG-NMBR    TO GPS082-TD-ORG-NMBR                 
+       MOVE CM-TYPE        TO GPS082-TD-TYPE                     
+       MOVE CM-CARD-NMBR   TO GPS082-TD-CARD-NMBR                
+       MOVE CM-LAST-PRI-BLOCK-CODE TO                            
+            GPS082-TD-CARD-PRE-BLOCK-CODE                        
+       MOVE CM-BLOCK-CODE          TO                            
+            GPS082-TD-CARD-BLOCK-CODE                            
+       MOVE WS-082-CUR-ACCT-LEDGER-STATUS                        
+                                  TO GPS082-TD-ACCT-LEDGER-STATUS
+       MOVE CM-DOMICILE-BRANCH    TO GPS082-TD-BRANCH            
+       MOVE WS-PRI-BAL-OFF        TO GPS082-TD-CARD-PRI-BAL      
+       MOVE WS-TOTAL-IBNP-OFF     TO GPS082-TD-CARD-IBNP         
+       MOVE WS-FEE-OFF            TO GPS082-TD-CARD-FEE          
+       MOVE WS-082-PRV-ACCT-LEDGER-STATUS                        
+                                  TO GPS082-TD-PRE-LEDGER-STATUS 
+       MOVE CM-CUSTOMER-NMBR      TO GPS082-TD-CST-ID            
+       MOVE 'CSH '                TO GPS082-TD-BAL-TYPE          
+       MOVE SPACES                TO GPS082-TD-BP-ID             
+       MOVE SPACES                TO GPS082-TD-BP-USAGE          
+       IF (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO SPACE) AND        
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO ZEROS) AND        
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO LOW-VALUE)        
+           MOVE 'C'               TO GPS082-TD-CUST-TYPE         
+       ELSE                                                      
+           MOVE 'P'               TO GPS082-TD-CUST-TYPE         
+       END-IF                                                    
+       MOVE CM-ASTSCRTZ-CNTPR-ID  TO GPS082-ASTSCRTZ-CNTPR-ID    
+       MOVE GPS082-TRANSFER-DEL-RECORD   TO CPCDL-REC            
+       WRITE CPCDL-REC                                           
+       IF  WS-CPCDL-STATUS NOT = '00'                            
+           MOVE 00041                TO WS-ABEND-CODE            
+           MOVE WS-CPCDL-STATUS      TO WS-ABEND-STATUS          
+           MOVE 'CPCDL WRITE ERROR'  TO WS-ABENDMSG              
+           PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT        
+       END-IF                                                    
+    END-IF.                                                      
+    MOVE ZEROES                  TO WS-PRI-BAL-OFF               
+                                    WS-FEE-OFF                   
+                                    WS-TOTAL-IBNP-OFF.           
+    COMPUTE WS-PRI-BAL-OFF =                                     
+        CM-INSTL-BAL + CM-LARGE-INSTL-BAL-OUTST +                
+        CM-CSH-INSTL-BAL                                         
+    ADD WS-PRI-BAL-OFF            TO WS-PRIN-AMT-GL              
+    ADD WS-TOTAL-IBNP-OFF         TO WS-INTR-AMT-GL              
+    ADD WS-FEE-OFF                TO WS-FEE-AMT-GL               
+    INITIALIZE GPS082-TRANSFER-DEL-RECORD.                       
+    IF (WS-PRI-BAL-OFF NOT = 0) OR (WS-TOTAL-IBNP-OFF NOT = 0) OR
+       (WS-FEE-OFF NOT = 0)                                      
+       MOVE CM-ORG-NMBR    TO GPS082-TD-ORG-NMBR                 
+       MOVE CM-TYPE        TO GPS082-TD-TYPE                     
+       MOVE CM-CARD-NMBR   TO GPS082-TD-CARD-NMBR                
+       MOVE CM-LAST-PRI-BLOCK-CODE TO                            
+            GPS082-TD-CARD-PRE-BLOCK-CODE                        
+       MOVE CM-BLOCK-CODE          TO                            
+            GPS082-TD-CARD-BLOCK-CODE                            
+       MOVE WS-082-CUR-ACCT-LEDGER-STATUS                        
+                                  TO GPS082-TD-ACCT-LEDGER-STATUS
+       MOVE CM-DOMICILE-BRANCH    TO GPS082-TD-BRANCH            
+       MOVE WS-PRI-BAL-OFF        TO GPS082-TD-CARD-PRI-BAL      
+       MOVE WS-TOTAL-IBNP-OFF     TO GPS082-TD-CARD-IBNP         
+       MOVE WS-FEE-OFF            TO GPS082-TD-CARD-FEE          
+       MOVE WS-082-PRV-ACCT-LEDGER-STATUS                        
+                                  TO GPS082-TD-PRE-LEDGER-STATUS 
+       MOVE CM-CUSTOMER-NMBR      TO GPS082-TD-CST-ID            
+       MOVE 'INS '                TO GPS082-TD-BAL-TYPE          
+       MOVE SPACES                TO GPS082-TD-BP-ID             
+       MOVE SPACES                TO GPS082-TD-BP-USAGE          
+       IF (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO SPACE) AND        
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO ZEROS) AND        
+          (CM-CORP-ACCT-NUMBER IS NOT EQUAL TO LOW-VALUE)        
+           MOVE 'C'               TO GPS082-TD-CUST-TYPE         
+       ELSE                                                      
+           MOVE 'P'               TO GPS082-TD-CUST-TYPE         
+       END-IF                                                    
+       MOVE CM-ASTSCRTZ-CNTPR-ID  TO GPS082-ASTSCRTZ-CNTPR-ID    
+       MOVE GPS082-TRANSFER-DEL-RECORD   TO CPCDL-REC            
+       WRITE CPCDL-REC                                           
+       IF  WS-CPCDL-STATUS NOT = '00'                            
+           MOVE 00041                TO WS-ABEND-CODE            
+           MOVE WS-CPCDL-STATUS      TO WS-ABEND-STATUS          
+           MOVE 'CPCDL WRITE ERROR'  TO WS-ABENDMSG              
+           PERFORM CCSI-ABEND        THRU CCSI-ABEND-EXIT        
+       END-IF                                                    
+    END-IF.                                                      
+    MOVE +8010                   TO CPS422-FUNCTION-CODE         
+    PERFORM ABPS-MAIN-FUNCTION THRU ABPS-MF-XIT.                 
+                                                                 
+                                                                 
+                                                                 
+                                                                 
+GPS110GL-WC-EXIT.                                                
+     EXIT.                                                       

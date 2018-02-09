@@ -1,0 +1,385 @@
+CC-INSURANCE-CALCULATIONS.                                       
+    PERFORM CC-IC-COMPUTE-PREM  THRU  CC-ICCP-EXIT               
+        VARYING X-CMA-INS       FROM 1 BY 1                      
+          UNTIL X-CMA-INS IS GREATER THAN CMA-INS-NO-PLANS.      
+    IF  REPORT-REQUIRED (55)                                     
+        PERFORM CC-CREATE-REPORT-49                              
+                                THRU CC-CR49-EXIT                
+          VARYING X-CMA-INS     FROM 1 BY 1                      
+            UNTIL X-CMA-INS IS GREATER THAN CMA-INS-NO-PLANS.    
+                                                                 
+CC-IC-EXIT.                                                      
+    EXIT.                                                        
+CC-IC-COMPUTE-PREM.                                              
+    SET X-WS-INS TO X-CMA-INS.                                   
+    MOVE ZEROS TO WS-INS-CANCELLATION-DATE (X-WS-INS).           
+    IF  CMA-INS-STATUS (X-CMA-INS)                               
+                                IS EQUAL TO SPACE                
+        GO TO CC-ICCP-EXIT.                                      
+    PERFORM NULL-PARA           THRU  NP-XIT                     
+        VARYING X-TC-INS        FROM 1 BY 1                      
+            UNTIL X-TC-INS      IS GREATER THAN 9  OR            
+                TCI-PRODUCT (X-TC-INS)                           
+                                IS EQUAL TO                      
+                                    CMA-INS-PRODUCT (X-CMA-INS). 
+    IF  X-TC-INS                IS GREATER THAN 9                
+        PERFORM CC-IC-REJECT    THRU  CC-ICR-EXIT                
+        GO TO CC-ICCP-EXIT.                                      
+    IF  CMA-INS-IN-FORCE (X-CMA-INS)                             
+        NEXT SENTENCE                                            
+    ELSE                                                         
+        IF  TCI-MANUAL-REINSTATE (X-TC-INS)                      
+            GO TO CC-ICCP-EXIT                                   
+        ELSE                                                     
+            PERFORM CC-IC-TEST-REINSTATE                         
+                                THRU  CC-ICTR-EXIT.              
+    IF  CMA-INS-IN-FORCE (X-CMA-INS)                             
+        NEXT SENTENCE                                            
+    ELSE                                                         
+        GO TO CC-ICCP-EXIT.                                      
+    IF  TCI-BILL-MONTHLY (X-TC-INS)                              
+        NEXT SENTENCE                                            
+    ELSE                                                         
+        IF  CMA-INS-DATE-LAST-BILLED (X-CMA-INS)                 
+                                IS EQUAL TO ZERO                 
+            IF OC-TODAYS-JULIAN                                  
+                  IS LESS THAN CMA-INS-EFFECTIVE-DATE            
+                                (X-CMA-INS)                      
+                GO TO CC-ICCP-EXIT                               
+            ELSE                                                 
+                NEXT SENTENCE                                    
+        ELSE                                                     
+            PERFORM CC-IC-COMPUTE-DATE                           
+                                THRU  CC-ICD-EXIT                
+            IF  OC-TODAYS-JULIAN                                 
+                             IS LESS THAN WS-DTE-JULIAN          
+                GO TO CC-ICCP-EXIT.                              
+    IF  TCI-DELQ-DAYS (X-TC-INS)                                 
+                                IS GREATER THAN ZERO             
+        IF  ACCOUNT-IN-COLLECTION                                
+            COMPUTE WS-DTE-RESULT =                              
+                                30 *                             
+                                (CM-CYCLE-DUE -                  
+                                 2)                              
+            IF TCI-DELQ-DAYS (X-TC-INS)                          
+                               IS NOT GREATER THAN WS-DTE-RESULT 
+                MOVE 'D'        TO CMA-INS-STATUS (X-CMA-INS)    
+                                CMA-INS-REASON-CANCD (X-CMA-INS) 
+                MOVE OC-TODAYS-JULIAN                            
+                                TO CMA-INS-CANCELLATION-DATE     
+                                                    (X-CMA-INS)  
+                GO TO CC-ICCP-EXIT.                              
+    IF  TCI-EXPIRE-AGE (X-TC-INS)                                
+                                IS GREATER THAN ZERO             
+        PERFORM CC-IC-AGE-TEST  THRU  CC-ICAT-EXIT               
+        IF  CMA-INS-CANCD-AGE (X-CMA-INS)                        
+            GO TO CC-ICCP-EXIT.                                  
+    MOVE ZERO                   TO WS-AMNT                       
+                                   WS-PYMT                       
+                                   WS-PREMIUM.                   
+    IF  TCI-BALANCE-METHOD (X-TC-INS)                            
+        PERFORM COMPUTE-CURR-BAL                                 
+                                THRU CCB-EXIT                    
+        MOVE CM-CURR-BALANCE    TO WS-AMNT                       
+    ELSE                                                         
+        IF TCI-CRDHLD-OVERRIDE (X-TC-INS)                        
+            MOVE CMA-INS-PREMIUM (X-CMA-INS)                     
+                                TO WS-PREMIUM                    
+            GO TO CC-ICCP-GEN-TRANS                              
+        ELSE                                                     
+            IF  TCI-ADB-METHOD (X-TC-INS)                        
+                PERFORM CC-COMPUTE-ADB                           
+                                THRU  CC-CADB-EXIT               
+            ELSE                                                 
+                IF  TCI-FLAT-RATE-METHOD (X-TC-INS)              
+                    MOVE TCI-INS-PREMIUM (X-TC-INS)              
+                                TO WS-PREMIUM                    
+                    PERFORM COMPUTE-CURR-BAL                     
+                                THRU CCB-EXIT                    
+                    MOVE CM-CURR-BALANCE                         
+                                TO WS-AMNT                       
+                ELSE                                             
+                     IF  TCI-PAYMENT-METHOD (X-TC-INS)           
+                         MOVE ZERO                               
+                                TO WS-PYMT                       
+                         PERFORM COMPUTE-CURR-PYMT               
+                                THRU  CCP-XIT                    
+                         MOVE WS-PYMT                            
+                                TO WS-AMNT.                      
+    IF  TCI-MAX-COVERAGE (X-TC-INS)                              
+                                IS GREATER THAN ZERO             
+        IF (WS-AMNT IS GREATER THAN                              
+                                  TCI-MAX-COVERAGE (X-TC-INS)) OR
+           ((TCI-PAYMENT-METHOD (X-TC-INS)) AND                  
+           (CM-CURR-BALANCE IS GREATER THAN                      
+                                  TCI-MAX-COVERAGE (X-TC-INS)))  
+            IF  TCI-DO-NOT-TRUNCATE (X-TC-INS)                   
+                MOVE TCI-MAX-COVERAGE (X-TC-INS)                 
+                                TO WS-AMNT                       
+            ELSE                                                 
+                MOVE 'T'        TO CMA-INS-STATUS (X-CMA-INS)    
+                                CMA-INS-REASON-CANCD (X-CMA-INS) 
+                MOVE OC-TODAYS-JULIAN                            
+                                TO CMA-INS-CANCELLATION-DATE     
+                                                  (X-CMA-INS)    
+                GO TO CC-ICCP-EXIT.                              
+    IF TCI-FLAT-RATE-METHOD (X-TC-INS)                           
+        GO TO CC-ICCP-GEN-TRANS.                                 
+    MOVE ZERO                   TO WS-PREMIUM.                   
+    IF  WS-AMNT                 IS GREATER THAN ZERO             
+        MOVE TCI-INS-PREMIUM (X-TC-INS)                          
+                                TO WS-PREMIUM                    
+        COMPUTE WS-PREMIUM ROUNDED =                             
+                            WS-PREMIUM +                         
+                            (WS-AMNT *                           
+                             TCI-PER-CENT (X-TC-INS)).           
+CC-ICCP-GEN-TRANS.                                               
+    IF  WS-PREMIUM              IS GREATER THAN ZERO             
+        PERFORM CC-IC-GENERATE-TRANS                             
+                                THRU  CC-ICGT-EXIT.              
+CC-ICCP-EXIT.                                                    
+    EXIT.                                                        
+CC-IC-REJECT.                                                    
+    PERFORM GENERATE-BASIC-TRANS                                 
+                                THRU  GBT-XIT.                   
+    MOVE ZERO                   TO GT-AMNT.                      
+    IF  X-TC-INS                IS GREATER THAN 9                
+        MOVE 'NO MASTER POLICY' TO WS-GT-INS-DESC1               
+    ELSE                                                         
+        MOVE 'POLICY CANCELLED' TO WS-GT-INS-DESC1.              
+    MOVE CMA-INS-PRODUCT (X-CMA-INS)                             
+                                TO WS-GT-INS-DESC2.              
+    MOVE WS-GT-INS-DESC         TO GT-DESC.                      
+    MOVE 99                     TO GT-POSTING-FLAG.              
+    MOVE GENERATED-TRANSACTION  TO MONETARY-TRANSACTION.         
+    PERFORM REPORT-REJECTS      THRU  RR-XIT.                    
+CC-ICR-EXIT.                                                     
+    EXIT.                                                        
+                                                                 
+CC-IC-COMPUTE-DATE.                                              
+    IF  TCI-BILL-BI-MONTHLY (X-TC-INS)                           
+        MOVE 2                  TO WS-DTE-FREQ                   
+    ELSE                                                         
+        IF  TCI-BILL-QUARTERLY (X-TC-INS)                        
+            MOVE 3              TO WS-DTE-FREQ                   
+        ELSE                                                     
+            IF  TCI-BILL-SEMI-ANN (X-TC-INS)                     
+                MOVE 6          TO WS-DTE-FREQ                   
+            ELSE                                                 
+                IF  TCI-BILL-ANNUAL (X-TC-INS)                   
+                    MOVE 12     TO WS-DTE-FREQ                   
+                ELSE                                             
+                    MOVE 1      TO WS-DTE-FREQ.                  
+    MOVE 'M'                    TO WS-DTE-PERIOD.                
+    MOVE CMA-INS-DATE-LAST-BILLED (X-CMA-INS)                    
+                                TO WS-DTE-JULIAN.                
+    MOVE ZERO                   TO WS-DTE-DAY-OF-MON.            
+    PERFORM CCSI-FUTURE-DATE    THRU  CCSI-FD-EXIT.              
+CC-ICD-EXIT.                                                     
+    EXIT.                                                        
+CC-IC-AGE-TEST.                                                  
+    MOVE CMA-INS-MAKER-DOB      TO WS-DTE-JULIAN.                
+    MOVE TCI-EXPIRE-AGE (X-TC-INS)                               
+                                TO WS-DTE-FREQ.                  
+    MOVE 'Y'                    TO WS-DTE-PERIOD.                
+    PERFORM CCSI-FUTURE-DATE    THRU  CCSI-FD-EXIT.              
+    IF  OC-TODAYS-JULIAN        IS NOT LESS THAN WS-DTE-JULIAN   
+        MOVE 'A'                TO CMA-INS-STATUS (X-CMA-INS)    
+                                CMA-INS-REASON-CANCD (X-CMA-INS) 
+        MOVE OC-TODAYS-JULIAN   TO WS-INS-CANCELLATION-DATE      
+                                                       (X-WS-INS)
+        MOVE WS-DTE-JULIAN      TO CMA-INS-CANCELLATION-DATE     
+                                (X-CMA-INS)                      
+        GO TO CC-ICAT-EXIT.                                      
+    IF  CMA-INS-COMAKER-DOB     IS EQUAL ZERO                    
+        GO TO CC-ICAT-EXIT.                                      
+    MOVE CMA-INS-COMAKER-DOB    TO WS-DTE-JULIAN.                
+    MOVE TCI-EXPIRE-AGE (X-TC-INS)                               
+                                TO WS-DTE-FREQ.                  
+    MOVE 'Y'                    TO WS-DTE-PERIOD.                
+    PERFORM CCSI-FUTURE-DATE    THRU CCSI-FD-EXIT.               
+    IF  OC-TODAYS-JULIAN        IS GREATER THAN WS-DTE-JULIAN    
+        MOVE 'A'                TO CMA-INS-STATUS (X-CMA-INS)    
+                                CMA-INS-REASON-CANCD (X-CMA-INS) 
+        MOVE OC-TODAYS-JULIAN   TO WS-INS-CANCELLATION-DATE      
+                                                 (X-WS-INS)      
+        MOVE WS-DTE-JULIAN      TO CMA-INS-CANCELLATION-DATE     
+                                                 (X-CMA-INS).    
+CC-ICAT-EXIT.                                                    
+    EXIT.                                                        
+CC-IC-TEST-REINSTATE.                                            
+    IF  CMA-INS-CANCD-DELQ (X-CMA-INS)                           
+        IF  CM-CYCLE-DUE IS LESS THAN 3                          
+            MOVE 'F'            TO CMA-INS-STATUS (X-CMA-INS)    
+        ELSE                                                     
+            COMPUTE WS-DTE-RESULT =                              
+                                30 *                             
+                                (CM-CYCLE-DUE -                  
+                                 2)                              
+            IF  TCI-DELQ-DAYS (X-TC-INS)                         
+                                IS LESS THAN WS-DTE-RESULT       
+                GO TO CC-ICTR-EXIT                               
+            ELSE                                                 
+                MOVE 'F'        TO CMA-INS-STATUS (X-CMA-INS).   
+    IF  CMA-INS-CANCD-TRUNC (X-CMA-INS)                          
+        IF (TCI-BALANCE-METHOD (X-TC-INS) AND                    
+            CM-CURR-BALANCE     IS LESS THAN                     
+                                TCI-MAX-COVERAGE (X-TC-INS))     
+                          OR                                     
+           (TCI-FLAT-RATE-METHOD (X-TC-INS) AND                  
+            CM-CURR-BALANCE     IS LESS THAN                     
+                                TCI-MAX-COVERAGE (X-TC-INS))     
+                          OR                                     
+           (TCI-CRDHLD-OVERRIDE (X-TC-INS) AND                   
+            CM-CURR-BALANCE     IS LESS THAN                     
+                                TCI-MAX-COVERAGE (X-TC-INS))     
+                          OR                                     
+            (TCI-PAYMENT-METHOD (X-TC-INS)  AND                  
+             WS-PYMT            IS LESS THAN TCI-MAX-COVERAGE    
+                                                  (X-TC-INS))    
+            MOVE 'F'            TO CMA-INS-STATUS (X-CMA-INS).   
+    IF  CMA-INS-CANCD-TRUNC (X-CMA-INS) AND                      
+        TCI-ADB-METHOD (X-TC-INS)                                
+        PERFORM CC-COMPUTE-ADB  THRU  CC-CADB-EXIT               
+        IF  WS-AMNT             IS LESS THAN TCI-MAX-COVERAGE    
+                                                   (X-TC-INS)    
+            MOVE 'F'            TO CMA-INS-STATUS (X-CMA-INS).   
+    IF  CMA-INS-IN-FORCE (X-CMA-INS)                             
+        MOVE ZERO               TO CMA-INS-CANCELLATION-DATE     
+                                                 (X-CMA-INS)     
+        MOVE ' '            TO CMA-INS-REASON-CANCD (X-CMA-INS)  
+        MOVE OC-TODAYS-JULIAN   TO CMA-INS-REINSTATEMENT-DATE    
+                                                  (X-CMA-INS).   
+CC-ICTR-EXIT.                                                    
+    EXIT.                                                        
+CC-COMPUTE-ADB.                                                  
+    IF CM-DTE-LST-CYCLE IS EQUAL TO ZERO                         
+        MOVE CM-DTE-OPENED      TO WS-DTE-DATE-2                 
+    ELSE                                                         
+        MOVE CM-DTE-LST-CYCLE   TO WS-DTE-DATE-2.                
+    MOVE WS-STMT-DTE            TO WS-DTE-DATE-1.                
+    MOVE 1                      TO WS-DTE-DOW.                   
+    PERFORM CCSI-ELAPSED-DAYS   THRU CCSI-ED-EXIT.               
+    IF WS-DTE-RESULT IS GREATER THAN 35                          
+        PERFORM COMPUTE-ACT-DAYS-IN-CYCLE THRU CADIC-XIT.        
+    IF WS-DTE-RESULT IS EQUAL TO ZERO                            
+        MOVE 1                  TO WS-DTE-RESULT.                
+    COMPUTE WS-AMNT =           (CM-AGGR-CASH-BALANCE +          
+                                 CM-AGGR-RTL-BALANCE) /          
+                                WS-DTE-RESULT.                   
+CC-CADB-EXIT.                                                    
+    EXIT.                                                        
+CC-IC-GENERATE-TRANS.                                            
+    PERFORM GENERATE-BASIC-TRANS                                 
+                                THRU  GBT-XIT.                   
+    MOVE WS-PREMIUM             TO GT-AMNT.                      
+    MOVE WSSC-AT-TC-INSUR-PREM  TO GT-TRANS-CODE.                
+    MOVE 'N'                    TO WS-PRE-STMT-FLAG.             
+    PERFORM GET-TRANS-DESC      THRU GET-TR-DE-EXIT.             
+    IF TCI-DESCRIPTION (X-TC-INS)                                
+                                IS EQUAL TO SPACES               
+        CONTINUE                                                 
+    ELSE                                                         
+        MOVE TCI-DESCRIPTION (X-TC-INS)                          
+                                TO GT-DESC.                      
+    MOVE 2                      TO GT-SOURCE-CODE.               
+    PERFORM GENERATE-GEN-TRAN-GL                                 
+                                THRU GGTG-XIT.                   
+    MOVE GENERATED-TRANSACTION  TO MONETARY-TRANSACTION.         
+    SET WS-SAVE-IDX             TO X-CMA-INS.                    
+    PERFORM CC-INSURANCE-PREMIUM                                 
+                                THRU  CC-IP-EXIT.                
+    PERFORM GGTG-UPD-CARDH-GL                                    
+                                THRU GUCG-XIT.                   
+    IF  GOOD-TRANSACTION                                         
+        PERFORM GENERATE-TRANS  THRU  GT-XIT                     
+    ELSE                                                         
+        PERFORM REPORT-REJECTS  THRU  RR-XIT.                    
+    SET X-CMA-INS               TO WS-SAVE-IDX.                  
+CC-ICGT-EXIT.                                                    
+    EXIT.                                                        
+CC-INSURANCE-PREMIUM.                                            
+                                                                 
+    PERFORM COMMON-POSTING-BAL-PROC THRU CPBP-EXIT.              
+                                                                 
+    IF (LOCAL-INPUT  OR  USER-IPT)   AND                         
+        NOT SUSPENSE-ACCT                                        
+        MOVE CMT-DBA-DESCRIPTION   TO WS-INS-TRAN-DESC           
+        IF  WS-INS-POLICY-NO IS NUMERIC                          
+        AND WS-INS-POLICY-NO IS NOT LESS THAN ZERO               
+        AND WS-INS-POLICY-NO IS NOT GREATER THAN 6               
+            MOVE WS-INS-POLICY-NO  TO WS-INS-POL-NO-IDX          
+            SET X-CMA-INS          TO WS-INS-POL-NO-IDX          
+            MOVE SPACES            TO WS-INS-POLICY-NO           
+            MOVE WS-INS-TRAN-DESC  TO CMT-DBA-DESCRIPTION        
+        ELSE                                                     
+            SET X-CMA-INS          TO 1.                         
+    ADD CMT-AMNT               TO CM-RTL-AMNT-DB.                
+    ADD CMT-AMNT               TO WSAR-TCBD-MISC-FEES (2).       
+    ADD CMT-AMNT               TO WSAR-TCCF-INSURANCE (1).       
+    ADD 1                      TO CM-RTL-NMBR-DB.                
+    ADD 1                      TO WSAR-TCBD-MF-NMBR (2).         
+    ADD 1                      TO WSAR-TCCF-IN-NMBR (1).         
+    IF  NOT SUSPENSE-ACCT                                        
+        MOVE OC-TODAYS-JULIAN  TO CMA-INS-DATE-LAST-BILLED       
+                                           (X-CMA-INS)           
+        MOVE CMT-AMNT          TO CMA-INS-LAST-PREMIUM           
+                                           (X-CMA-INS).          
+    IF  REPORT-REQUIRED (56)                                     
+        SET IRM-O               TO 56                            
+        SET IRM-D               TO WS-IRM-MAX                    
+        MOVE 7                  TO WS-TK-SW                      
+        PERFORM BUILD-TRANSACTION-RPT-TAG                        
+                                THRU BTRT-XIT.                   
+CC-IP-EXIT.                                                      
+    EXIT.                                                        
+CC-CREATE-REPORT-48.                                             
+    IF  CMA-INS-STATUS (X-CMA-INS) IS EQUAL TO ' '               
+        GO TO CC-CR48-EXIT.                                      
+    IF  CMA-INS-IN-FORCE (X-CMA-INS)                             
+        MOVE CMA-INS-PRODUCT (X-CMA-INS)                         
+                                 TO WSA2-COLLECTOR               
+         SET IRM-O               TO 54                           
+         SET IRM-D               TO WS-IRM-MAX                   
+         PERFORM BUILD-CARDHLD-REPORT-TAG                        
+                                THRU BCRT-XIT.                   
+CC-CR48-EXIT.                                                    
+    EXIT.                                                        
+CC-CREATE-REPORT-49.                                             
+    IF  CMA-INS-STATUS (X-CMA-INS) IS EQUAL TO ' '               
+        GO TO CC-CR49-EXIT.                                      
+    IF  CMA-INS-IN-FORCE (X-CMA-INS)                             
+        IF  CMA-INS-REINSTATEMENT-DATE (X-CMA-INS)               
+              IS GREATER THAN CM-DTE-LST-CYCLE     AND           
+            CMA-INS-REINSTATEMENT-DATE (X-CMA-INS)               
+              IS NOT GREATER THAN OC-TODAYS-JULIAN               
+            SET IRM-O           TO 55                            
+            SET IRM-D           TO WS-IRM-MAX                    
+            PERFORM BUILD-CARDHLD-REPORT-TAG                     
+                                THRU BCRT-XIT                    
+        ELSE                                                     
+            NEXT SENTENCE                                        
+    ELSE                                                         
+        IF  CMA-INS-CANCD-AGE (X-CMA-INS)                        
+            IF  WS-INS-CANCELLATION-DATE (X-WS-INS)              
+                  IS GREATER THAN CM-DTE-LST-CYCLE     AND       
+                WS-INS-CANCELLATION-DATE (X-WS-INS)              
+                  IS NOT GREATER THAN OC-TODAYS-JULIAN           
+                SET IRM-O           TO 55                        
+                SET IRM-D           TO WS-IRM-MAX                
+                PERFORM BUILD-CARDHLD-REPORT-TAG                 
+                                    THRU BCRT-XIT                
+            ELSE                                                 
+                NEXT SENTENCE                                    
+        ELSE                                                     
+            IF  CMA-INS-CANCELLATION-DATE (X-CMA-INS)            
+                  IS GREATER THAN CM-DTE-LST-CYCLE     AND       
+                CMA-INS-CANCELLATION-DATE (X-CMA-INS)            
+                  IS NOT GREATER THAN OC-TODAYS-JULIAN           
+                SET IRM-O           TO 55                        
+                SET IRM-D           TO WS-IRM-MAX                
+                PERFORM BUILD-CARDHLD-REPORT-TAG                 
+                                    THRU BCRT-XIT.               
+                                                                 
+CC-CR49-EXIT.                                                    
+    EXIT.                                                        

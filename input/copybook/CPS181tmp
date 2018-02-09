@@ -1,0 +1,112 @@
+    03  WS-AFFILIATE.                                            
+        88  VALID-AFF                VALUE 'V1' 'V2' 'V3' 'V4'   
+                                           'V5'                  
+                                           'V6' 'V7' 'V8' 'V9'   
+                                           'M1' 'M2' 'M3' 'M4'   
+                                           'M5' 'M6' 'M7' 'M8'   
+                                           'M9' 'P1' 'P2' 'P3'   
+                                           'P4' 'P5' 'VA' 'VB'   
+                                           'VC' 'MA' 'MB' 'MC'   
+                                           'J1' 'J2' 'J3' 'J4'   
+                                           'VL' 'VE' 'VF' 'VG'   
+                                           'VH' 'VJ' 'VK' 'VD'   
+                                           'VM' 'VN' 'VO'        
+                                           'MD' 'ME' 'MF' 'MG'   
+                                           'MH' 'MI' 'MJ' 'MK'   
+                                           'ML' 'MM' 'MN' 'MO'   
+                                           'MP' 'MQ' 'MR' 'MS'   
+                                           'MT' 'MU'.            
+        88  VI-AFF                   VALUE 'V1' 'V2' 'V3' 'V4'   
+                                           'V5' 'V6' 'V7' 'V8'   
+                                           'V9' 'VA' 'VB' 'VC'   
+                                           'VL' 'VE' 'VF' 'VG'   
+                                           'VH' 'VJ' 'VK' 'VD'   
+                                           'VM' 'VN' 'VO'.       
+        88  MC-AFF                   VALUE 'M1' 'M2' 'M3' 'M4'   
+                                           'M5' 'M6' 'M7' 'M8'   
+                                           'M9' 'MA' 'MB' 'MC'   
+                                           'MD' 'ME' 'MF' 'MG'   
+                                           'MH' 'MI' 'MJ' 'MK'   
+                                           'ML' 'MM' 'MN' 'MO'   
+                                           'MP' 'MQ' 'MR' 'MS'   
+                                           'MT' 'MU'.            
+        88  PL-AFF                   VALUE 'P1' 'P2' 'P3' 'P4'   
+                                           'P5'.                 
+        88  VI-CR-AFF                VALUE 'V1' 'V2' 'V3' 'V4'   
+                                           'V9' 'VA' 'VB' 'VC'   
+                                           'VE' 'VH' 'VD' 'VM'.  
+        88  VI-CON-CR-AFF            VALUE 'V1' 'V2' 'V9' 'VA'   
+                                           'VD'.                 
+        88  VI-COM-CR-AFF            VALUE 'V3' 'V4' 'VB' 'VC'   
+                                           'VE' 'VH' 'VM'.       
+        88  VI-DB-AFF                VALUE 'V5' 'V6' 'V7' 'V8'   
+                                           'VL' 'VF' 'VG' 'VJ'   
+                                           'VK' 'VN' 'VO'.       
+        88  VI-CON-DB-AFF            VALUE 'V6' 'V7' 'VF' 'VJ'   
+                                           'VN'.                 
+        88  VI-COM-DB-AFF            VALUE 'V5' 'VL' 'VG' 'VK'   
+                                           'VO'.                 
+        88  VI-OTH-DB-AFF            VALUE 'V8'.                 
+        88  MC-CR-AFF                VALUE 'M1' 'M2' 'M3' 'M4'   
+                                           'M5' 'M9' 'MA' 'MB'   
+                                           'MC' 'MD' 'ME' 'MJ'   
+                                           'MK' 'ML' 'MM' 'MO'   
+                                           'MP' 'MR' 'MS' 'MT'   
+                                           'MU'.                 
+        88  MC-DB-AFF                VALUE 'M6' 'M7' 'M8' 'MF'   
+                                           'MG' 'MH' 'MI' 'MN'   
+                                           'MQ'.                 
+        88  VCC-AFF                  VALUE 'V1'.                 
+        88  VCG-AFF                  VALUE 'V2'.                 
+        88  VCB-AFF                  VALUE 'V3'.                 
+        88  VBG-AFF                  VALUE 'V4'.                 
+        88  VDB-AFF                  VALUE 'V5'.                 
+        88  VDC-AFF                  VALUE 'V6'.                 
+        88  VDG-AFF                  VALUE 'V7'.                 
+        88  VE-AFF                   VALUE 'V8'.                 
+        88  VCP-AFF                  VALUE 'V9'.                 
+        88  VCI-AFF                  VALUE 'VA'.                 
+        88  VCO-AFF                  VALUE 'VB'.                 
+        88  VCU-AFF                  VALUE 'VC'.                 
+        88  VBDG-AFF                 VALUE 'VL'.                 
+        88  VBCP-AFF                 VALUE 'VE'.                 
+        88  VCDP-AFF                 VALUE 'VF'.                 
+        88  VBDP-AFF                 VALUE 'VG'.                 
+        88  VBCI-AFF                 VALUE 'VH'.                 
+        88  VCDI-AFF                 VALUE 'VJ'.                 
+        88  VBDI-AFF                 VALUE 'VK'.                 
+        88  VCCS-AFF                 VALUE 'VD'.                 
+        88  VBCS-AFF                 VALUE 'VM'.                 
+        88  VCDS-AFF                 VALUE 'VN'.                 
+        88  VBDS-AFF                 VALUE 'VO'.                 
+        88  MCS-AFF                  VALUE 'M1'.                 
+        88  MCG-AFF                  VALUE 'M2'.                 
+        88  MCB-AFF                  VALUE 'M3'.                 
+        88  OTH-AFF                  VALUE 'M4' 'M5'.            
+        88  MCD-AFF                  VALUE 'M6' 'M7'.            
+        88  MCE-AFF                  VALUE 'M8'.                 
+        88  MPL-AFF                  VALUE 'M9'.                 
+        88  MCI-AFF                  VALUE 'MA'.                 
+        88  MCO-AFF                  VALUE 'MB'.                 
+        88  MCP-AFF                  VALUE 'MC'.                 
+        88  MCA-AFF                  VALUE 'MD'.                 
+        88  MCR-AFF                  VALUE 'ME'.                 
+        88  MSS-AFF                  VALUE 'MF'.                 
+        88  MIE-AFF                  VALUE 'MG'.                 
+        88  MIS-AFF                  VALUE 'MH'.                 
+        88  MID-AFF                  VALUE 'MI'.                 
+        88  MBK-AFF                  VALUE 'MJ'.                 
+        88  MPB-AFF                  VALUE 'MK'.                 
+        88  MCT-AFF                  VALUE 'ML'.                 
+        88  MCU-AFF                  VALUE 'MM'.                 
+        88  MDB-AFF                  VALUE 'MN'.                 
+        88  MEB-AFF                  VALUE 'MO'.                 
+        88  MEO-AFF                  VALUE 'MP'.                 
+        88  MEP-AFF                  VALUE 'MQ'.                 
+        88  MPC-AFF                  VALUE 'MR'.                 
+        88  MWE-AFF                  VALUE 'MS'.                 
+        88  MHC-AFF                  VALUE 'MT'.                 
+        88  MCW-AFF                  VALUE 'MU'.                 
+        88  JC-AFF                   VALUE 'J1' 'J2' 'J3' 'J4'.  
+        05  WS-AFFILIATE-BRAND       PIC X VALUE SPACES.         
+        05  WS-AFFILIATE-TYPE        PIC X VALUE SPACES.         

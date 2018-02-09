@@ -1,0 +1,38 @@
+01  CPS351-STMT-MSG-PRI-AREA.
+    03  CPS351-STMT-MSG-WORK-NBR
+                            PIC 99          VALUE ZERO.
+    03  CPS351-STMT-MSG-PRI-TABLE-X.
+        05  FILLER          PIC X(5)        VALUE 'N0104'.       
+        05  FILLER          PIC X(5)        VALUE 'N0213'.       
+        05  FILLER          PIC X(5)        VALUE 'N0314'.       
+        05  FILLER          PIC X(5)        VALUE 'N0415'.       
+        05  FILLER          PIC X(5)        VALUE 'N0516'.       
+        05  FILLER          PIC X(5)        VALUE 'N0617'.       
+        05  FILLER          PIC X(5)        VALUE 'N0718'.       
+        05  FILLER          PIC X(5)        VALUE 'N0819'.       
+        05  FILLER          PIC X(5)        VALUE 'N0920'.       
+        05  FILLER          PIC X(5)        VALUE 'N1012'.       
+        05  FILLER          PIC X(5)        VALUE 'N1103'.       
+        05  FILLER          PIC X(5)        VALUE 'N1209'.       
+        05  FILLER          PIC X(5)        VALUE 'N1308'.       
+        05  FILLER          PIC X(5)        VALUE 'N1410'.       
+        05  FILLER          PIC X(5)        VALUE 'N1502'.       
+        05  FILLER          PIC X(5)        VALUE 'N1611'.       
+        05  FILLER          PIC X(5)        VALUE 'N1705'.       
+        05  FILLER          PIC X(5)        VALUE 'N1806'.       
+        05  FILLER          PIC X(5)        VALUE 'N1907'.       
+        05  FILLER          PIC X(5)        VALUE 'N2001'.       
+    03  CPS351-STMT-MSG-PRI-TABLE-R
+                            REDEFINES
+                            CPS351-STMT-MSG-PRI-TABLE-X.
+        05  CPS351-STMT-MSG-PRI-TABLE       OCCURS 20 TIMES
+                                            INDEXED BY
+                                            X-STMT-MEMO
+                                            X-STMT-MEMO-1
+                                            X-STMT-MEMO-2.
+            07  CPS351-STMT-MEMO-FLAG
+                            PIC X.
+            07  CPS351-STMT-MEMO-NBR
+                            PIC 99.
+            07  CPS351-STMT-MEMO-PRIORITY
+                            PIC 99.

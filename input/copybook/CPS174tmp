@@ -1,0 +1,106 @@
+   04 'ABP'-KEY.                                                 
+      05 'ABP'-ORG-NMBR             PIC S9(3)  COMP-3.           
+      05 'ABP'-TYP-NMBR             PIC S9(3)  COMP-3.           
+      05 'ABP'-ACCOUNT-NMBR         PIC S9(16)  COMP-3.          
+      05 'ABP'-ACT-BAL-SEQ-NMBR     PIC S9(04)  COMP-3.          
+   04 'ABP'-DETAIL-DATA.                                         
+      05 'ABP'-BAL-TYPE             PIC X(03).                   
+         88 'ABP'-ACT-CASH-BAL      VALUE 'CSH'.                 
+         88 'ABP'-ACT-RTL-BAL       VALUE 'RTL'.                 
+      05 'ABP'-ACT-BAL-PROGRAM      PIC X(04).                   
+      05 'ABP'-SINGLE-TXN-IND       PIC X(01).                   
+         88 'ABP'-ALL-TXN-IND       VALUE '1' '2' '3'.           
+         88 'ABP'-BPC-BALANCE-PROGRAM VALUE '1'.                 
+         88 'ABP'-MULTI-TXN-BAL-ONLY  VALUE '2'.                 
+         88 'ABP'-SINGLE-TXN-BALANCE  VALUE '3'.                 
+         88 'ABP'-MULTI-TXN-BALANCE   VALUE '1' '2'.             
+      05 'ABP'-BALANCE-STATUS       PIC X(01).                   
+         88  'ABP'-ACTIVE-BAL       VALUE '1'.                   
+         88  'ABP'-TRANSFERED-BAL   VALUE '4'.                   
+         88  'ABP'-TRANSFER-OUT-TODAY-BAL                        
+                                    VALUE '6'.                   
+         88  'ABP'-TRANSFER-IN-TODAY-BAL                         
+                                    VALUE '7'.                   
+         88  'ABP'-CLOSED-BAL       VALUE '8'.                   
+         88  'ABP'-BAL-TO-BE-PURGED VALUE '9'.                   
+         88  'ABP'-CANCELLED-BAL    VALUE 'C'.                   
+         88  'ABP'-PENDING-CANC-BAL VALUE 'P'.                   
+      05 'ABP'-GRACE-OPTION         PIC X(01).                   
+      05 'ABP'-PROVIS-FLAG          PIC 9.                       
+         88 'ABP'-NOT-PROVIS-INTR   VALUE ZERO.                  
+         88 'ABP'-PROVIS-INTR-YES   VALUE 1 2.                   
+         88 'ABP'-PROVIS-FROM-POST-DTE                           
+                                    VALUE 1.                     
+         88 'ABP'-PROVIS-FROM-TRANS-DTE                          
+                                    VALUE 2.                     
+      05 'ABP'-DATE-FIELDS.                                      
+         07 'ABP'-DTE-OPENED        PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-LST-STAT-CHNG PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-PAID-OUT      PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-CLOSE         PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-PURGE         PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-LST-PAID-OUT  PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-LST-ACCR      PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-ACCR-THRU     PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-LST-ACTIVE    PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-LST-DEBIT     PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-LST-CREDIT    PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-LST-MAINT     PIC S9(07) COMP-3.           
+         07 'ABP'-DTE-LST-RATE-CHG  PIC S9(07) COMP-3.           
+         07 FILLER                  PIC X(40).                   
+      05 'ABP'-FINANCIAL-DATA.                                   
+         07 'ABP'-BEG-BALANCE       PIC S9(09)V99 COMP-3.        
+         07 'ABP'-AMNT-DB           PIC S9(09)V99 COMP-3.        
+         07 'ABP'-AMNT-CR           PIC S9(09)V99 COMP-3.        
+         07 'ABP'-AMNT-PMT-CTD      PIC S9(09)V99 COMP-3.        
+         07 'ABP'-AMNT-PMT-RVS-CTD  PIC S9(09)V99 COMP-3.        
+         07 'ABP'-DISPUTED-BAL      PIC S9(09)V99 COMP-3.        
+         07 'ABP'-DISPUTED-CTD      PIC S9(09)V99 COMP-3.        
+         07 'ABP'-AMNT-CHARGE-OFF   PIC S9(09)V99 COMP-3.        
+         07 'ABP'-AMNT-CURR-DUE     PIC S9(09)V99 COMP-3.        
+         07 'ABP'-BALANCE           PIC S9(09)V99 COMP-3.        
+         07 'ABP'-PRIN-STMT         PIC S9(09)V99 COMP-3.        
+         07 'ABP'-CURR-MON-BAL      PIC S9(09)V99 COMP-3.        
+         07 'ABP'-FEE-BNP           PIC S9(09)V99 COMP-3.        
+         07 'ABP'-FEE-CTD           PIC S9(09)V99 COMP-3.        
+         07 'ABP'-IBNP              PIC S9(09)V99 COMP-3.        
+         07 'ABP'-ICTD              PIC S9(09)V99 COMP-3.        
+         07 'ABP'-NMBR-DB           PIC S9(05)    COMP-3.        
+         07 'ABP'-NMBR-CR           PIC S9(05)    COMP-3.        
+         07 FILLER                  PIC X(66).                   
+      05 'ABP'-INTEREST-FIELDS.                                  
+         07 'ABP'-INTR-APR          PIC S9(5)V9(4) COMP-3.       
+         07 'ABP'-INTR-PER-DIEM     PIC S9(9)V9(4) COMP-3.       
+         07 'ABP'-ACCRUED-INTR      PIC S9(9)V9(4) COMP-3.       
+         07 'ABP'-PROVIS-INTR       PIC S9(9)V9(4) COMP-3.       
+         07 'ABP'-NEG-PROVIS-INTR   PIC S9(9)V9(4) COMP-3.       
+         07 'ABP'-PROVIS-BAL        PIC S9(9)V9(2) COMP-3.       
+         07 'ABP'-NEG-PROVIS-BAL    PIC S9(9)V9(2) COMP-3.       
+         07 'ABP'-AGGR-BALANCE      PIC S9(11)V9(2) COMP-3.      
+         07 'ABP'-YTD-INTR-BILLED   PIC S9(9)V9(2) COMP-3.       
+         07 'ABP'-IBNP-LST-STMT     PIC S9(9)V9(2) COMP-3.       
+      05 'ABP'-PRICING-DATA.                                     
+         07 FILLER                  PIC X(40).                   
+      05 'ABP'-INTEREST-RATE-FIELDS.                             
+         07 'ABP'-CHANGE-IND        PIC 9.                       
+            88 'ABP'-NO-RATE-CHANGE-TODAY       VALUE 0.         
+            88 'ABP'-RATE-CHANGED-TODAY         VALUE 1.         
+         07 'ABP'-CHANGE-TYPE       PIC 9.                       
+            88 'ABP'-CHANGE-INTR-ANYTIME        VALUE 0 3.       
+            88 'ABP'-CHANGE-INTR-ON-DEBIT       VALUE 1 4.       
+            88 'ABP'-CHANGE-INTR-ON-STMT        VALUE 2 5.       
+            88 'ABP'-CHANGE-INTR-WITH-REPORT    VALUE 0 1 2.     
+            88 'ABP'-CHANGE-INTR-NO-REPORT      VALUE 3 4 5.     
+            88 'ABP'-CHANGE-INTR-NONE           VALUE 9.         
+         07 'ABP'-ADJUST-FLAG       PIC 9.                       
+            88  'ABP'-INTR-ADJUST-ALLOWED     VALUE 1.           
+         07 'ABP'-CEILING           PIC SV9(7) COMP-3.           
+         07 'ABP'-FLOOR             PIC SV9(7) COMP-3.           
+         07 'ABP'-RATE-1            PIC SV9(7) COMP-3.           
+         07 'ABP'-RATE-2            PIC SV9(7) COMP-3.           
+         07 'ABP'-RATE-3            PIC SV9(7) COMP-3.           
+         07 'ABP'-LIMIT-1           PIC S9(9) COMP-3.            
+         07 'ABP'-LIMIT-2           PIC S9(9) COMP-3.            
+         07 'ABP'-LIMIT-OPTION      PIC 9.                       
+      05 'ABP'-ASPD-ID              PIC X(08).                   
+   04 'ABP'-USER-FILLER             PIC X(367).                  

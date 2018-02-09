@@ -1,0 +1,104 @@
+01  WS-DUAL-CURRENCY.                                            
+    03  WS-DUAL-CURR-LOOP      PIC S9(03) COMP-3   VALUE +30.    
+    03  WS-DC-PREFIX           PIC  9(10).                       
+    03  WS-DC-PREFIX-A         REDEFINES WS-DC-PREFIX.           
+        05  WS-DC-PREFIX-POS   PIC 9 OCCURS 10 TIMES             
+                                     INDEXED BY X-WS-DC-POS.     
+    03  WS-PREFIX-FLAG         PIC X(01).                        
+    03  WS-DIGIT               PIC 9(02).                        
+    03  WS-DC-POS              PIC 9(02).                        
+    03  WS-DC-ORG              PIC 9(03).                        
+    03  WS-DC-CURR             PIC 9(03).                        
+    03  WS-DC-CARD             PIC 9(16).                        
+    03  WS-DC-SORG             PIC 9(03).                        
+    03  WS-DC-SCURR            PIC 9(03).                        
+    03  WS-DC-CARD-X           PIC X(16)  VALUE ALL '0'.         
+    03  FILLER REDEFINES WS-DC-CARD-X.                           
+        05  WS-DC-CARD-NBR     PIC 9(16).                        
+    03  WS-DC-CARD-X2          REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P10     PIC 9(10).                        
+        05  FILLER             PIC 9(06).                        
+    03  WS-DC-CARD-X3          REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P09     PIC 9(09).                        
+        05  FILLER             PIC 9(07).                        
+    03  WS-DC-CARD-X4          REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P08     PIC 9(08).                        
+        05  FILLER             PIC 9(08).                        
+    03  WS-DC-CARD-X5          REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P07     PIC 9(07).                        
+        05  FILLER             PIC 9(09).                        
+    03  WS-DC-CARD-X6          REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P06     PIC 9(06).                        
+        05  FILLER             PIC 9(10).                        
+    03  WS-DC-CARD-X7          REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P05     PIC 9(05).                        
+        05  FILLER             PIC 9(11).                        
+    03  WS-DC-CARD-X8          REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P04     PIC 9(04).                        
+        05  FILLER             PIC 9(12).                        
+    03  WS-DC-CARD-X9          REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P03     PIC 9(03).                        
+        05  FILLER             PIC 9(13).                        
+    03  WS-DC-CARD-X10         REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P02     PIC 9(02).                        
+        05  FILLER             PIC 9(14).                        
+    03  WS-DC-CARD-X11         REDEFINES WS-DC-CARD-X.           
+        05  WS-DC-CARD-P01     PIC 9(01).                        
+        05  FILLER             PIC 9(15).                        
+01  WS-DUAL-CURR-TABLE.                                          
+    05  FILLER  PIC X(30) VALUE '156 156 156 0999997168 840 840'.
+    05  FILLER  PIC X(30) VALUE '156 156 156 0999998168 840 840'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+    05  FILLER  PIC X(30) VALUE '000 000 000 0000000000 000 000'.
+01  WS-DUAL-CURR-RED REDEFINES WS-DUAL-CURR-TABLE.               
+    05  WS-DUAL-CURR OCCURS 30 INDEXED BY X-DUAL-CURR.           
+        10  WS-DUAL-CURR-PORG        PIC 9(3).                   
+        10  FILLER                   PIC X.                      
+        10  WS-DUAL-CURR-PCURR       PIC 9(3).                   
+        10  FILLER                   PIC X.                      
+        10  WS-DUAL-CURR-PCOUNTRY    PIC 9(3).                   
+        10  FILLER                   PIC X.                      
+        10  WS-DUAL-CURR-PREFIX      PIC 9(10).                  
+        10  FILLER                   PIC X.                      
+        10  WS-DUAL-CURR-SORG        PIC 9(3).                   
+        10  FILLER                   PIC X.                      
+        10  WS-DUAL-CURR-SCURR       PIC 9(3).                   
+01  WS-GET-DC-CURR                   PIC 9(03) COMP-3.           
+01  WS-GET-DC-SORG                   PIC 9(03) COMP-3.           
+01  WS-GET-DC-SCURR                  PIC 9(03) COMP-3.           
+01  WS-GET-DC-PCOUNTRY               PIC 9(03).                  
+01  WS-CURR-CONST-TABLE.                                         
+    05  FILLER              PIC X(07)  VALUE '156 CNY'.          
+    05  FILLER              PIC X(07)  VALUE '840 USD'.          
+    05  FILLER              PIC X(07)  VALUE '978 EUR'.          
+    05  FILLER              PIC X(07)  VALUE '392 JPY'.          
+    05  FILLER              PIC X(07)  VALUE '344 HKD'.          
+01  WS-CURR-CONST-RED REDEFINES WS-CURR-CONST-TABLE.             
+    05  WS-CURR-CONST OCCURS 5 INDEXED BY X-CURR-CONST.          
+        10  WS-CURR-CODE     PIC 9(3).                           
+        10  FILLER           PIC X.                              
+        10  WS-ISO-CODE      PIC X(3).                           

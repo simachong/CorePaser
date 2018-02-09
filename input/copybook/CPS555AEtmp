@@ -1,0 +1,38 @@
+USER-JOINING-FEE-SETUP.                                          
+    MOVE TCM-JOINING-FEE        TO WS-JOINING-FEE.               
+UJFS-EXIT.                                                       
+    EXIT.                                                        
+ASSESS-JOINING-FEE.                                              
+    IF  WS-JOINING-FEE IS NOT GREATER THAN ZEROES                
+        GO TO AJF-EXIT.                                          
+    PERFORM GENERATE-BASIC-TRANS THRU GBT-XIT.                   
+    ADD WS-JOINING-FEE          TO WS-BILL-INTR-FEES.            
+    MOVE WS-JOINING-FEE         TO GT-AMNT.                      
+    MOVE WSSC-AT-TC-JOIN-FEE    TO GT-TRANS-CODE                 
+                                   WS-TRAN-CODE-GL.              
+    PERFORM GET-TRANS-DESC  THRU GET-TR-DE-EXIT.                 
+    PERFORM UPDATE-CARDHOLDER-FEE THRU UCF-XIT.                  
+    PERFORM GENERATE-MISC-TRANS THRU GMT-XIT.                    
+    IF  CM-RTL-BALANCE IS POSITIVE AND                           
+        CM-CASH-BALANCE IS NEGATIVE                              
+        PERFORM NET-OUT-RETAIL THRU NOR-XIT.                     
+AJF-EXIT.                                                        
+    EXIT.                                                        
+PA-SMS-FEE.                                                      
+    IF  TC-AUTH-SMS-FEE  IS NOT NUMERIC                          
+               MOVE ZEROS  TO TC-AUTH-SMS-FEE.                   
+    IF  TC-AUTH-SMS-FEE IS NOT GREATER THAN ZEROES               
+        GO TO SMS-EXIT.                                          
+    PERFORM GENERATE-BASIC-TRANS THRU GBT-XIT.                   
+    ADD TC-AUTH-SMS-FEE         TO WS-BILL-INTR-FEES.            
+    MOVE TC-AUTH-SMS-FEE        TO GT-AMNT.                      
+    MOVE WSSC-AT-TC-SMS-FEE     TO GT-TRANS-CODE                 
+                                   WS-TRAN-CODE-GL.              
+    PERFORM GET-TRANS-DESC  THRU GET-TR-DE-EXIT.                 
+    PERFORM UPDATE-CARDHOLDER-FEE THRU UCF-XIT.                  
+    PERFORM GENERATE-MISC-TRANS THRU GMT-XIT.                    
+    IF  CM-RTL-BALANCE IS POSITIVE AND                           
+        CM-CASH-BALANCE IS NEGATIVE                              
+        PERFORM NET-OUT-RETAIL THRU NOR-XIT.                     
+SMS-EXIT.                                                        
+    EXIT.                                                        
