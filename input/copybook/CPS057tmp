@@ -1,6 +1,0 @@
-    RECORD CONTAINS 150 CHARACTERS                               
-    BLOCK CONTAINS 0  RECORDS                                    
-    RECORDING MODE IS F                                          
-    LABEL RECORDS ARE STANDARD.                                  
-01  CPOLRT-RECORD.                                               
-    03  FILLER              PICTURE X(150).                      

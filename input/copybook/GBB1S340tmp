@@ -1,5 +1,0 @@
-FD  LTDTFD-DAILY-TAG-FILE                                        
-    RECORD CONTAINS 600 CHARACTERS                               
-    BLOCK CONTAINS  0 RECORDS                                    
-    LABEL RECORDS ARE STANDARD.                                  
-01  LTDTFD-DAILY-TAG-RECORD PIC X(600).                          

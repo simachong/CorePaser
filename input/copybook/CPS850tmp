@@ -1,9 +1,0 @@
-GENERATE-SPLIT-CHARACTER.                                        
-                                                                 
-                                                                 
-    MOVE 1                      TO WS-FS-ROUTINE.                
-    MOVE 'CPFSEG'               TO WS-FS-CPFSEG.                 
-    CALL WS-FS-CPFSEG           USING                            
-                                  WS-FILE-SPLIT-AREA.            
-GSC-EXIT.                                                        
-     EXIT.                                                       
