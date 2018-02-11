@@ -78,10 +78,11 @@ public class Lexer {
 				
 				if (tk.endsWith(".")) {
 					isEnd = true;
-					tk = tk.substring(0, tk.length() - 1);
+					//tk = tk.substring(0, tk.length() - 1);
+					//System.out.println(tk);
 				}
 				int id = GlobalDef.isKeyword(tk);
-				Token token = new Token(tokens[i].trim(), id, id == -1 ? false:true);
+				Token token = new Token(tk.trim(), id, id == -1 ? false:true);
 				sentence.getTokens().add(token);
 				
 				if (isEnd) {
@@ -122,13 +123,17 @@ public class Lexer {
 		}
 		
 		if (hasCopy) {
-			fdSentence.getTokens().add(new Token(".", GlobalDef.isKeyword("."), false));
+			//System.out.println(sentence);
+			//fdSentence.getTokens().add(new Token(".", GlobalDef.isKeyword("."), false));
+			//System.out.println(fdSentence);
 			sentences.add(fdSentence);
 			ArrayList<Token> tokens = new ArrayList<Token>();
-			for (int i = copyStart; i < tokens.size(); ++i) {
+			for (int i = copyStart; i < sentence.getTokens().size(); ++i) {
 				tokens.add(sentence.getTokens().get(i));
+				//System.out.println(tokens.get(i).getTokenName());
 			}
 			sentence.setTokens(tokens);
+
 			expandCopy(sentence, sentencNum);
 			copyStart = 0;
 			hasCopy = false;
@@ -144,8 +149,16 @@ public class Lexer {
 			System.out.println("COPY EXP ERROR! line:" + sentencNum + "line is:" + sentence.toString());
 			return;
 		}
-		String fileName = GlobalDef.COPYBOOK_PATH + sentence.getTokens().get(1).getTokenName().trim().toUpperCase();
+		String tk = sentence.getTokens().get(1).getTokenName().trim();
+		if (tk.endsWith(".")) {
+			
+			tk = tk.substring(0, tk.length() - 1);
+		}
+		//System.out.println(sentence.toString());
+		String fileName = GlobalDef.COPYBOOK_PATH + tk.toUpperCase();
+		//System.out.println(fileName);
 		String tmpFileName = GlobalDef.COPYBOOK_PATH + fileName + ".tmp";
+		//System.out.println(tmpFileName);
 		copy = PreProccess.preProcess(fileName, tmpFileName).toString();
 		if (sentence.getTokens().size() == 6) {
 			// Ч�ʵ�
