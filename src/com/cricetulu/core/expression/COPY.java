@@ -5,7 +5,7 @@ import com.cricetulu.core.paser.PreProccess;
 
 public class COPY extends Expression{
 	
-	// copy file replace a to b 
+	// copy file replace ==a== by ==b== 
 	public String execute(int line) {
 		
 		String copy = "";
@@ -15,18 +15,23 @@ public class COPY extends Expression{
 		for (int i = 0; i < token.length; ++i) {
 			
 			if (token.length < 2) {
-				// Å×³öÒì³£
+				// ï¿½×³ï¿½ï¿½ì³£
 				System.out.println("COPY EXP ERROR! line:" + line);
 				break;
 			}
 			String fileName = token[1].trim();
 			copy = PreProccess.preProcess(GlobalDef.COPYBOOK_PATH + fileName, GlobalDef.COPYBOOK_PATH + fileName + "tmp").toString();
-			if (token.length == 4) {
-				// Ð§ÂÊµÍ
-				copy = copy.toString().replaceAll(token[3].trim(), token[4].trim());
+			if (token.length == 6) {
+				// Ð§ï¿½Êµï¿½
+				copy = copy.toString().replaceAll(trim(token[3], "=="), trim(token[5], "=="));
 			}
 		}
 	
 		return copy;
+	}
+	
+	private String trim(String str, String ind) {
+		
+		return str.replace(ind, "");
 	}
 }

@@ -10,9 +10,9 @@ import com.cricetulu.core.expression.Expression;
 
 public class GlobalDef {
 	
-	public static final String KEY_WORDS_FILE = "input\\keyword";
-	public static final String EXPRESSION_FILE = "input\\expression";
-	public static final String COPYBOOK_PATH = "input\\copybook\\";
+	public static final String KEY_WORDS_FILE = "input" + File.separator + "keyword";
+	public static final String EXPRESSION_FILE = "input" + File.separator + "expression";
+	public static final String COPYBOOK_PATH = ".." + File.separator + "COPYLIB" + File.separator;
 	public static final String EXPRESSION_PACK = "com.cricetulu.core.expression.";
 
 	public static HashMap<String, String> keywords = new HashMap<String, String>();

@@ -28,8 +28,8 @@ public class Lexer {
 						currSentence += line;
 						String copy = lexCopy(lineNum);
 						if (!copy.isEmpty()) {
-							if (!currSentence.isEmpty() && !currExpStr.isEmpty()) {
-								currSentence = currSentence.replace(currExpStr, copy);
+							if (!currSentence.isEmpty()) {
+								
 								line = currSentence;
 							}
 							else {
@@ -49,7 +49,7 @@ public class Lexer {
 			// e.printStackTrace();
 			System.out.println("File does not exist");
 		}
-		FileOperation.createFile("D:\\CPD110_12", sb.toString());
+		FileOperation.createFile(".." + File.separator + "CPD110_12", sb.toString());
 		return sb;
 	}
 	
@@ -81,13 +81,15 @@ public class Lexer {
 				}
 				if (exp != null && expFlag == true && !tokens[i].isEmpty() &&(exp.getEndInd().contains(tokens[i]) || tokens[i].endsWith("."))) {
 					expFlag = false;
-					if (i == len - 1) {
-						currSentence = "";
-					}
+					
 					exp.setExp(currExpStr);
 					System.out.println(currExpStr);
 					String expand = exp.execute(lineNum);
+					currSentence = currSentence.replace(currExpStr, expand);
 					currExpStr = "";
+					if (i == len - 1) {
+						currSentence = "";
+					}
 					return expand;
 				}
 				
