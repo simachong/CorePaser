@@ -92,8 +92,9 @@ public class Lexer {
 						expandCopy(sentence, sentencNum);
 					}
 					else {
-						expandInsideCopy(sentence, sentencNum);
-						sentences.add(sentence);
+						if (!expandInsideCopy(sentence, sentencNum)) {
+							sentences.add(sentence);
+						}
 					}
 					sentence = new Sentence();
 					++sentencNum;
@@ -102,7 +103,7 @@ public class Lexer {
 		}		
 	}
 	
-	private void expandInsideCopy(Sentence sentence, int sentencNum) {
+	private boolean expandInsideCopy(Sentence sentence, int sentencNum) {
 		
 		Sentence fdSentence = new Sentence();
 		boolean hasCopy = false;
@@ -135,9 +136,9 @@ public class Lexer {
 			sentence.setTokens(tokens);
 
 			expandCopy(sentence, sentencNum);
-			copyStart = 0;
-			hasCopy = false;
 		}
+		return hasCopy;
+		
 	}
 	
 	private void expandCopy(Sentence sentence, int sentencNum) {
@@ -160,10 +161,20 @@ public class Lexer {
 		String tmpFileName = GlobalDef.COPYBOOK_PATH + fileName + ".tmp";
 		//System.out.println(tmpFileName);
 		copy = PreProccess.preProcess(fileName, tmpFileName).toString();
-		if (sentence.getTokens().size() == 6) {
-			// Ч�ʵ�
-			copy = copy.replaceAll(trim(sentence.getTokens().get(3).getTokenName().trim().toUpperCase(), "==")
-						, trim(sentence.getTokens().get(5).getTokenName().trim().toUpperCase(), "=="));
+		int len = sentence.getTokens().size();
+		if (len >= 6) {
+			
+			while (len >= 6) {
+				// Ч�ʵ�
+				String a = sentence.getTokens().get(len - 3).getTokenName().trim().toUpperCase();
+				String b = sentence.getTokens().get(len - 1).getTokenName().trim().toUpperCase();
+				copy = copy.replaceAll(trim(a, "==")
+							, trim(b, "=="));
+				GlobalDef.nameSpaceMapping.put(a, b);
+				GlobalDef.nameSpaceMapping.put(b, a);
+				len -= 3;
+				//System.out.println(sentence.getTokens().get(3).getTokenName() + sentence.getTokens().get(5).getTokenName());
+			}
 		}
 		FileOperation.createFile(tmpFileName, copy);
 			
@@ -189,7 +200,9 @@ public class Lexer {
 	}
 	
 	private String trim(String str, String ind) {
-		
+		if (str.endsWith(".")) {
+			str = str.substring(0, str.length() - 1);
+		}
 		return str.replace(ind, "");
 	}
 }

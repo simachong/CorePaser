@@ -17,6 +17,7 @@ public class GlobalDef {
 
 	public static HashMap<String, Integer> keywords = new HashMap<String, Integer>();
 	public static HashMap<String, Expression> expressions = new HashMap<String, Expression>();
+	public static HashMap<String, String> nameSpaceMapping = new HashMap<String, String>();
 	
 	public static Integer isKeyword(String token) {
 		
