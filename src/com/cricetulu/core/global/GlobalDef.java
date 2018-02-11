@@ -15,9 +15,16 @@ public class GlobalDef {
 	public static final String COPYBOOK_PATH = ".." + File.separator + "COPYLIB" + File.separator;
 	public static final String EXPRESSION_PACK = "com.cricetulu.core.expression.";
 
-	public static HashMap<String, String> keywords = new HashMap<String, String>();
+	public static HashMap<String, Integer> keywords = new HashMap<String, Integer>();
 	public static HashMap<String, Expression> expressions = new HashMap<String, Expression>();
 	
+	public static Integer isKeyword(String token) {
+		
+		if (keywords.containsKey(token)) {
+			return keywords.get(token);
+		}
+		return -1;
+	}
 	public static void init() {
 		
 		loadKeywords();
@@ -28,9 +35,11 @@ public class GlobalDef {
 		try {
 			Scanner sc = new Scanner(new File(KEY_WORDS_FILE));
 
+			int lineNum = 1;
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
-				keywords.put(line.trim(), "");
+				keywords.put(line.trim(), lineNum);
+				++lineNum;
 			}
 			sc.close();
 		} catch (FileNotFoundException e) {

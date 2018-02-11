@@ -2,6 +2,7 @@ package com.cricetulu.core.main;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.paser.Lexer;
@@ -20,7 +21,9 @@ public class Parse {
 		//System.out.println(System.getProperty("user.dir"));
 		GlobalDef.init();
 		Lexer lex = new Lexer();
-		lex.firstScan(".." + File.separator + "CPD110_PREPROCESS");
+		LinkedHashMap<Integer, String> code = new LinkedHashMap<Integer, String>();
+		lex.scan(".." + File.separator + "CPD110_PREPROCESS", code);
+		lex.printSentences(".." + File.separator + "CPD110_SENTENCES");
 		System.out.println("Over!");
 	}
 

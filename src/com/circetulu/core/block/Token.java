@@ -6,6 +6,13 @@ public class Token {
 	private int tokenID;
 	private boolean isKeyword;
 	
+	public Token(String tokenName, int tokenID, boolean isKeyword) {
+		
+		this.tokenName = tokenName;
+		this.tokenID = tokenID;
+		this.isKeyword = isKeyword;
+	}
+	
 	public String getTokenName() {
 		return tokenName;
 	}

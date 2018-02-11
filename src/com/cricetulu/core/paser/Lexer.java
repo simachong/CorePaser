@@ -2,21 +2,23 @@ package com.cricetulu.core.paser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
-import com.cricetulu.core.expression.Expression;
+import com.circetulu.core.block.Sentence;
+import com.circetulu.core.block.Token;
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.utils.FileOperation;
 
 public class Lexer {
 	
-	private Expression exp = null;
-	private String currSentence = "";
-	private String currExpStr = "";
-	public StringBuffer firstScan(String fileName) {
-		
-		StringBuffer sb = new StringBuffer();
+	//private LinkedHashMap<Integer, String> code = new LinkedHashMap<Integer, String>();
+	private ArrayList<Sentence> sentences = new ArrayList<Sentence>();
+	public void scan(String fileName, LinkedHashMap<Integer, String> code) {
 
 		try {
 			Scanner sc = new Scanner(new File(fileName));
@@ -25,20 +27,7 @@ public class Lexer {
 				String line = sc.nextLine();
 				if (line.length() > 6) {
 					if (line.charAt(6) != '*' && line.charAt(6) != '/') {
-						currSentence += line;
-						String copy = lexCopy(lineNum);
-						if (!copy.isEmpty()) {
-							if (!currSentence.isEmpty()) {
-								
-								line = currSentence;
-							}
-							else {
-								line = copy;
-							}
-							
-						}
-						sb.append(line);
-						sb.append("\n");
+						code.put(lineNum, line);
 					}
 				}
 				++lineNum;
@@ -49,85 +38,145 @@ public class Lexer {
 			// e.printStackTrace();
 			System.out.println("File does not exist");
 		}
-		FileOperation.createFile(".." + File.separator + "CPD110_12", sb.toString());
-		return sb;
+		firstScanCode(code);
 	}
 	
-	public String lexCopy(int lineNum) {
+	public void printCode() {
 		
-		String [] tokens = currSentence.split(" ");
-		int len = tokens.length;
-		if (len == 0) {
-			//System.out.println(currSentence);
-			return "";
-		}
-		if (tokens[len - 1].endsWith(".")) {
-			
-			
-			boolean expFlag = false;
-			for (int i = 0; i < len; ++i) {
-				
-				tokens[i] = tokens[i].trim();
-	
-				if (tokens[i].equalsIgnoreCase("COPY")) {
-					currExpStr = "";
-					currExpStr += tokens[i];
-					exp = GlobalDef.expressions.get(tokens[i].toUpperCase());				
-					expFlag = true;
-				}
-				
-				else if (expFlag && !tokens[i].isEmpty()) {
-					currExpStr += " " + tokens[i];
-				}
-				if (exp != null && expFlag == true && !tokens[i].isEmpty() &&(exp.getEndInd().contains(tokens[i]) || tokens[i].endsWith("."))) {
-					expFlag = false;
-					
-					exp.setExp(currExpStr);
-					System.out.println(currExpStr);
-					String expand = exp.execute(lineNum);
-					currSentence = currSentence.replace(currExpStr, expand);
-					currExpStr = "";
-					if (i == len - 1) {
-						currSentence = "";
-					}
-					return expand;
-				}
-				
-				if (tokens[i].endsWith(".") && i == len - 1) {
-					currSentence = "";
-				}
-				
-			}
-		}
-		return "";
 	}
 	
-	public void lex(int lineNum) {
+	public void printSentences(String file) {
+	
+		String sentenceCode = "";
+		for (Sentence sent : sentences) {
+			sentenceCode += sent.toString();
+			sentenceCode += "\n";
+		}
+		FileOperation.createFile(file, sentenceCode);
+	}
+	
+	private void firstScanCode(LinkedHashMap<Integer, String> code) {
 		
-		String [] tokens = currSentence.split(" ");
-		int len = tokens.length;
-		if (tokens[len - 1].endsWith(".")) {
+		Iterator<Entry< Integer, String>> iter = code.entrySet().iterator();
+		int sentencNum = 1;
+	
+		Sentence sentence = new Sentence();
+		while(iter.hasNext()) {
 			
-			String expStr = "";
-			for (int i = 0; i < len; ++i) {
+			Entry<Integer, String> entry = iter.next();
+			String line = entry.getValue();
+			String [] tokens = line.split(" ");
+			
+			for (int i = 0; i < tokens.length; ++ i) {
 				
-				if (GlobalDef.expressions.containsKey(tokens[i])) {
-					expStr = "";
-					expStr += tokens[i];
-					exp = GlobalDef.expressions.get(tokens[i]);				
-					
+				boolean isEnd = false;
+				String tk = tokens[i].trim().toUpperCase();
+				
+				if (tk.trim().isEmpty() || tk.equals(" ")) {
+					continue;
 				}
-				expStr += tokens[i];
-				if (exp != null && exp.getEndInd().contains(tokens[i])) {
+				
+				if (tk.endsWith(".")) {
+					isEnd = true;
+					tk = tk.substring(0, tk.length() - 1);
+				}
+				int id = GlobalDef.isKeyword(tk);
+				Token token = new Token(tokens[i].trim(), id, id == -1 ? false:true);
+				sentence.getTokens().add(token);
+				
+				if (isEnd) {
 					
-					if (i == len) {
-						currSentence = "";
+					String expName = sentence.getTokens().get(0).getTokenName();
+					if (expName.equalsIgnoreCase("COPY")) {
+						expandCopy(sentence, sentencNum);
 					}
-					exp.setExp(expStr);
-					exp.execute(lineNum);
+					else {
+						expandInsideCopy(sentence, sentencNum);
+						sentences.add(sentence);
+					}
+					sentence = new Sentence();
+					++sentencNum;
 				}
 			}
-		}
+		}		
 	}
+	
+	private void expandInsideCopy(Sentence sentence, int sentencNum) {
+		
+		Sentence fdSentence = new Sentence();
+		boolean hasCopy = false;
+		int copyStart = 0;
 
+		for (int i = 0; i < sentence.getTokens().size(); ++i) {
+			
+			Token token = sentence.getTokens().get(i);
+			if (token.getTokenName().trim().toUpperCase().equals("COPY")) {
+
+				hasCopy = true;
+				copyStart = i;
+				break;
+			}
+			else {
+				fdSentence.getTokens().add(token);
+			}
+		}
+		
+		if (hasCopy) {
+			fdSentence.getTokens().add(new Token(".", GlobalDef.isKeyword("."), false));
+			sentences.add(fdSentence);
+			ArrayList<Token> tokens = new ArrayList<Token>();
+			for (int i = copyStart; i < tokens.size(); ++i) {
+				tokens.add(sentence.getTokens().get(i));
+			}
+			sentence.setTokens(tokens);
+			expandCopy(sentence, sentencNum);
+			copyStart = 0;
+			hasCopy = false;
+		}
+	}
+	
+	private void expandCopy(Sentence sentence, int sentencNum) {
+		String copy = "";
+		LinkedHashMap<Integer, String> code = new LinkedHashMap<Integer, String>();
+		
+		if (sentence.getTokens().size() < 2) {
+			// �׳��쳣
+			System.out.println("COPY EXP ERROR! line:" + sentencNum + "line is:" + sentence.toString());
+			return;
+		}
+		String fileName = GlobalDef.COPYBOOK_PATH + sentence.getTokens().get(1).getTokenName().trim().toUpperCase();
+		String tmpFileName = GlobalDef.COPYBOOK_PATH + fileName + ".tmp";
+		copy = PreProccess.preProcess(fileName, tmpFileName).toString();
+		if (sentence.getTokens().size() == 6) {
+			// Ч�ʵ�
+			copy = copy.replaceAll(trim(sentence.getTokens().get(3).getTokenName().trim().toUpperCase(), "==")
+						, trim(sentence.getTokens().get(5).getTokenName().trim().toUpperCase(), "=="));
+		}
+		FileOperation.createFile(tmpFileName, copy);
+			
+		try {
+			Scanner sc = new Scanner(new File(tmpFileName));
+			int copylineNum = 1;
+			while (sc.hasNextLine()) {
+			String line = sc.nextLine();
+			if (line.length() > 6) {
+				if (line.charAt(6) != '*' && line.charAt(6) != '/') {
+					code.put(copylineNum, line);
+				}
+			}
+			++copylineNum;
+			}
+			sc.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			System.out.println("File does not exist");
+		}
+		firstScanCode(code);
+	}
+	
+	private String trim(String str, String ind) {
+		
+		return str.replace(ind, "");
+	}
 }
