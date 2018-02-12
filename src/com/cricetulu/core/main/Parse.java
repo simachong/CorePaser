@@ -24,6 +24,7 @@ public class Parse {
 		LinkedHashMap<Integer, String> code = new LinkedHashMap<Integer, String>();
 		lex.scan(".." + File.separator + "CPD110_PREPROCESS", code);
 		lex.printSentences(".." + File.separator + "CPD110_SENTENCES");
+		lex.printTokens(".." + File.separator + "CPD110_TOKENS");
 		System.out.println("Over!");
 	}
 

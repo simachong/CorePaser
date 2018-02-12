@@ -41,8 +41,18 @@ public class Lexer {
 		firstScanCode(code);
 	}
 	
-	public void printCode() {
+	public void printTokens(String file) {
 		
+		String tokenStr = "";
+		for (Sentence sent : sentences) {
+			for (Token token : sent.getTokens()) {
+				if (!token.isKeyword()) {
+					tokenStr += token.getTokenName();
+					tokenStr += "\n";
+				}
+			}
+		}
+		FileOperation.createFile(file, tokenStr);
 	}
 	
 	public void printSentences(String file) {
@@ -78,7 +88,7 @@ public class Lexer {
 				
 				if (tk.endsWith(".")) {
 					isEnd = true;
-					//tk = tk.substring(0, tk.length() - 1);
+					tk = tk.substring(0, tk.length() - 1);
 					//System.out.println(tk);
 				}
 				int id = GlobalDef.isKeyword(tk);
@@ -166,10 +176,9 @@ public class Lexer {
 			
 			while (len >= 6) {
 				// Ч�ʵ�
-				String a = sentence.getTokens().get(len - 3).getTokenName().trim().toUpperCase();
-				String b = sentence.getTokens().get(len - 1).getTokenName().trim().toUpperCase();
-				copy = copy.replaceAll(trim(a, "==")
-							, trim(b, "=="));
+				String a = trim(sentence.getTokens().get(len - 3).getTokenName().trim().toUpperCase(), "==");
+				String b = trim(sentence.getTokens().get(len - 1).getTokenName().trim().toUpperCase(), "==");
+				copy = copy.replaceAll(a, b);
 				GlobalDef.nameSpaceMapping.put(a, b);
 				GlobalDef.nameSpaceMapping.put(b, a);
 				len -= 3;
