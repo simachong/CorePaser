@@ -2,7 +2,7 @@ package com.circetulu.core.block;
 
 public class Division {
 
-	private String divisionName;
+	private String divisionName = new String();
 
 	public String getDivisionName() {
 		return divisionName;
@@ -10,7 +10,5 @@ public class Division {
 
 	public void setDivisionName(String divisionName) {
 		this.divisionName = divisionName;
-	}
-	
-	
+	}	
 }

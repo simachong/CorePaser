@@ -2,7 +2,9 @@ package com.cricetulu.core.expression;
 
 import java.util.ArrayList;
 
+import com.circetulu.core.block.Sentence;
 import com.circetulu.core.block.Token;
+import com.cricetulu.core.module.DataModule;
 
 public class Expression {
 
@@ -15,9 +17,8 @@ public class Expression {
 		tokens = new ArrayList<Token>();
 	}
 	
-	public String execute(int line) {
+	public void execute(DataModule dataModule, Sentence sentence) {
 		
-		return "";
 	}
 
 	public String getExp() {

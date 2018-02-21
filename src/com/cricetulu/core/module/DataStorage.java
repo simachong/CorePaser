@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @author simachong
  *
  */
-public class DataStorage {
+public class DataStorage extends DataModule{
 	
 	// 灞傜骇 01 03 05..
 	private String hierarchy;
@@ -20,6 +20,8 @@ public class DataStorage {
 	private String dataType;
 	// 鎵�灞瀋opybook  鏈湴瀹氫箟涓簑k
 	private String copybook = "wk";
+	
+	private String fileName;
 	
 	private int ref;
 	// 88椤�
@@ -123,5 +125,14 @@ public class DataStorage {
 	public void setRedefines(ArrayList<DataStorage> redefines) {
 		this.redefines = redefines;
 	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
 }
 //*
