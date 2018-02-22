@@ -46,10 +46,10 @@ public class Lexer {
 		String tokenStr = "";
 		for (Sentence sent : sentences) {
 			for (Token token : sent.getTokens()) {
-				if (!token.isKeyword()) {
+				//if (!token.isKeyword()) {
 					tokenStr += token.getTokenName();
 					tokenStr += "\n";
-				}
+				//}
 			}
 		}
 		FileOperation.createFile(file, tokenStr);
@@ -208,10 +208,15 @@ public class Lexer {
 		firstScanCode(code);
 	}
 	
+	
 	private String trim(String str, String ind) {
 		if (str.endsWith(".")) {
 			str = str.substring(0, str.length() - 1);
 		}
 		return str.replace(ind, "");
+	}
+
+	public ArrayList<Sentence> getSentences() {
+		return sentences;
 	}
 }
