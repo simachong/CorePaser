@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @author simachong
  *
  */
-public class DataStorage {
+public class DataStorage extends DataModule{
 	
 	// 灞傜骇 01 03 05..
 	private String hierarchy;
@@ -21,6 +21,8 @@ public class DataStorage {
 	// 鎵�灞瀋opybook  鏈湴瀹氫箟涓簑k
 	private String copybook = "wk";
 	
+	private String fileName;
+	
 	private int ref;
 	// 88椤�
 	private Item88 item88;
@@ -29,7 +31,12 @@ public class DataStorage {
 	// 鏄惁涓哄祵濂� 
 	private boolean isHierarchy;
 	
+	private String usage;
 	
+	private int occurTime;
+	private ArrayList<String> values;
+	private String index;
+	private String denpences;
 	
 	// 宓屽鏁版嵁缁撴瀯  <鍙橀噺鍚嶏紝瀹氫箟>
 	private HashMap<String, DataStorage> nestDs;
@@ -122,6 +129,54 @@ public class DataStorage {
 
 	public void setRedefines(ArrayList<DataStorage> redefines) {
 		this.redefines = redefines;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getUsage() {
+		return usage;
+	}
+
+	public void setUsage(String usage) {
+		this.usage = usage;
+	}
+
+	public int getOccurTime() {
+		return occurTime;
+	}
+
+	public void setOccurTime(int occurTime) {
+		this.occurTime = occurTime;
+	}
+
+	public ArrayList<String> getValues() {
+		return values;
+	}
+
+	public void setValues(ArrayList<String> values) {
+		this.values = values;
+	}
+
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
+	}
+
+	public String getDenpences() {
+		return denpences;
+	}
+
+	public void setDenpences(String denpences) {
+		this.denpences = denpences;
 	}
 }
 //*

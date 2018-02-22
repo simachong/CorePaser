@@ -14,10 +14,22 @@ public class GlobalDef {
 	public static final String EXPRESSION_FILE = "input" + File.separator + "expression";
 	public static final String COPYBOOK_PATH = ".." + File.separator + "COPYLIB" + File.separator;
 	public static final String EXPRESSION_PACK = "com.cricetulu.core.expression.";
+	public static final String [] divisions = {"IDENTIFICATION", "ENVIRONMENT", "DATA", "PROCEDURE"};
 
 	public static HashMap<String, Integer> keywords = new HashMap<String, Integer>();
 	public static HashMap<String, Expression> expressions = new HashMap<String, Expression>();
 	public static HashMap<String, String> nameSpaceMapping = new HashMap<String, String>();
+	
+	public static boolean isDivision(String division) {
+	
+		for (int i = 0; i < divisions.length; ++i) {
+			
+			if (divisions[i].equals(division)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public static Integer isKeyword(String token) {
 		
@@ -26,6 +38,15 @@ public class GlobalDef {
 		}
 		return -1;
 	}
+	
+	public static boolean isExp(String token) {
+		
+		if (expressions.containsKey(token)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public static void init() {
 		
 		loadKeywords();
