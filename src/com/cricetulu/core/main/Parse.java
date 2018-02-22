@@ -31,6 +31,7 @@ public class Parse {
 		ps.lex();
 		ps.printFiles();
 		ps.printFD();
+		ps.printDs();
 		System.out.println("Over!");
 	}
 

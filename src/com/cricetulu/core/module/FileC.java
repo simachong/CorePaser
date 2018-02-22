@@ -16,7 +16,7 @@ public class FileC extends DataModule{
 	private String labelRec;
 	private String recMode;
 	
-	private LinkedHashMap<String,DataStorage> ds;
+	private LinkedHashMap<String,DataStorage> ds = new LinkedHashMap<String,DataStorage>();
 	
 	public String getJclFilename() {
 		return jclFilename;

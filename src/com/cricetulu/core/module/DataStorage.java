@@ -2,6 +2,7 @@ package com.cricetulu.core.module;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * 
@@ -10,39 +11,36 @@ import java.util.HashMap;
  */
 public class DataStorage extends DataModule{
 	
-	// 灞傜骇 01 03 05..
 	private String hierarchy;
-	// 鍙橀噺鍚�
 	private String name;
-	// 鍊�
 	private String value;
-	// 鏁版嵁绫诲瀷
 	private String dataType;
-	// 鎵�灞瀋opybook  鏈湴瀹氫箟涓簑k
-	private String copybook = "wk";
 	
+	private String copybook = "wk";
 	private String fileName;
 	
 	private int ref;
-	// 88椤�
-	private Item88 item88;
-	// 鏄惁涓�88椤�
-	private boolean isItem88;
-	// 鏄惁涓哄祵濂� 
+
 	private boolean isHierarchy;
 	
 	private String usage;
 	
-	private int occurTime;
-	private ArrayList<String> values;
+	private int occurTime = 0;
 	private String index;
 	private String denpences;
+	private int minTime = 0;
+	private int maxTime = 0;
 	
-	// 宓屽鏁版嵁缁撴瀯  <鍙橀噺鍚嶏紝瀹氫箟>
+	private boolean isItem88;
+	private LinkedHashMap<String, Item88> item88s;
+	
 	private HashMap<String, DataStorage> nestDs;
-	// 鍙橀噺閲嶅畾涔�
-	private ArrayList<DataStorage> redefines; 
 
+	public DataStorage() {
+		
+		setItem88s(new LinkedHashMap<String, Item88>());
+	}
+	
 	public String getHierarchy() {
 		return hierarchy;
 	}
@@ -73,14 +71,6 @@ public class DataStorage extends DataModule{
 
 	public void setRef(int ref) {
 		this.ref = ref;
-	}
-
-	public Item88 getItem88() {
-		return item88;
-	}
-
-	public void setItem88(Item88 item88) {
-		this.item88 = item88;
 	}
 
 	public boolean isItem88() {
@@ -123,14 +113,6 @@ public class DataStorage extends DataModule{
 		this.copybook = copybook;
 	}
 
-	public ArrayList<DataStorage> getRedefines() {
-		return redefines;
-	}
-
-	public void setRedefines(ArrayList<DataStorage> redefines) {
-		this.redefines = redefines;
-	}
-
 	public String getFileName() {
 		return fileName;
 	}
@@ -155,14 +137,6 @@ public class DataStorage extends DataModule{
 		this.occurTime = occurTime;
 	}
 
-	public ArrayList<String> getValues() {
-		return values;
-	}
-
-	public void setValues(ArrayList<String> values) {
-		this.values = values;
-	}
-
 	public String getIndex() {
 		return index;
 	}
@@ -178,5 +152,30 @@ public class DataStorage extends DataModule{
 	public void setDenpences(String denpences) {
 		this.denpences = denpences;
 	}
+
+	public int getMinTime() {
+		return minTime;
+	}
+
+	public void setMinTime(int minTime) {
+		this.minTime = minTime;
+	}
+
+	public int getMaxTime() {
+		return maxTime;
+	}
+
+	public void setMaxTime(int maxTime) {
+		this.maxTime = maxTime;
+	}
+
+	public LinkedHashMap<String, Item88> getItem88s() {
+		return item88s;
+	}
+
+	public void setItem88s(LinkedHashMap<String, Item88> item88s) {
+		this.item88s = item88s;
+	}
+
 }
 //*

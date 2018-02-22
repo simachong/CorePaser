@@ -28,8 +28,8 @@ public class SELECT extends Expression{
 			String tokenName = tokens.get(i).getTokenName();
 			
 			switch (tokenName) {
-			case "SELECT" : file.setJclFilename(tokens.get(i + 1).getTokenName());break;
-			case "ASSIGN" : file.setFilenName(tokens.get(i + 2).getTokenName());break;
+			case "SELECT" : file.setFilenName(tokens.get(i + 1).getTokenName());break;
+			case "ASSIGN" : file.setJclFilename(tokens.get(i + 2).getTokenName());break;
 			case "ORGNIZATION" : file.setOrganization(tokens.get(i + 2).getTokenName());break;
 			case "ACCESS" : file.setAccessMethod(tokens.get(i + 3).getTokenName());break;
 			case "FILE" : file.setStatus(tokens.get(i + 2).getTokenName());break;
