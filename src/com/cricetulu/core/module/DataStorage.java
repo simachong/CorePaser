@@ -31,7 +31,12 @@ public class DataStorage extends DataModule{
 	// 鏄惁涓哄祵濂� 
 	private boolean isHierarchy;
 	
+	private String usage;
 	
+	private int occurTime;
+	private ArrayList<String> values;
+	private String index;
+	private String denpences;
 	
 	// 宓屽鏁版嵁缁撴瀯  <鍙橀噺鍚嶏紝瀹氫箟>
 	private HashMap<String, DataStorage> nestDs;
@@ -133,6 +138,45 @@ public class DataStorage extends DataModule{
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	
+
+	public String getUsage() {
+		return usage;
+	}
+
+	public void setUsage(String usage) {
+		this.usage = usage;
+	}
+
+	public int getOccurTime() {
+		return occurTime;
+	}
+
+	public void setOccurTime(int occurTime) {
+		this.occurTime = occurTime;
+	}
+
+	public ArrayList<String> getValues() {
+		return values;
+	}
+
+	public void setValues(ArrayList<String> values) {
+		this.values = values;
+	}
+
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
+	}
+
+	public String getDenpences() {
+		return denpences;
+	}
+
+	public void setDenpences(String denpences) {
+		this.denpences = denpences;
+	}
 }
 //*

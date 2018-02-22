@@ -19,23 +19,27 @@ public class Level extends Expression{
 		}
 		// 01 02 03 04 05... hierarchy name 
 		// PIC|PICTURE dataType
-		// USAGE {BINARY, COMPUTATIONAL, COMPUTATIONAL,COMP, COMP-3, COMPUTATIONAL-3,DISPLAY, PACKED-DECIMAL}
+		// USAGE {BINARY, COMPUTATIONAL, COMP, COMP-3, COMPUTATIONAL-3,DISPLAY, PACKED-DECIMAL}
 		// OCCURS num TIMES 
 		// INDEXED BY index
 		// REDEFINES
 		// VALUE|VALUES
 		// DENPENDING ON denpences
+		// 66 77 88
 		for (int i = 0; i < tokens.size(); ++i) {
 			
 			String tokenName = tokens.get(i).getTokenName();
 			
 			switch (tokenName) {
-//			case "FD" : if (!file.getFilenName().equals(tokens.get(i + 1).getTokenName())) { }; break; // error log
-//			case "BLOCK" : file.setRecNum(tokens.get(i + 2).getTokenName()); break;
-//			case "RECORD" : file.setCharNum(tokens.get(i + 2).getTokenName()); break;
-//			case "LABEL" : file.setLabelRec(tokens.get(i + 3).getTokenName()); break;
-//			case "RECORDING" : file.setRecMode(tokens.get(i + 3).getTokenName()); break;
-//			default : break;
+
+ 			case "PIC" : ds.setDataType(tokens.get(i + 1).getTokenName()); break;
+    			case "PICTURE" : ds.setDataType(tokens.get(i + 1).getTokenName()); break;
+ 			case "OCCURS" : ds.setOccurTime(Integer.parseInt(tokens.get(i + 1).getTokenName())); break;
+ 			case "INDEXED" : ds.setIndex(tokens.get(i + 2).getTokenName()); break;
+ 			case "VALUE": ds.setValue(tokens.get(i + 1).getTokenName()); break;
+ 			//case "VALUES": break; 88 ITEM
+ 			case "DEPENDING": ds.setDenpences(tokens.get(i + 2).getTokenName()); break;
+      		default : break;
 			}
 		}
 	}
