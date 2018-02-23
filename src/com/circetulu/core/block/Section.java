@@ -1,15 +1,29 @@
 package com.circetulu.core.block;
 
-public class Section {
+import java.util.ArrayList;
 
-	private String sectionName;
+public class Section extends Block{
 
-	public String getSectionName() {
-		return sectionName;
+	private String name;
+	private ArrayList<Block> blks;
+	
+	public Section (String name) {
+		
+		this.name = name;
+		blks = new ArrayList<Block>();
 	}
-
-	public void setSectionName(String sectionName) {
-		this.sectionName = sectionName;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public ArrayList<Block> getBlks() {
+		return blks;
+	}
+	public void setBlks(ArrayList<Block> blks) {
+		this.blks = blks;
 	}
 	
 	

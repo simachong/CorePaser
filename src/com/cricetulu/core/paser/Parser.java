@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+import java.util.Stack;
 
-import com.circetulu.core.block.Division;
+import com.circetulu.core.block.Block;
+import com.circetulu.core.block.Routine;
+import com.circetulu.core.block.Section;
 import com.circetulu.core.block.Sentence;
 import com.circetulu.core.block.Token;
 import com.cricetulu.core.expression.FD;
@@ -19,7 +22,7 @@ import com.cricetulu.core.module.FileC;
 import com.cricetulu.core.module.Item88;
 import com.cricetulu.core.utils.FileOperation;
 
-public class Paser {
+public class Parser {
 
 	private LinkedHashMap<Integer, String> code = new LinkedHashMap<Integer, String>();
 	private ArrayList<Sentence> sentences;
@@ -27,10 +30,18 @@ public class Paser {
 	//private LinkedHashMap<String, Division> divsions;
 	private FileC currFile;
 	private DataStorage currDs;
-	private Division currDivision;
+	private String currDivision = "";
 	private String currSection = "";
+	private boolean newRoutine = true;
+	private Routine currRoutine;
 	private LinkedHashMap<String, FileC> files = new LinkedHashMap<String, FileC>();
 	private LinkedHashMap<String, DataStorage> dictDsMap = new LinkedHashMap<String, DataStorage>();
+	
+	private ArrayList<Block> procedure = new ArrayList<Block>();
+	private ArrayList<Block> blksIter = procedure;
+	private Sentence nextSentence;
+	private Stack<ArrayList<Block>> blksIterStack = new Stack<ArrayList<Block>>();
+	
 	public void init() {
 		
 		PreProccess.preProcess(".." + File.separator + "SRCLIB" + File.separator + "CPD110"
@@ -41,14 +52,49 @@ public class Paser {
 		lexer.printSentences(".." + File.separator + "CPD110_SENTENCES");
 		lexer.printTokens(".." + File.separator + "CPD110_TOKENS");
 		sentences = lexer.getSentences();
-		currDivision = new Division();
 	}
 	
 	public void lex() {
 		
-		for (Sentence sentence : sentences) {
+		for (int i = 0; i < sentences.size(); ++i) {
 			
-			parse(sentence);
+			if (i < sentences.size() - 1) {
+				
+				nextSentence = sentences.get(i + 1);
+			}
+			else {
+				nextSentence = null;
+			}
+			
+			parse(sentences.get(i));
+			
+		}
+	}
+	
+	public void printRoutine() {
+		
+		for (Block blk : procedure) {
+			
+			if (blk instanceof Section) {
+				
+				Section sec = (Section)blk;
+				System.out.println(sec.getName());
+				ArrayList<Block> secblks = sec.getBlks();
+				for (Block secblk : secblks) {
+					
+					if (secblk instanceof Routine) {
+						
+						Routine rt = (Routine)secblk;
+						System.out.println(rt.getName());
+					}
+				}
+			}
+			
+			if (blk instanceof Routine) {
+				
+				Routine rt = (Routine)blk;
+				System.out.println(rt.getName());
+			}
 		}
 	}
 	
@@ -115,7 +161,7 @@ public class Paser {
 		
 		ArrayList<Token> tokens = sentence.getTokens();
 		
-		String divisionName = currDivision.getDivisionName();
+		String divisionName = currDivision;
 		if (tokens.size() < 1) {
 			// TOOD error log
 			return;
@@ -124,15 +170,15 @@ public class Paser {
 			
 			divisionName = tokens.get(0).getTokenName();
 			if (GlobalDef.isDivision(divisionName)) {
-				currDivision.setDivisionName(divisionName);
+				currDivision = divisionName;
 			}
 		}		
 		//System.out.println(currDivision);
-		switch (currDivision.getDivisionName()) {
+		switch (currDivision) {
 		case "IDENTIFICATION": indDivisionParse(); break;
 		case "ENVIRONMENT": envDivsionParse(sentence); break;
 		case "DATA": dataDivisionParse(sentence); break;
-		case "PROCEDURE": procDivisionParse(); break;
+		case "PROCEDURE": procDivisionParse(sentence); break;
 		default: // error log
 		}
 	}
@@ -159,12 +205,9 @@ public class Paser {
 		
 		ArrayList<Token> tokens = sentence.getTokens();
 		
-		if (2 == tokens.size()) {
-			String isSection = tokens.get(1).getTokenName();
-			if (isSection.equals("SECTION")) {
-				currSection = tokens.get(0).getTokenName();
-				return;
-			}
+		if (sentence.isSection()) {
+			currSection = tokens.get(0).getTokenName();
+			return;
 		}
 		
 		String hir = sentence.getTokens().get(0).getTokenName();
@@ -191,8 +234,6 @@ public class Paser {
 		}
 		
 		if (currSection.equals("FILE")) {
-			
-			
 			
 			if (name.equals("FD") || name.equals("SD")) {
 				FD sel = new FD();
@@ -234,8 +275,60 @@ public class Paser {
 		}
 	}
 	
-	private void procDivisionParse() {
+	private void procDivisionParse(Sentence sentence) {
 		
+		ArrayList<Token> tokens = sentence.getTokens();
+		
+		if (sentence.isSection()) {
+			
+			if (!currSection.isEmpty()) {
+				blksIter = blksIterStack.pop();
+			}
+
+			currSection = tokens.get(0).getTokenName();
+			Section sec = new Section(sentence.getTokens().get(0).getTokenName());
+			blksIter.add(sec);
+			blksIterStack.push(blksIter);
+			blksIter = sec.getBlks();
+		}
+		else if (sentence.isLable()) {
+			
+			if (newRoutine) {
+
+				Routine rt = new Routine(sentence.getTokens().get(0).getTokenName());
+				currRoutine = rt;
+				blksIter.add(rt);
+				blksIterStack.push(blksIter);
+				blksIter = rt.getSentences();
+				newRoutine = false;
+			}
+			else {
+				
+				if (nextSentence.equals("EXIT") && currRoutine != null) {
+					
+					blksIter = blksIterStack.pop();
+					currRoutine.setEnd(true);
+					currRoutine.setTo(sentence.getLableName());
+					newRoutine = true;
+					currRoutine = null;
+				}
+				else if (!nextSentence.isLable()) {
+					
+					blksIter = blksIterStack.pop();
+					Routine rt = new Routine(sentence.getTokens().get(0).getTokenName());
+					currRoutine.setEnd(false);
+					currRoutine.setNextRoutine(rt);
+					currRoutine = rt;
+					blksIter.add(rt);
+					blksIterStack.push(blksIter);
+					blksIter = rt.getSentences();
+				}
+			}
+		}
+		else if (!sentence.equals("EXIT")){
+			
+			blksIter.add(sentence);
+		}
 	}
 	
 	private boolean dsDefCheck(String str) {

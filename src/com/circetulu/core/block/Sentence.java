@@ -2,9 +2,12 @@ package com.circetulu.core.block;
 
 import java.util.ArrayList;
 
-public class Sentence {
+public class Sentence extends Block {
 
 	private ArrayList<Token> tokens;
+	private boolean isLable;
+	private boolean isSection;
+	private String lableName;
 	
 	public Sentence() {
 		
@@ -27,5 +30,29 @@ public class Sentence {
 			sent += " " + token.getTokenName();
 		}
 		return sent;
+	}
+
+	public boolean isLable() {
+		return isLable;
+	}
+
+	public void setLable(boolean isLable) {
+		this.isLable = isLable;
+	}
+
+	public String getLableName() {
+		return lableName;
+	}
+
+	public void setLableName(String lableName) {
+		this.lableName = lableName;
+	}
+
+	public boolean isSection() {
+		return isSection;
+	}
+
+	public void setSection(boolean isSection) {
+		this.isSection = isSection;
 	}
 }

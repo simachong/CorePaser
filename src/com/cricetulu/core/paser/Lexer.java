@@ -103,6 +103,8 @@ public class Lexer {
 					}
 					else {
 						if (!expandInsideCopy(sentence, sentencNum)) {
+							isSection(sentence);
+							isRoutine(sentence);
 							sentences.add(sentence);
 						}
 					}
@@ -137,6 +139,8 @@ public class Lexer {
 			//System.out.println(sentence);
 			//fdSentence.getTokens().add(new Token(".", GlobalDef.isKeyword("."), false));
 			//System.out.println(fdSentence);
+			isSection(fdSentence);
+			isRoutine(fdSentence);
 			sentences.add(fdSentence);
 			ArrayList<Token> tokens = new ArrayList<Token>();
 			for (int i = copyStart; i < sentence.getTokens().size(); ++i) {
@@ -218,5 +222,32 @@ public class Lexer {
 
 	public ArrayList<Sentence> getSentences() {
 		return sentences;
+	}
+	
+	private boolean isSection(Sentence sentence) {
+		
+		if (2 == sentence.getTokens().size()) {
+			String isSection = sentence.getTokens().get(1).getTokenName();
+			if (isSection.equals("SECTION")) {
+				
+				sentence.setLable(true);
+				sentence.setSection(true);
+				sentence.setLableName(sentence.getTokens().get(0).getTokenName());
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean isRoutine(Sentence sentence) {
+		
+		if (1 == sentence.getTokens().size() 
+				&& -1 == GlobalDef.isKeyword(sentence.getTokens().get(0).getTokenName())) {
+			
+			sentence.setLable(true);
+			sentence.setLableName(sentence.getTokens().get(0).getTokenName());
+			return true;
+		}
+		return false;
 	}
 }

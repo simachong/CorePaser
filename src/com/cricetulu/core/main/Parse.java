@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.paser.Lexer;
-import com.cricetulu.core.paser.Paser;
+import com.cricetulu.core.paser.Parser;
 import com.cricetulu.core.paser.PreProccess;
 
 public class Parse {
@@ -26,12 +26,13 @@ public class Parse {
 //		lex.scan(".." + File.separator + "CPD110_PREPROCESS", code);
 //		lex.printSentences(".." + File.separator + "CPD110_SENTENCES");
 //		lex.printTokens(".." + File.separator + "CPD110_TOKENS");
-		Paser ps = new Paser();
+		Parser ps = new Parser();
 		ps.init();
 		ps.lex();
 		ps.printFiles();
 		ps.printFD();
 		ps.printDs();
+		ps.printRoutine();
 		System.out.println("Over!");
 	}
 

@@ -34,6 +34,11 @@ public class DataStorage extends DataModule{
 	private boolean isItem88;
 	private LinkedHashMap<String, Item88> item88s;
 	
+	private boolean isCondition;
+	private ArrayList<String> conditionVals;
+	
+	private ArrayList<ValueLink> valueLinks;
+	
 	private HashMap<String, DataStorage> nestDs;
 
 	public DataStorage() {
@@ -175,6 +180,30 @@ public class DataStorage extends DataModule{
 
 	public void setItem88s(LinkedHashMap<String, Item88> item88s) {
 		this.item88s = item88s;
+	}
+
+	public boolean isCondition() {
+		return isCondition;
+	}
+
+	public void setCondition(boolean isCondition) {
+		this.isCondition = isCondition;
+	}
+
+	public ArrayList<String> getConditionVals() {
+		return conditionVals;
+	}
+
+	public void setConditionVals(ArrayList<String> conditionVals) {
+		this.conditionVals = conditionVals;
+	}
+
+	public ArrayList<ValueLink> getValueLinks() {
+		return valueLinks;
+	}
+
+	public void setValueLinks(ArrayList<ValueLink> valueLinks) {
+		this.valueLinks = valueLinks;
 	}
 
 }
