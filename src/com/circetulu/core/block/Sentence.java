@@ -12,6 +12,7 @@ public class Sentence extends Block {
 	public Sentence() {
 		
 		tokens = new ArrayList<Token>();
+		lableName = "";
 	}
 
 	public ArrayList<Token> getTokens() {

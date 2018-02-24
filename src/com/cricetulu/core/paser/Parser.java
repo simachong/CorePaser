@@ -31,9 +31,10 @@ public class Parser {
 	private FileC currFile;
 	private DataStorage currDs;
 	private String currDivision = "";
-	private String currSection = "";
-	private boolean newRoutine = true;
+	private String datacurrSectionName = "";
+	private String proccurrSectionName = "";
 	private Routine currRoutine;
+	private Section currSection;
 	private LinkedHashMap<String, FileC> files = new LinkedHashMap<String, FileC>();
 	private LinkedHashMap<String, DataStorage> dictDsMap = new LinkedHashMap<String, DataStorage>();
 	
@@ -78,14 +79,16 @@ public class Parser {
 			if (blk instanceof Section) {
 				
 				Section sec = (Section)blk;
-				System.out.println(sec.getName());
+				//System.out.println(sec.getName());
 				ArrayList<Block> secblks = sec.getBlks();
 				for (Block secblk : secblks) {
 					
 					if (secblk instanceof Routine) {
 						
 						Routine rt = (Routine)secblk;
-						System.out.println(rt.getName());
+						if (!rt.isEnd()) {
+							System.out.println(rt.getName());
+						}
 					}
 				}
 			}
@@ -93,7 +96,9 @@ public class Parser {
 			if (blk instanceof Routine) {
 				
 				Routine rt = (Routine)blk;
-				System.out.println(rt.getName());
+				if (!rt.isEnd()) {
+					System.out.println(rt.getName());
+				}
 			}
 		}
 	}
@@ -206,14 +211,14 @@ public class Parser {
 		ArrayList<Token> tokens = sentence.getTokens();
 		
 		if (sentence.isSection()) {
-			currSection = tokens.get(0).getTokenName();
+			datacurrSectionName = tokens.get(0).getTokenName();
 			return;
 		}
 		
 		String hir = sentence.getTokens().get(0).getTokenName();
 		String name = sentence.getTokens().get(1).getTokenName();
 		//System.out.println(name);
-		if (currSection.equals("WORKING-STORAGE")) {
+		if (datacurrSectionName.equals("WORKING-STORAGE")) {
 			
 			if (dsDefCheck(hir)) {
 				DataStorage ds = new DataStorage();
@@ -233,7 +238,7 @@ public class Parser {
 			}
 		}
 		
-		if (currSection.equals("FILE")) {
+		if (datacurrSectionName.equals("FILE")) {
 			
 			if (name.equals("FD") || name.equals("SD")) {
 				FD sel = new FD();
@@ -281,43 +286,50 @@ public class Parser {
 		
 		if (sentence.isSection()) {
 			
-			if (!currSection.isEmpty()) {
+			if (!proccurrSectionName.isEmpty()) {
 				blksIter = blksIterStack.pop();
 			}
 
-			currSection = tokens.get(0).getTokenName();
+			proccurrSectionName = tokens.get(0).getTokenName();
 			Section sec = new Section(sentence.getTokens().get(0).getTokenName());
 			blksIter.add(sec);
 			blksIterStack.push(blksIter);
 			blksIter = sec.getBlks();
+			currSection = sec;
 		}
 		else if (sentence.isLable()) {
-			
-			if (newRoutine) {
-
+		
+			if (nextSentence != null && nextSentence.getTokens().get(0).getTokenName().equals("EXIT") && currRoutine != null) {
+					
+				blksIter = blksIterStack.pop();
+				currRoutine.setEnd(true);
+				currRoutine.setTo(sentence.getLableName());
+				currRoutine = null;
+			}
+			else if (!nextSentence.isLable() && currRoutine != null) {
+					
+				blksIter = blksIterStack.pop();
 				Routine rt = new Routine(sentence.getTokens().get(0).getTokenName());
+				currRoutine.setEnd(false);
+				currRoutine.setNextRoutine(rt);
 				currRoutine = rt;
 				blksIter.add(rt);
 				blksIterStack.push(blksIter);
 				blksIter = rt.getSentences();
-				newRoutine = false;
 			}
-			else {
+			else if (currRoutine == null){
 				
-				if (nextSentence.equals("EXIT") && currRoutine != null) {
+				if (nextSentence != null && nextSentence.getTokens().get(0).getTokenName().equals("EXIT")) {
 					
-					blksIter = blksIterStack.pop();
-					currRoutine.setEnd(true);
-					currRoutine.setTo(sentence.getLableName());
-					newRoutine = true;
-					currRoutine = null;
+					if (!currSection.isEnd()) {
+						
+						currSection.setEnd(true);
+						currSection.setTo(sentence.getTokens().get(0).getTokenName());
+					}
 				}
-				else if (!nextSentence.isLable()) {
-					
-					blksIter = blksIterStack.pop();
+				else {
+
 					Routine rt = new Routine(sentence.getTokens().get(0).getTokenName());
-					currRoutine.setEnd(false);
-					currRoutine.setNextRoutine(rt);
 					currRoutine = rt;
 					blksIter.add(rt);
 					blksIterStack.push(blksIter);
@@ -325,7 +337,7 @@ public class Parser {
 				}
 			}
 		}
-		else if (!sentence.equals("EXIT")){
+		else if (!sentence.getTokens().get(0).getTokenName().equals("EXIT")){
 			
 			blksIter.add(sentence);
 		}

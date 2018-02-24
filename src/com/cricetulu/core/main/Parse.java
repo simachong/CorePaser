@@ -29,9 +29,10 @@ public class Parse {
 		Parser ps = new Parser();
 		ps.init();
 		ps.lex();
-		ps.printFiles();
-		ps.printFD();
-		ps.printDs();
+		
+//		ps.printFiles();
+//		ps.printFD();
+//		ps.printDs();
 		ps.printRoutine();
 		System.out.println("Over!");
 	}
