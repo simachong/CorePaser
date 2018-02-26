@@ -71,6 +71,7 @@ public class GlobalDef {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void loadExpression() {
 		
 		try {

@@ -1,6 +1,6 @@
 package com.cricetulu.core.module;
 
-public class PERFORMSTM extends DataModule{
+public class PERFORMSTM extends AST{
 
 	private String from;
 	private String to;
@@ -17,6 +17,4 @@ public class PERFORMSTM extends DataModule{
 	public void setTo(String to) {
 		this.to = to;
 	}
-	
-	
 }

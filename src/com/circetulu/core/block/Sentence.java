@@ -2,16 +2,20 @@ package com.circetulu.core.block;
 
 import java.util.ArrayList;
 
+import com.cricetulu.core.module.AST;
+
 public class Sentence extends Block {
 
 	private ArrayList<Token> tokens;
 	private boolean isLable;
 	private boolean isSection;
 	private String lableName;
+	private AST ast;
 	
 	public Sentence() {
 		
 		tokens = new ArrayList<Token>();
+		ast = new AST();
 		lableName = "";
 	}
 
@@ -55,5 +59,13 @@ public class Sentence extends Block {
 
 	public void setSection(boolean isSection) {
 		this.isSection = isSection;
+	}
+
+	public AST getAst() {
+		return ast;
+	}
+
+	public void setAst(AST ast) {
+		this.ast = ast;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.circetulu.core.block.Sentence;
 import com.circetulu.core.block.Token;
+import com.cricetulu.core.module.AST;
 import com.cricetulu.core.module.DataModule;
 
 public class Expression {
@@ -11,6 +12,7 @@ public class Expression {
 	protected String exp;
 	protected String endInd;
 	protected ArrayList<Token> tokens;
+	protected ArrayList<AST> asts;
 	
 	public Expression() {
 		
@@ -19,6 +21,16 @@ public class Expression {
 	
 	public void execute(DataModule dataModule, Sentence sentence) {
 		
+	}
+	
+	public void execute(AST ast, Sentence sentence) {
+		
+		ast.setTokens(tokens);
+	}
+	
+	public void execute(AST ast, ArrayList<Token> tokens) {
+		
+		ast.setTokens(tokens);
 	}
 
 	public String getExp() {
