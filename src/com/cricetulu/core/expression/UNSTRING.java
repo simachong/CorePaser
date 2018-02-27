@@ -1,5 +1,5 @@
 package com.cricetulu.core.expression;
 
-public class UNSTRING {
+public class UNSTRING extends Expression {
 
 }

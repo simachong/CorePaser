@@ -55,6 +55,12 @@ public class Parser {
 		sentences = lexer.getSentences();
 	}
 	
+	public void analyseHandleStack() {
+		
+		HandleStackProc hsp = new HandleStackProc(procedure);
+		hsp.process();
+	}
+	
 	public void lex() {
 		
 		for (int i = 0; i < sentences.size(); ++i) {

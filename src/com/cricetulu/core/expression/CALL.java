@@ -1,5 +1,5 @@
 package com.cricetulu.core.expression;
 
-public class CALL {
+public class CALL extends Expression {
 
 }

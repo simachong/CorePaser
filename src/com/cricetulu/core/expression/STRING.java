@@ -1,5 +1,5 @@
 package com.cricetulu.core.expression;
 
-public class STRING {
+public class STRING extends Expression {
 
 }

@@ -1,5 +1,5 @@
 package com.cricetulu.core.expression;
 
-public class INSPECT {
+public class INSPECT extends Expression {
 
 }

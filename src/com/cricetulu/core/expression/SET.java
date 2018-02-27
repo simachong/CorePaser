@@ -1,5 +1,5 @@
 package com.cricetulu.core.expression;
 
-public class SET {
+public class SET extends Expression {
 
 }

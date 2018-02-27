@@ -1,19 +1,50 @@
 package com.cricetulu.core.expression;
 
-import java.util.ArrayList;
+import java.util.Stack;
 
-import com.circetulu.core.block.Token;
+import com.circetulu.core.block.Sentence;
+import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.module.AST;
-import com.cricetulu.core.module.PERFORMSTM;
+import com.cricetulu.core.module.IfSTM;
+import com.cricetulu.core.module.PerformSTM;
 
 public class PERFORM extends Expression {
 
-	public void execute (AST ast, ArrayList<Token> tokens) {
+	private static Stack<IfSTM> perStack;
+	private static final String [] expEnds = {"ELSE", "END-IF", "WHEN", "NEXT"};
+	PerformSTM ps;
+	
+	public PERFORM() {
 		
-		PERFORMSTM ps = (PERFORMSTM)ast;
+		if (perStack == null) {
+			
+			perStack = new Stack<IfSTM>();
+		}
+	}
+	
+	public void clear() {
+		
+		perStack = null;
+	}
+	
+	private boolean isEnd(String name) {
+		
+		for (int i = 0; i < expEnds.length; ++i) {
+			
+			if (name.equals(expEnds[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public int execute(AST ast, Sentence sentence, Integer i) {
+		
+
+		ps = new PerformSTM(ast);
+		tokens = sentence.getTokens();
 		
 		if (tokens.size() < 1) {
-			return; // error log
+			return -1; // error log
 		}
 		
 		//CASE1 PERFORM from [TRUE to]
@@ -26,12 +57,13 @@ public class PERFORM extends Expression {
 		//      BY {Identifier3, Literal} UNTIL condition1 
 		//      [AFTER {Identifier4, IndexName3} FROM {Identifier5, IndexName4, Literal} BY {Identifier6, Literal} UNTIL condition2] [loopstatement END-PERFORM]
 		
-		
-		for (int i = 0; i < tokens.size(); ++i) {
+		int begin = i;
+		// multi loop
+		for (; i < tokens.size(); ++i) {
 			
 			String tokenName = tokens.get(i).getTokenName();
 			
-			if (i == 1) {
+			if (i == begin) {
 				
 				if (!tokenName.equals("UNTIL") && !tokenName.equals("VARYING") && !tokenName.equals("WITH")) {
 					
@@ -43,9 +75,28 @@ public class PERFORM extends Expression {
 			case "THRU" : ps.setTo(tokens.get(i + 1).getTokenName()); break;
 			case "UNTIL" : break;
 			case "VARYUING" : break;
+			case "NEXT" :
+				if (tokens.get(i).getTokenName().equals("SENTENCE")) {
+					return 1;
+				}
+				break;
 			default : break;
 			}
-
+			
+			Expression exp = null;
+			if (i > begin && GlobalDef.isExp(tokenName)) {
+				
+				exp = GlobalDef.expressions.get(tokenName);
+				if (1 ==exp.execute(ast, sentence, i)) {
+					return 1;
+				}
+			}
+			
+			if (i > begin && isEnd(tokenName)) {
+				--i;
+				return 0;
+			}
 		}
+		return 0;
 	}
 }

@@ -19,18 +19,22 @@ public class Expression {
 		tokens = new ArrayList<Token>();
 	}
 	
+	public void init() {
+		
+	}
+	
+	public void clear() {
+		
+	}
+	
 	public void execute(DataModule dataModule, Sentence sentence) {
 		
 	}
 	
-	public void execute(AST ast, Sentence sentence) {
+	public int execute(AST ast, Sentence sentence, Integer i) {
 		
 		ast.setTokens(tokens);
-	}
-	
-	public void execute(AST ast, ArrayList<Token> tokens) {
-		
-		ast.setTokens(tokens);
+		return 0;
 	}
 
 	public String getExp() {

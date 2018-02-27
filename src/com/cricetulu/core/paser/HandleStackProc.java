@@ -19,6 +19,30 @@ public class HandleStackProc {
 		this.blksIter = blksIter;
 	}
 	
+	private int analyse(Sentence st) {
+		
+		
+		ArrayList<Token> tokens = st.getTokens();
+		
+		if (tokens.size() > 2) {
+			
+			Expression exp = GlobalDef.expressions.get(tokens.get(0).getTokenName());
+			if (exp != null) {
+				exp.init();
+				if (1 == exp.execute(st.getAst(), st, 0)) {
+					exp.clear();
+					return 1;
+				}
+			}
+			else {
+				System.out.println(tokens.get(0).getTokenName());
+			}
+			exp.clear();
+		}
+		
+		return 0;
+	}
+	
 	public void process() {
 		
 		for (Block blk : blksIter) {
@@ -35,7 +59,14 @@ public class HandleStackProc {
 						Routine rt = (Routine)secblk;
 						if (!rt.isEnd()) {
 							System.out.println(rt.getName());
+							
 						}
+					}
+					
+					if (secblk instanceof Sentence) {
+						
+						Sentence st = (Sentence)secblk;
+						analyse(st);
 					}
 				}
 			}
@@ -43,6 +74,17 @@ public class HandleStackProc {
 			if (blk instanceof Routine) {
 				
 				Routine rt = (Routine)blk;
+				ArrayList<Block> rtblks = rt.getSentences();
+				
+				for (Block rtblk : rtblks) {
+					
+					if (rtblk instanceof Sentence) {
+						
+						Sentence st = (Sentence)rtblk;
+						analyse(st);
+					}
+				}
+				
 				if (!rt.isEnd()) {
 					System.out.println(rt.getName());
 				}
@@ -51,33 +93,7 @@ public class HandleStackProc {
 			if (blk instanceof Sentence) {
 				
 				Sentence st = (Sentence)blk;
-				ArrayList<Token> tokens = st.getTokens();
-				
-				if (tokens.size() > 2) {
-					GlobalDef.expressions.get(tokens.get(0).getTokenName()).execute(st.getAst(), st);
-				}
-				
-//				for (int i = 0; i < tokens.size(); ++i) {
-//					
-//					Token tk = tokens.get(i);
-//					
-//					if (GlobalDef.isExp(tk.getTokenName())) {
-//						
-//						if (expCount != 0) {
-//
-//							exp.execute(st.getAst(), expTks);
-//						}
-//						++expCount;
-//						exp = GlobalDef.expressions.get(tk.getTokenName());
-//						expTks = new ArrayList<Token>();
-//					}
-//					expTks.add(tk);
-//				}
-//				
-//				if (exp != null) {
-//
-//					exp.execute(st.getAst(), expTks);
-//				}
+				analyse(st);
 			}
 		}
 	}

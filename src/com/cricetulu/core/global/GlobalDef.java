@@ -16,6 +16,7 @@ public class GlobalDef {
 	public static final String EXPRESSION_PACK = "com.cricetulu.core.expression.";
 	public static final String [] divisions = {"IDENTIFICATION", "ENVIRONMENT", "DATA", "PROCEDURE"};
 
+	
 	public static HashMap<String, Integer> keywords = new HashMap<String, Integer>();
 	public static HashMap<String, Expression> expressions = new HashMap<String, Expression>();
 	public static HashMap<String, String> nameSpaceMapping = new HashMap<String, String>();
