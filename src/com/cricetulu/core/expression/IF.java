@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.circetulu.core.block.Sentence;
 import com.cricetulu.core.global.GlobalDef;
+import com.cricetulu.core.global.Index;
 import com.cricetulu.core.module.AST;
 import com.cricetulu.core.module.IfSTM;
 
@@ -37,7 +38,7 @@ public class IF extends Expression{
 		ifStack = null;
 	}
 	
-	public int execute (AST ast, Sentence st, Integer i) {
+	public int execute (AST ast, Sentence st, Index i) {
 		
 		ifstm = new IfSTM(ast);
 		tokens = st.getTokens();
@@ -51,11 +52,11 @@ public class IF extends Expression{
 		boolean isElse = false;
 	
 		AST tmpAst = null;
-		int begin = i;
+		int begin = i.i;
 		//boolean 
-		for (; i < tokens.size(); ++i) {
+		for (; i.i < tokens.size(); ++i.i) {
 			
-			String tokenName = tokens.get(i).getTokenName();
+			String tokenName = tokens.get(i.i).getTokenName();
 			switch (tokenName.toUpperCase()) {
 				
 				case "IF" : 
@@ -74,7 +75,7 @@ public class IF extends Expression{
 					}; 
 					break;
 				case "NEXT" :
-					if (tokens.get(i).getTokenName().equals("SENTENCE")) {
+					if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
 						return 1;
 					}
 					break;
@@ -87,7 +88,7 @@ public class IF extends Expression{
 			if (isIf && !GlobalDef.isExp(tokenName)) {
 				
 				AST conditions = ifstm.getConditions();
-				conditions.getTokens().add(tokens.get(i));
+				conditions.getTokens().add(tokens.get(i.i));
 				if (tmpAst == null) {
 					
 					tmpAst = ifstm.getIfStm();
@@ -99,7 +100,7 @@ public class IF extends Expression{
 				tmpAst = ifstm.getElseStm();
 			}
 			
-			if (i > begin && GlobalDef.isExp(tokenName) && tmpAst != null) {
+			if (i.i > begin && GlobalDef.isExp(tokenName) && tmpAst != null) {
 			
 				exp = GlobalDef.expressions.get(tokenName);
 				if (1 == exp.execute(tmpAst, st, i)) {

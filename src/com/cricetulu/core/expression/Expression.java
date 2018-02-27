@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.circetulu.core.block.Sentence;
 import com.circetulu.core.block.Token;
+import com.cricetulu.core.global.Index;
 import com.cricetulu.core.module.AST;
 import com.cricetulu.core.module.DataModule;
 
@@ -31,7 +32,7 @@ public class Expression {
 		
 	}
 	
-	public int execute(AST ast, Sentence sentence, Integer i) {
+	public int execute(AST ast, Sentence sentence, Index i) {
 		
 		ast.setTokens(tokens);
 		return 0;

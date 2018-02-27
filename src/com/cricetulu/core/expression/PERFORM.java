@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.circetulu.core.block.Sentence;
 import com.cricetulu.core.global.GlobalDef;
+import com.cricetulu.core.global.Index;
 import com.cricetulu.core.module.AST;
 import com.cricetulu.core.module.IfSTM;
 import com.cricetulu.core.module.PerformSTM;
@@ -37,7 +38,7 @@ public class PERFORM extends Expression {
 		}
 		return false;
 	}
-	public int execute(AST ast, Sentence sentence, Integer i) {
+	public int execute(AST ast, Sentence sentence, Index i) {
 		
 
 		ps = new PerformSTM(ast);
@@ -57,13 +58,13 @@ public class PERFORM extends Expression {
 		//      BY {Identifier3, Literal} UNTIL condition1 
 		//      [AFTER {Identifier4, IndexName3} FROM {Identifier5, IndexName4, Literal} BY {Identifier6, Literal} UNTIL condition2] [loopstatement END-PERFORM]
 		
-		int begin = i;
+		int begin = i.i;
 		// multi loop
-		for (; i < tokens.size(); ++i) {
+		for (; i.i < tokens.size(); ++i.i) {
 			
-			String tokenName = tokens.get(i).getTokenName();
+			String tokenName = tokens.get(i.i).getTokenName();
 			
-			if (i == begin) {
+			if (i.i == begin) {
 				
 				if (!tokenName.equals("UNTIL") && !tokenName.equals("VARYING") && !tokenName.equals("WITH")) {
 					
@@ -72,11 +73,11 @@ public class PERFORM extends Expression {
 			}
 				
 			switch (tokenName) {
-			case "THRU" : ps.setTo(tokens.get(i + 1).getTokenName()); break;
+			case "THRU" : ps.setTo(tokens.get(i.i + 1).getTokenName()); break;
 			case "UNTIL" : break;
 			case "VARYUING" : break;
 			case "NEXT" :
-				if (tokens.get(i).getTokenName().equals("SENTENCE")) {
+				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
 					return 1;
 				}
 				break;
@@ -84,7 +85,7 @@ public class PERFORM extends Expression {
 			}
 			
 			Expression exp = null;
-			if (i > begin && GlobalDef.isExp(tokenName)) {
+			if (i.i > begin && GlobalDef.isExp(tokenName)) {
 				
 				exp = GlobalDef.expressions.get(tokenName);
 				if (1 ==exp.execute(ast, sentence, i)) {
@@ -92,8 +93,8 @@ public class PERFORM extends Expression {
 				}
 			}
 			
-			if (i > begin && isEnd(tokenName)) {
-				--i;
+			if (i.i > begin && isEnd(tokenName)) {
+				--i.i;
 				return 0;
 			}
 		}
