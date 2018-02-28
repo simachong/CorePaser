@@ -16,8 +16,10 @@ public class PerformSTM extends AST{
 
 	public PerformSTM(AST ast) {
 		
+		this.pAst = ast;
 		performAst = new AST();
-		ast.getAst().add(performAst);
+		performAst.setAstName("PERFORM");
+		ast.getAsts().add(performAst);
 	}
 	
 	public String getFrom() {

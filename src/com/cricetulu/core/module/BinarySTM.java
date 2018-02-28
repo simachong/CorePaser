@@ -9,9 +9,10 @@ public class BinarySTM extends AST{
 	
 	public BinarySTM(AST pAst) {
 		
+		this.pAst = pAst;
 		ast = new AST();
 		ast.setAstName("BinaryOp");
-		pAst.getAst().add(ast);
+		pAst.getAsts().add(ast);
 	}
 	
 	public String getFrom() {

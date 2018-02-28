@@ -4,7 +4,7 @@ import com.circetulu.core.block.Sentence;
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.global.Index;
 import com.cricetulu.core.module.AST;
-import com.cricetulu.core.module.BinarySTM;
+import com.cricetulu.core.module.ComputeSTM;
 
 public class COMPUTE extends Expression {
 
@@ -28,7 +28,7 @@ public class COMPUTE extends Expression {
 			stFst = true;
 		}
 		
-		BinarySTM bs = new BinarySTM(ast);
+		ComputeSTM cs = new ComputeSTM(ast);
 		tokens = sentence.getTokens();
 		
 		if (tokens.size() < 1) {
@@ -36,6 +36,7 @@ public class COMPUTE extends Expression {
 		}
 		
 		int begin = i.i;
+		boolean rightExp = false;
 		for (; i.i < tokens.size(); ++i.i) {
 		
 			String tokenName = tokens.get(i.i).getTokenName();
@@ -43,8 +44,8 @@ public class COMPUTE extends Expression {
 			switch (tokenName.toUpperCase()) {
 			
 			case "=" :
-				bs.setFrom(tokens.get(i.i - 1).getTokenName());
-				bs.setTo(tokens.get(i.i + 1).getTokenName()); 
+				cs.setLeft(tokens.get(i.i - 1).getTokenName()); 
+				rightExp = true;
 				break;
 			case "NEXT" :
 				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
@@ -52,6 +53,11 @@ public class COMPUTE extends Expression {
 				}
 				break;
 			default : break;
+			}
+			
+			if (rightExp) {
+				
+				cs.getAst().getTokens().add(tokens.get(i.i));
 			}
 			
 			Expression exp = null;

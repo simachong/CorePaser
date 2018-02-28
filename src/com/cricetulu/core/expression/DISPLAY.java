@@ -4,7 +4,7 @@ import com.circetulu.core.block.Sentence;
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.global.Index;
 import com.cricetulu.core.module.AST;
-import com.cricetulu.core.module.BinarySTM;
+import com.cricetulu.core.module.DisplaySTM;
 
 public class DISPLAY extends Expression {
 
@@ -28,7 +28,7 @@ public class DISPLAY extends Expression {
 			stFst = true;
 		}
 		
-		BinarySTM bs = new BinarySTM(ast);
+		DisplaySTM ds = new DisplaySTM(ast);
 		tokens = sentence.getTokens();
 		
 		if (tokens.size() < 1) {
@@ -42,14 +42,6 @@ public class DISPLAY extends Expression {
 			
 			switch (tokenName.toUpperCase()) {
 			
-			case "TO" :
-				bs.setFrom(tokens.get(i.i - 1).getTokenName());
-				bs.setTo(tokens.get(i.i + 1).getTokenName()); 
-				break;
-			case "FROM" : 
-				bs.setFrom(tokens.get(i.i - 1).getTokenName());
-				bs.setTo(tokens.get(i.i + 1).getTokenName()); 
-				break;
 			case "NEXT" :
 				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
 					return 1;
@@ -76,6 +68,11 @@ public class DISPLAY extends Expression {
 			if (i.i > begin && isEnd(tokenName)) {
 				--i.i;
 				return 0;
+			}
+			
+			if (i.i > begin) {
+				
+				ds.getDspAst().getTokens().add(tokens.get(i.i));
 			}
 		}
 		return 0;

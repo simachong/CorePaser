@@ -8,8 +8,10 @@ public class GotoSTM extends AST {
 	
 	public GotoSTM(AST ast) {
 		
+		this.pAst = ast;
 		gotoAst = new AST();
-		ast.getAst().add(gotoAst);
+		gotoAst.setAstName("GOTO");
+		ast.getAsts().add(gotoAst);
 	}
 
 	public String getTo() {

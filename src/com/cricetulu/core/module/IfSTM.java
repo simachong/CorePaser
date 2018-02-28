@@ -9,15 +9,16 @@ public class IfSTM extends AST {
 	
 	public IfSTM(AST pAst) {
 		
+		this.pAst = pAst;
 		ifAst = new AST();
 		ifStm = new AST();
 		elseStm = new AST();
 		conditions = new AST();
 		ifAst.setAstName("IF");
-		ifAst.getAst().add(ifStm);     // if
-		ifAst.getAst().add(elseStm);   // else
-		ifAst.getAst().add(conditions);// conditions
-		pAst.getAst().add(ifAst);
+		ifAst.getAsts().add(ifStm);     // if
+		ifAst.getAsts().add(elseStm);   // else
+		ifAst.getAsts().add(conditions);// conditions
+		pAst.getAsts().add(ifAst);
 	}
 
 	public AST getIfStm() {

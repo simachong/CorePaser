@@ -4,7 +4,7 @@ import com.circetulu.core.block.Sentence;
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.global.Index;
 import com.cricetulu.core.module.AST;
-import com.cricetulu.core.module.BinarySTM;
+import com.cricetulu.core.module.CallSTM;
 
 public class CALL extends Expression {
 
@@ -28,7 +28,7 @@ public class CALL extends Expression {
 			stFst = true;
 		}
 		
-		BinarySTM bs = new BinarySTM(ast);
+		CallSTM cs = new CallSTM(ast);
 		tokens = sentence.getTokens();
 		
 		if (tokens.size() < 1) {
@@ -42,20 +42,20 @@ public class CALL extends Expression {
 			
 			switch (tokenName.toUpperCase()) {
 			
-			case "TO" :
-				bs.setFrom(tokens.get(i.i - 1).getTokenName());
-				bs.setTo(tokens.get(i.i + 1).getTokenName()); 
-				break;
-			case "FROM" : 
-				bs.setFrom(tokens.get(i.i - 1).getTokenName());
-				bs.setTo(tokens.get(i.i + 1).getTokenName()); 
-				break;
 			case "NEXT" :
 				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
 					return 1;
 				}
 				break;
 			default : break;
+			}
+			
+			if (i.i == begin + 1) {
+				
+				cs.setProg(tokenName);
+			}
+			else if (i.i == begin + 2) {
+				cs.setTblName(tokenName);
 			}
 			
 			Expression exp = null;

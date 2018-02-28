@@ -6,13 +6,14 @@ import com.circetulu.core.block.Token;
 
 public class AST {
 
-	ArrayList<AST> ast;
-	ArrayList<Token> tokens;
-	String astName;
+	private ArrayList<AST> asts;
+	protected AST pAst;
+	private ArrayList<Token> tokens;
+	private String astName;
 	
 	public AST() {
 		
-		ast = new ArrayList<AST>();
+		asts = new ArrayList<AST>();
 		tokens = new ArrayList<Token>();
 	}
 
@@ -24,12 +25,12 @@ public class AST {
 		this.tokens = tokens;
 	}
 
-	public ArrayList<AST> getAst() {
-		return ast;
+	public ArrayList<AST> getAsts() {
+		return asts;
 	}
 
-	public void setAst(ArrayList<AST> ast) {
-		this.ast = ast;
+	public void setAsts(ArrayList<AST> ast) {
+		this.asts = ast;
 	}
 
 	public String getAstName() {
