@@ -9,6 +9,7 @@ import com.circetulu.core.block.Sentence;
 import com.circetulu.core.block.Token;
 import com.cricetulu.core.expression.Expression;
 import com.cricetulu.core.global.GlobalDef;
+import com.cricetulu.core.global.Index;
 
 public class HandleStackProc {
 
@@ -29,7 +30,8 @@ public class HandleStackProc {
 			Expression exp = GlobalDef.expressions.get(tokens.get(0).getTokenName());
 			if (exp != null) {
 				exp.init();
-				if (1 == exp.execute(st.getAst(), st, 0)) {
+				Index i = new Index(0);
+				if (1 == exp.execute(st.getAst(), st, i)) {
 					exp.clear();
 					return 1;
 				}

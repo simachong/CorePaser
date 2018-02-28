@@ -63,8 +63,10 @@ public class IF extends Expression{
 					ifStack.push(ifstm); 
 					isIf = true; isElse = false; break;
 				case "ELSE" : 
+					tmpAst = null;
 					if (isElse) {
 						ifstm = ifStack.pop();
+						return 0;
 					}
 					isIf = false; isElse = true; break;
 				case "END-IF" : 
@@ -73,7 +75,7 @@ public class IF extends Expression{
 					if (ifStack.size() == 0) {
 						tmpAst = ast;
 					}; 
-					break;
+					return 0;
 				case "NEXT" :
 					if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
 						return 1;
@@ -100,8 +102,11 @@ public class IF extends Expression{
 				tmpAst = ifstm.getElseStm();
 			}
 			
-			if (i.i > begin && GlobalDef.isExp(tokenName) && tmpAst != null) {
+			if (i.i > begin && GlobalDef.isExp(tokenName)) {
 			
+				if (tmpAst == null) {
+					
+				}
 				exp = GlobalDef.expressions.get(tokenName);
 				if (1 == exp.execute(tmpAst, st, i)) {
 					

@@ -38,6 +38,7 @@ public class PERFORM extends Expression {
 		}
 		return false;
 	}
+	
 	public int execute(AST ast, Sentence sentence, Index i) {
 		
 
@@ -64,7 +65,7 @@ public class PERFORM extends Expression {
 			
 			String tokenName = tokens.get(i.i).getTokenName();
 			
-			if (i.i == begin) {
+			if (i.i == begin + 1) {
 				
 				if (!tokenName.equals("UNTIL") && !tokenName.equals("VARYING") && !tokenName.equals("WITH")) {
 					

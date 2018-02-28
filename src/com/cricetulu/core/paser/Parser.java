@@ -149,6 +149,12 @@ public class Parser {
 	}
 	
 	public void printFiles() {
+		
+		Iterator<Entry<String, FileC>> iter = files.entrySet().iterator();
+		while(iter.hasNext()) {
+			
+			Entry<String, FileC> entry = iter.next();
+		}
 		System.out.println(files.size());
 	}
 	

@@ -31,9 +31,9 @@ public class Parse {
 		ps.lex();
 		
 //		ps.printFiles();
-//		ps.printFD();
+		ps.printFD();
 //		ps.printDs();
-		ps.printRoutine();
+		//ps.printRoutine();
 		ps.analyseHandleStack();
 		System.out.println("Over!");
 	}
