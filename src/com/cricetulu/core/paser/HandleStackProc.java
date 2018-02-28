@@ -59,6 +59,17 @@ public class HandleStackProc {
 					if (secblk instanceof Routine) {
 						
 						Routine rt = (Routine)secblk;
+						
+						ArrayList<Block> rtblks = rt.getSentences();
+						
+						for (Block rtblk : rtblks) {
+							
+							if (rtblk instanceof Sentence) {
+								
+								Sentence st = (Sentence)rtblk;
+								analyse(st);
+							}
+						}
 						if (!rt.isEnd()) {
 							System.out.println(rt.getName());
 							

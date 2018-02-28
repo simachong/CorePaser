@@ -39,11 +39,11 @@ public class EVALUATE extends Expression {
 					break;
 				case "END-EVALUATE" : isEvaluate = false; isWhen = false;
 					break;
-				case "NEXT" :
-					if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
-						return 1;
-					}
-					break;
+//				case "NEXT" :
+//					if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
+//						return 1;
+//					}
+//					break;
 				case "CONINUE" :
 				//scan until
 					break;

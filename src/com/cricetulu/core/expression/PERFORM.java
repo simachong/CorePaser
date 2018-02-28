@@ -77,11 +77,11 @@ public class PERFORM extends Expression {
 			case "THRU" : ps.setTo(tokens.get(i.i + 1).getTokenName()); break;
 			case "UNTIL" : break;
 			case "VARYUING" : break;
-			case "NEXT" :
-				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
-					return 1;
-				}
-				break;
+//			case "NEXT" :
+//				if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
+//					return 1;
+//				}
+//				break;
 			default : break;
 			}
 			

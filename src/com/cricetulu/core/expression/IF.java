@@ -76,11 +76,11 @@ public class IF extends Expression{
 						tmpAst = ast;
 					}; 
 					return 0;
-				case "NEXT" :
-					if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
-						return 1;
-					}
-					break;
+//				case "NEXT" :
+//					if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
+//						return 1;
+//					}
+//					break;
 				case "CONINUE" :
 				//scan until
 					break;

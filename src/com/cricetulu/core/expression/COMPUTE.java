@@ -47,11 +47,11 @@ public class COMPUTE extends Expression {
 				cs.setLeft(tokens.get(i.i - 1).getTokenName()); 
 				rightExp = true;
 				break;
-			case "NEXT" :
-				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
-					return 1;
-				}
-				break;
+//			case "NEXT" :
+//				if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
+//					return 1;
+//				}
+//				break;
 			default : break;
 			}
 			
@@ -71,6 +71,7 @@ public class COMPUTE extends Expression {
 					}
 				}
 				else {
+					--i.i;
 					return 0;
 				}
 			}

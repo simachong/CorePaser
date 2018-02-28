@@ -12,8 +12,11 @@ public class IfSTM extends AST {
 		this.pAst = pAst;
 		ifAst = new AST();
 		ifStm = new AST();
+		ifStm.setAstName("IF-STM");
 		elseStm = new AST();
+		elseStm.setAstName("ELSE-STM");
 		conditions = new AST();
+		conditions.setAstName("CONDITIONS");
 		ifAst.setAstName("IF");
 		ifAst.getAsts().add(ifStm);     // if
 		ifAst.getAsts().add(elseStm);   // else

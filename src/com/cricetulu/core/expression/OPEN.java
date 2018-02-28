@@ -42,11 +42,11 @@ public class OPEN extends Expression {
 			
 			switch (tokenName.toUpperCase()) {
 			
-			case "NEXT" :
-				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
-					return 1;
-				}
-				break;
+//			case "NEXT" :
+//				if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
+//					return 1;
+//				}
+//				break;
 			default : break;
 			}
 			
@@ -69,6 +69,7 @@ public class OPEN extends Expression {
 					}
 				}
 				else {
+					--i.i;
 					return 0;
 				}
 			}

@@ -50,11 +50,11 @@ public class BinaryOp extends Expression{
 				bs.setFrom(tokens.get(i.i - 1).getTokenName());
 				bs.setTo(tokens.get(i.i + 1).getTokenName()); 
 				break;
-			case "NEXT" :
-				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
-					return 1;
-				}
-				break;
+//			case "NEXT" :
+//				if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
+//					return 1;
+//				}
+//				break;
 			default : break;
 			}
 			
@@ -69,6 +69,7 @@ public class BinaryOp extends Expression{
 					}
 				}
 				else {
+					--i.i;
 					return 0;
 				}
 			}
