@@ -1,5 +1,5 @@
 package com.cricetulu.core.expression;
 
-public class ACCEPT extends Expression{
+public class ACCEPT extends BinaryOp {
 
 }

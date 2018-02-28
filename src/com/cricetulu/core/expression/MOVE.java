@@ -1,5 +1,5 @@
 package com.cricetulu.core.expression;
 
-public class MOVE extends Expression {
+public class MOVE extends BinaryOp {
 
 }

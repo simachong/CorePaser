@@ -4,7 +4,7 @@ import com.circetulu.core.block.Sentence;
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.global.Index;
 import com.cricetulu.core.module.AST;
-import com.cricetulu.core.module.BinarySTM;
+import com.cricetulu.core.module.OpenSTM;
 
 public class OPEN extends Expression {
 
@@ -28,7 +28,7 @@ public class OPEN extends Expression {
 			stFst = true;
 		}
 		
-		BinarySTM bs = new BinarySTM(ast);
+		OpenSTM cs = new OpenSTM(ast);
 		tokens = sentence.getTokens();
 		
 		if (tokens.size() < 1) {
@@ -42,20 +42,20 @@ public class OPEN extends Expression {
 			
 			switch (tokenName.toUpperCase()) {
 			
-			case "TO" :
-				bs.setFrom(tokens.get(i.i - 1).getTokenName());
-				bs.setTo(tokens.get(i.i + 1).getTokenName()); 
-				break;
-			case "FROM" : 
-				bs.setFrom(tokens.get(i.i - 1).getTokenName());
-				bs.setTo(tokens.get(i.i + 1).getTokenName()); 
-				break;
 			case "NEXT" :
 				if (tokens.get(i.i).getTokenName().equals("SENTENCE")) {
 					return 1;
 				}
 				break;
 			default : break;
+			}
+			
+			if (i.i == begin + 1) {
+				
+				cs.setIo(tokenName);
+			}
+			else if (i.i == begin + 2) {
+				cs.setFileName(tokenName);
 			}
 			
 			Expression exp = null;
