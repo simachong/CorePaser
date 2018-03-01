@@ -42,6 +42,11 @@ public class PERFORM extends Expression {
 	public int execute(AST ast, Sentence sentence, Index i) {
 		
 
+		boolean stFst = false;
+		if (ast == sentence.getAst()) {
+			stFst = true;
+		}
+		
 		ps = new PerformSTM(ast);
 		tokens = sentence.getTokens();
 		
@@ -88,9 +93,15 @@ public class PERFORM extends Expression {
 			Expression exp = null;
 			if (i.i > begin && GlobalDef.isExp(tokenName)) {
 				
-				exp = GlobalDef.expressions.get(tokenName);
-				if (1 ==exp.execute(ast, sentence, i)) {
-					return 1;
+				if (stFst) {
+					exp = GlobalDef.expressions.get(tokenName);
+					if (1 ==exp.execute(ast, sentence, i)) {
+						return 1;
+					}
+				}	
+				else {
+					--i.i;
+					return 0;
 				}
 			}
 			

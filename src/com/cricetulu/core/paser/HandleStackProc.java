@@ -1,6 +1,7 @@
 package com.cricetulu.core.paser;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import com.circetulu.core.block.Block;
 import com.circetulu.core.block.Routine;
@@ -20,8 +21,11 @@ public class HandleStackProc {
 		this.blksIter = blksIter;
 	}
 	
-	private int analyse(Sentence st) {
+	public void printStack(LinkedHashMap<String, Routine> routineIndex, LinkedHashMap<String, Section> sectionIndex) {
 		
+	}
+	
+	private int analyse(Sentence st) {
 		
 		ArrayList<Token> tokens = st.getTokens();
 		
@@ -39,13 +43,21 @@ public class HandleStackProc {
 			else {
 				System.out.println(tokens.get(0).getTokenName());
 			}
-			exp.clear();
+			if (exp != null) {
+				
+				exp.clear();
+			}
+			else {
+				
+				System.out.println(st.toString());
+			}
+			
 		}
 		
 		return 0;
 	}
 	
-	public void process() {
+	public void buildAST() {
 		
 		for (Block blk : blksIter) {
 			

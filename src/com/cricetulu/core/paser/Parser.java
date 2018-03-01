@@ -40,6 +40,8 @@ public class Parser {
 	
 	private ArrayList<Block> procedure = new ArrayList<Block>();
 	private ArrayList<Block> blksIter = procedure;
+	private LinkedHashMap<String, Routine> routineIndex = new LinkedHashMap<String, Routine>();
+	private LinkedHashMap<String, Section> sectionIndex = new LinkedHashMap<String, Section>();
 	private Sentence nextSentence;
 	private Stack<ArrayList<Block>> blksIterStack = new Stack<ArrayList<Block>>();
 	
@@ -58,7 +60,7 @@ public class Parser {
 	public void analyseHandleStack() {
 		
 		HandleStackProc hsp = new HandleStackProc(procedure);
-		hsp.process();
+		hsp.buildAST();
 	}
 	
 	public void lex() {
@@ -305,6 +307,7 @@ public class Parser {
 			proccurrSectionName = tokens.get(0).getTokenName();
 			Section sec = new Section(sentence.getTokens().get(0).getTokenName());
 			blksIter.add(sec);
+			sectionIndex.put(sec.getName(), sec);
 			blksIterStack.push(blksIter);
 			blksIter = sec.getBlks();
 			currSection = sec;
@@ -326,6 +329,7 @@ public class Parser {
 				currRoutine.setNextRoutine(rt);
 				currRoutine = rt;
 				blksIter.add(rt);
+				routineIndex.put(rt.getName(), rt);
 				blksIterStack.push(blksIter);
 				blksIter = rt.getSentences();
 			}
@@ -344,6 +348,7 @@ public class Parser {
 					Routine rt = new Routine(sentence.getTokens().get(0).getTokenName());
 					currRoutine = rt;
 					blksIter.add(rt);
+					routineIndex.put(rt.getName(), rt);
 					blksIterStack.push(blksIter);
 					blksIter = rt.getSentences();
 				}
