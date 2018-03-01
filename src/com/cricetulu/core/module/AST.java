@@ -17,6 +17,16 @@ public class AST {
 		tokens = new ArrayList<Token>();
 	}
 
+	public String toString() {
+		
+		String sent = "";
+		for(Token token: tokens) {
+			
+			sent += " " + token.getTokenName();
+		}
+		return sent;
+	}
+
 	public ArrayList<Token> getTokens() {
 		return tokens;
 	}
