@@ -8,8 +8,8 @@ import com.circetulu.core.block.Routine;
 import com.circetulu.core.block.Section;
 import com.circetulu.core.block.Sentence;
 import com.circetulu.core.block.Token;
-import com.cricetulu.analyse.Condition;
-import com.cricetulu.analyse.Node;
+import com.cricetulu.analyse.node.Condition;
+import com.cricetulu.analyse.node.Node;
 import com.cricetulu.core.expression.Expression;
 import com.cricetulu.core.expression.IF;
 import com.cricetulu.core.global.GlobalDef;
@@ -29,123 +29,6 @@ public class HandleStackProc {
 	public HandleStackProc(ArrayList<Block> blksIter) {
 		
 		this.blksIter = blksIter;
-	}
-	
-	private void buildStack(ArrayList<AST> ast, Node node) {
-		
-		for (AST iter : ast) {
-			
-			if (iter instanceof IfSTM) {
-				
-				IfSTM ifS = (IfSTM)iter;
-				Condition cd = new Condition();
-				cd.setIfCondition(ifS.toString());
-				node.setNextNode(cd);
-				cd.setConditionType("IF");
-				
-				buildStack(ifS.getIfStm().getAsts(), cd.getLeftTrue());
-				buildStack(ifS.getElseStm().getAsts(), cd.getRightFalse());
-			}
-			else if (iter instanceof EvaluateSTM) {
-				
-			}
-			else if (iter instanceof PerformSTM) {
-				
-			}
-			else if (iter instanceof GotoSTM) {
-				
-			}
-			else if (iter instanceof CallSTM) {
-				
-			}
-		}
-	}
-	
-	private Node buildStack(Sentence st, Node node,) {
-		
-		ArrayList<AST> ast = st.getAst().getAsts();
-		buildStack(ast, node);
-	}
-	
-	public void printStack(LinkedHashMap<String, Routine> routineIndex, LinkedHashMap<String, Section> sectionIndex) {
-		
-		Node node = new Node("START");
-		
-		for (Block blk : blksIter) {
-			
-			if (blk instanceof Section) {
-				
-				Section sec = (Section)blk;
-				ArrayList<Block> secblks = sec.getBlks();
-				for (Block secblk : secblks) {
-					
-					if (secblk instanceof Routine) {
-						
-						Routine rt = (Routine)secblk;
-						ArrayList<Block> rtblks = rt.getSentences();
-						Sentence st = (Sentence)rtblk;
-						Node nodeSecblk = new Node();
-						node.setNextNode(nodeSecblk);
-						
-						for (Block rtblk : rtblks) {
-							
-							if (rtblk instanceof Sentence) {
-								
-								
-								buildStack(st, nodeSecblk);
-								if (st.toString().equals("STOP RUN")) {
-									
-									return;
-								}
-							}
-						}
-					}
-					
-					if (secblk instanceof Sentence) {
-						
-						Sentence st = (Sentence)secblk;
-						buildStack(st);
-						if (st.toString().equals("STOP RUN")) {
-							
-							return;
-						}
-					}
-				}
-			}
-			
-			if (blk instanceof Routine) {
-				
-				Routine rt = (Routine)blk;
-				ArrayList<Block> rtblks = rt.getSentences();
-				
-				for (Block rtblk : rtblks) {
-					
-					if (rtblk instanceof Sentence) {
-						
-						Sentence st = (Sentence)rtblk;
-						buildStack(st);
-						if (st.toString().equals("STOP RUN")) {
-							
-							return;
-						}
-					}
-				}
-				
-				if (!rt.isEnd()) {
-					System.out.println(rt.getName());
-				}
-			}
-			
-			if (blk instanceof Sentence) {
-				
-				Sentence st = (Sentence)blk;
-				buildStack(st);
-				if (st.toString().equals("STOP RUN")) {
-					
-					return;
-				}
-			}
-		}
 	}
 	
 	private int analyse(Sentence st) {

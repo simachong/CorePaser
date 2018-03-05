@@ -1,4 +1,4 @@
-package com.cricetulu.analyse;
+package com.cricetulu.analyse.node;
 
 import java.util.ArrayList;
 

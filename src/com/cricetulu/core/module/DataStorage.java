@@ -37,8 +37,6 @@ public class DataStorage extends DataModule{
 	private boolean isCondition;
 	private ArrayList<String> conditionVals;
 	
-	private ArrayList<ValueLink> valueLinks;
-	
 	private HashMap<String, DataStorage> nestDs;
 
 	public DataStorage() {
@@ -197,14 +195,5 @@ public class DataStorage extends DataModule{
 	public void setConditionVals(ArrayList<String> conditionVals) {
 		this.conditionVals = conditionVals;
 	}
-
-	public ArrayList<ValueLink> getValueLinks() {
-		return valueLinks;
-	}
-
-	public void setValueLinks(ArrayList<ValueLink> valueLinks) {
-		this.valueLinks = valueLinks;
-	}
-
 }
 //*
