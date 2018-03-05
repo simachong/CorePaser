@@ -24,6 +24,7 @@ import com.cricetulu.core.module.PerformSTM;
 public class HandleStackProc {
 
 	private ArrayList<Block> blksIter;
+	private LinkedHashMap<String, Node> nodeMap;
 	
 	public HandleStackProc(ArrayList<Block> blksIter) {
 		
