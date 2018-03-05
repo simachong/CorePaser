@@ -11,8 +11,9 @@ public class Condition extends Node {
 	private String ifCondition;
 	private String conditionType;
 	
-	public Condition() {
+	public Condition(String name) {
 		
+		super(name);
 		whens = new ArrayList<Node>();
 		whenCondition = new ArrayList<String>();
 	}
