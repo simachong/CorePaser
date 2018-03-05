@@ -22,7 +22,7 @@ import com.cricetulu.core.module.IfSTM;
 import com.cricetulu.core.module.PerformSTM;
 
 public class HandleStackProc {
-
+ 
 	private ArrayList<Block> blksIter;
 	private LinkedHashMap<String, Node> nodeMap;
 	
@@ -61,7 +61,7 @@ public class HandleStackProc {
 		}
 	}
 	
-	private Node buildStack(Sentence st, Node node) {
+	private Node buildStack(Sentence st, Node node,) {
 		
 		ArrayList<AST> ast = st.getAst().getAsts();
 		buildStack(ast, node);
