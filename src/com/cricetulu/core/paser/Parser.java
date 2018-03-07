@@ -12,6 +12,7 @@ import com.circetulu.core.block.Routine;
 import com.circetulu.core.block.Section;
 import com.circetulu.core.block.Sentence;
 import com.circetulu.core.block.Token;
+import com.cricetulu.analyse.flow.FlowGenerator;
 import com.cricetulu.core.expression.FD;
 import com.cricetulu.core.expression.Item88Exp;
 import com.cricetulu.core.expression.Level;
@@ -55,6 +56,13 @@ public class Parser {
 		lexer.printSentences(".." + File.separator + "CPD110_SENTENCES");
 		lexer.printTokens(".." + File.separator + "CPD110_TOKENS");
 		sentences = lexer.getSentences();
+	}
+	
+	public void generateFlow() {
+		
+		FlowGenerator fg = new FlowGenerator(procedure, routineIndex, sectionIndex);
+		fg.buildFlowByWide();
+		fg.printNode();
 	}
 	
 	public void analyseHandleStack() {

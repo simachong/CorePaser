@@ -1,30 +1,19 @@
 package com.cricetulu.core.paser;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import com.circetulu.core.block.Block;
 import com.circetulu.core.block.Routine;
 import com.circetulu.core.block.Section;
 import com.circetulu.core.block.Sentence;
 import com.circetulu.core.block.Token;
-import com.cricetulu.analyse.node.Condition;
-import com.cricetulu.analyse.node.Node;
 import com.cricetulu.core.expression.Expression;
-import com.cricetulu.core.expression.IF;
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.global.Index;
-import com.cricetulu.core.module.AST;
-import com.cricetulu.core.module.CallSTM;
-import com.cricetulu.core.module.EvaluateSTM;
-import com.cricetulu.core.module.GotoSTM;
-import com.cricetulu.core.module.IfSTM;
-import com.cricetulu.core.module.PerformSTM;
 
 public class HandleStackProc {
  
 	private ArrayList<Block> blksIter;
-	private LinkedHashMap<String, Node> nodeMap;
 	
 	public HandleStackProc(ArrayList<Block> blksIter) {
 		
@@ -35,15 +24,24 @@ public class HandleStackProc {
 		
 		ArrayList<Token> tokens = st.getTokens();
 		
-		if (tokens.size() > 2) {
+		if (tokens.size() > 1) {
 			
+			if (tokens.get(0).getTokenName().equals("STOP")) {
+				
+				System.out.println("STOP");
+			}
 			Expression exp = GlobalDef.expressions.get(tokens.get(0).getTokenName());
 			if (exp != null) {
 				exp.init();
 				Index i = new Index(0);
-				if (1 == exp.execute(st.getAst(), st, i)) {
+				int rt = exp.execute(st.getAst(), st, i);
+				if (1 == rt ) {
 					exp.clear();
 					return 1;
+				}
+				else if (4 == rt) {
+					
+					return 4;
 				}
 			}
 			else {
@@ -85,7 +83,10 @@ public class HandleStackProc {
 							if (rtblk instanceof Sentence) {
 								
 								Sentence st = (Sentence)rtblk;
-								analyse(st);
+								if (4 == analyse(st)) {
+									rt.setStop(true);
+									st.setStop(true);
+								}
 							}
 						}
 						if (!rt.isEnd()) {
@@ -97,7 +98,10 @@ public class HandleStackProc {
 					if (secblk instanceof Sentence) {
 						
 						Sentence st = (Sentence)secblk;
-						analyse(st);
+						if (4 == analyse(st)) {
+							sec.setStop(true);
+							st.setStop(true);
+						}
 					}
 				}
 			}
@@ -112,7 +116,10 @@ public class HandleStackProc {
 					if (rtblk instanceof Sentence) {
 						
 						Sentence st = (Sentence)rtblk;
-						analyse(st);
+						if (4 == analyse(st)) {
+							rt.setStop(true);
+							st.setStop(true);
+						}
 					}
 				}
 				
@@ -124,7 +131,9 @@ public class HandleStackProc {
 			if (blk instanceof Sentence) {
 				
 				Sentence st = (Sentence)blk;
-				analyse(st);
+				if (4 == analyse(st)) {
+					st.setStop(true);
+				}
 			}
 		}
 	}

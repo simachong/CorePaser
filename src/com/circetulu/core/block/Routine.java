@@ -13,6 +13,7 @@ public class Routine extends Block{
 	
 	public Routine(String name) {
 		
+		this.isEnd = false;
 		this.name = name;
 		this.from = name;
 		this.sentences = new ArrayList<Block>();

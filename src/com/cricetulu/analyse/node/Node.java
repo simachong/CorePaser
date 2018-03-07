@@ -5,6 +5,12 @@ public class Node {
 	private Node nextNode;
 	private String nodeName;
 	
+	public Node(Node node) {
+		
+		this.nextNode = node.getNextNode();
+		this.nodeName = node.getNodeName();
+	}
+	
 	public Node(String name) {
 		
 		nodeName = name;

@@ -11,15 +11,12 @@ public class PerformSTM extends AST{
 	
 	private String from;
 	private String to;
-	
-	private AST performAst;
 
 	public PerformSTM(AST ast) {
 		
 		this.pAst = ast;
-		performAst = new AST();
-		performAst.setAstName("PERFORM");
-		ast.getAsts().add(performAst);
+		this.setAstName("PERFORM");
+		ast.getAsts().add(this);
 	}
 	
 	public String getFrom() {

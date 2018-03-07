@@ -12,7 +12,9 @@ public class Section extends Block{
 	private boolean isEnd;
 	
 	public Section (String name) {
-		
+	
+		this.isEnd = false;
+		this.setStop(false);
 		this.name = name;
 		this.from = name;
 		blks = new ArrayList<Block>();
@@ -54,7 +56,4 @@ public class Section extends Block{
 	public void setFrom(String from) {
 		this.from = from;
 	}
-
-	
-	
 }

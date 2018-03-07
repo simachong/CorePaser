@@ -7,13 +7,12 @@ import com.circetulu.core.block.Token;
 public class ComputeSTM extends AST {
 
 	private String left;
-	private AST ast;
 	
 	public ComputeSTM(AST pAst) {
 		
-		ast = new AST();
-		ast.setAstName("COMPUTE");
+		this.setAstName("COMPUTE");
 		this.pAst = pAst;
+		pAst.getAsts().add(this);
 	}
 	
 	public String getLeft() {
@@ -24,12 +23,6 @@ public class ComputeSTM extends AST {
 	}
 
 	public AST getAst() {
-		return ast;
+		return this;
 	}
-
-	public void setAst(AST ast) {
-		this.ast = ast;
-	}
-	
-	
 }

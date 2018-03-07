@@ -5,23 +5,22 @@ public class IfSTM extends AST {
 	private AST ifStm;
 	private AST elseStm;
 	private AST conditions;
-	private AST ifAst;
 	
 	public IfSTM(AST pAst) {
 		
 		this.pAst = pAst;
-		ifAst = new AST();
+		
 		ifStm = new AST();
 		ifStm.setAstName("IF-STM");
 		elseStm = new AST();
 		elseStm.setAstName("ELSE-STM");
 		conditions = new AST();
 		conditions.setAstName("CONDITIONS");
-		ifAst.setAstName("IF");
-		ifAst.getAsts().add(ifStm);     // if
-		ifAst.getAsts().add(elseStm);   // else
-		ifAst.getAsts().add(conditions);// conditions
-		pAst.getAsts().add(ifAst);
+		this.setAstName("IF");
+		this.getAsts().add(ifStm);     // if
+		this.getAsts().add(elseStm);   // else
+		this.getAsts().add(conditions);// conditions
+		pAst.getAsts().add(this);
 	}
 
 	public AST getIfStm() {
@@ -49,12 +48,7 @@ public class IfSTM extends AST {
 	}
 
 	public AST getIfAst() {
-		return ifAst;
+		return this;
 	}
-
-	public void setIfAst(AST ifAst) {
-		this.ifAst = ifAst;
-	}
-	
 	
 }

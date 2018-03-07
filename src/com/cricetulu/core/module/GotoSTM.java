@@ -1,17 +1,14 @@
 package com.cricetulu.core.module;
 
 public class GotoSTM extends AST {
-
-	private AST gotoAst;
-
+	
 	private String to;
 	
 	public GotoSTM(AST ast) {
 		
 		this.pAst = ast;
-		gotoAst = new AST();
-		gotoAst.setAstName("GOTO");
-		ast.getAsts().add(gotoAst);
+		this.setAstName("GOTO");
+		ast.getAsts().add(this);
 	}
 
 	public String getTo() {

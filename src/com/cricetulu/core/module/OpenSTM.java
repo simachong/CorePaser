@@ -4,15 +4,12 @@ public class OpenSTM extends AST {
 
 	private String io;
 	private String fileName;
-	private AST openAst;
 	
 	public OpenSTM (AST pAst) {
-		
-		openAst = new AST();
-		openAst.setAstName("OPEN");
+		this.setAstName("OPEN");
 		
 		this.pAst = pAst;
-		pAst.getAsts().add(openAst);
+		pAst.getAsts().add(this);
 	}
 
 	public String getIo() {
@@ -32,11 +29,6 @@ public class OpenSTM extends AST {
 	}
 
 	public AST getOpenAst() {
-		return openAst;
+		return this;
 	}
-
-	public void setOpenAst(AST openAst) {
-		this.openAst = openAst;
-	}
-
 }

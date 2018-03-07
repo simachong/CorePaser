@@ -5,14 +5,12 @@ public class BinarySTM extends AST{
 	// ACCEPT ADD MOVE SET
 	private String from;
 	private String to;
-	private AST ast;
 	
 	public BinarySTM(AST pAst) {
 		
 		this.pAst = pAst;
-		ast = new AST();
-		ast.setAstName("BinaryOp");
-		pAst.getAsts().add(ast);
+		this.setAstName("BinaryOp");
+		pAst.getAsts().add(this);
 	}
 	
 	public String getFrom() {

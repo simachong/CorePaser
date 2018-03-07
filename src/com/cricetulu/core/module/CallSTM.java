@@ -4,15 +4,13 @@ public class CallSTM extends AST {
 
 	private String prog;
 	private String tblName;
-	private AST callAst;
 	
 	public CallSTM (AST pAst) {
 		
-		callAst = new AST();
-		callAst.setAstName("CALL");
+		this.setAstName("CALL");
 		
 		this.pAst = pAst;
-		pAst.getAsts().add(callAst);
+		pAst.getAsts().add(this);
 	}
 
 	public String getProg() {
@@ -32,10 +30,6 @@ public class CallSTM extends AST {
 	}
 
 	public AST getAst() {
-		return callAst;
-	}
-
-	public void setAst(AST ast) {
-		this.callAst = ast;
+		return this;
 	}
 }

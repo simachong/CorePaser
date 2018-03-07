@@ -2,7 +2,6 @@ package com.cricetulu.core.module;
 
 public class EvaluateSTM extends AST{
 
-	private AST evaluateAst;
 	private AST conditionsDs;
 	private AST whenCondition;
 	private AST whenStm;
@@ -13,12 +12,11 @@ public class EvaluateSTM extends AST{
 		conditionsDs = new AST();
 		whenCondition = new AST();
 		whenStm = new AST();
-		evaluateAst = new AST();
-		evaluateAst.setAstName("EVALUATE");
-		evaluateAst.getAsts().add(conditionsDs);
-		evaluateAst.getAsts().add(whenCondition);
-		evaluateAst.getAsts().add(whenStm);
-		ast.getAsts().add(evaluateAst);
+		this.setAstName("EVALUATE");
+		this.getAsts().add(conditionsDs);
+		this.getAsts().add(whenCondition);
+		this.getAsts().add(whenStm);
+		ast.getAsts().add(this);
 	}
 
 	public AST getConditionsDs() {
@@ -30,11 +28,7 @@ public class EvaluateSTM extends AST{
 	}
 
 	public AST getEvaluateAst() {
-		return evaluateAst;
-	}
-
-	public void setEvaluateAst(AST evaluateAst) {
-		this.evaluateAst = evaluateAst;
+		return this;
 	}
 
 	public AST getWhenCondition() {

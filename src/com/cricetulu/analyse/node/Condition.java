@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Condition extends Node {
 
-	private Node leftTrue;
-	private Node rightFalse;
+	private Node leftTrue = new Node("CDT");
+	private Node rightFalse = new Node("CDF");
 	private ArrayList<Node> whens;
 	private ArrayList<String> whenCondition;
 	private String ifCondition;

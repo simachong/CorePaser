@@ -35,6 +35,7 @@ public class Parse {
 //		ps.printDs();
 		//ps.printRoutine();
 		ps.analyseHandleStack();
+		ps.generateFlow();
 		System.out.println("Over!");
 	}
 
