@@ -163,8 +163,10 @@ public class FlowGenerator {
 				AST ifAst = ifStm.getIfStm();
 				AST elseAst = ifStm.getElseStm();
 				AST condition = ifStm.getConditions();
-				Condition cond = new Condition(condition.toString() + ":" + condCount);
-				cond.setIfCondition(condition.toString() + ":" + condCount);
+				//Condition cond = new Condition(condition.toString() + ":" + condCount);
+				//cond.setIfCondition(condition.toString() + ":" + condCount);
+				Condition cond = new Condition("CONDITION:" + condCount);
+				cond.setIfCondition("CONDITION:" + condCount);
 				cond.setConditionType("IF");
 				cond.setDesc(desc);
 				
@@ -182,7 +184,7 @@ public class FlowGenerator {
 				
 				if (iter1 != cond || iter2 != cond) {
 					
-					Node cd = new Node("Condition " + condCount + " End");
+					Node cd = new Node("Condition-" + condCount + "-End");
 					node.getNextNodes().add(cond);
 					if (!iter1.getNodeName().equals(cd.getNodeName())) {
 						iter1.getNextNodes().add(cd);
@@ -207,14 +209,17 @@ public class FlowGenerator {
 				
 				PerformSTM pstm = (PerformSTM)iter;
 				String from = pstm.getFrom();
-				node = jumpTo(from, node, desc);
-				
+				if (from != null && !from.equals("CCSI-ABEND")) {
+					node = jumpTo(from, node, desc);
+				}
 			}
 			else if (iter instanceof GotoSTM) {
 				
 				GotoSTM gstm = (GotoSTM)iter;
 				String to = gstm.getTo();
-				node = jumpTo(to, node, desc);
+				if (to != null && !to.equals("CCSI-ABEND")) {
+					node = jumpTo(to, node, desc);
+				}
 			}
 			else if (iter instanceof CallSTM) {
 					
