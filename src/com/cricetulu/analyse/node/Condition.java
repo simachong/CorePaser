@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Condition extends Node {
 
-	private Node leftTrue = new Node("CDT");
-	private Node rightFalse = new Node("CDF");
 	private ArrayList<Node> whens;
 	private ArrayList<String> whenCondition;
 	private String ifCondition;
@@ -18,18 +16,6 @@ public class Condition extends Node {
 		whenCondition = new ArrayList<String>();
 	}
 	
-	public Node getLeftTrue() {
-		return leftTrue;
-	}
-	public void setLeftTrue(Node leftTrue) {
-		this.leftTrue = leftTrue;
-	}
-	public Node getRightFalse() {
-		return rightFalse;
-	}
-	public void setRightFalse(Node rightFalse) {
-		this.rightFalse = rightFalse;
-	}
 	public ArrayList<Node> getWhens() {
 		return whens;
 	}
