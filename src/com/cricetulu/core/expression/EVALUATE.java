@@ -1,6 +1,7 @@
 package com.cricetulu.core.expression;
 
 import com.circetulu.core.block.Sentence;
+import com.circetulu.core.block.Token;
 import com.cricetulu.core.global.GlobalDef;
 import com.cricetulu.core.global.Index;
 import com.cricetulu.core.module.AST;
@@ -14,6 +15,21 @@ public class EVALUATE extends Expression {
 	// WHEN	OTHER
 	// END-EVALUEATE
 	//
+	
+	private static final String [] evalCondEnds = {"WHEN", "END-EVALUATE"};
+	private static final String [] whenCondEnds = {"ELSE", "END-IF", "WHEN", "NEXT", "CONTINUE"};
+	
+	private boolean isEnd(String name, String [] ends) {
+		
+		for (int i = 0; i < ends.length; ++i) {
+			
+			if (name.equals(ends[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public int execute(AST ast, Sentence sentence, Index i) {
 		
 		EvaluateSTM es = new EvaluateSTM(ast);
@@ -26,45 +42,69 @@ public class EVALUATE extends Expression {
 		AST tmpAst = null;
 		Expression exp = null;
 		boolean isEvaluate = false;
-		boolean isWhen = false;
+		boolean isWhenCond = false;
+		boolean isWhenStm = false;
 		int begin = i.i;
 		for (; i.i < tokens.size(); ++i.i) {
-			
+			boolean fj = false;
 			String tokenName = tokens.get(i.i).getTokenName();
 			switch (tokenName.toUpperCase()) {
 				
-				case "EVALUATE" : isEvaluate = true; isWhen = false;
+				case "EVALUATE" : isEvaluate = true; isWhenCond = false; isWhenStm=false; fj = true;
 					break;
-				case "WHEN" : isWhen = true; isEvaluate = false;
+				case "WHEN" : 
+					isWhenCond = true; isWhenStm=false; isEvaluate = false; fj = true;
+					tmpAst = null;
 					break;
-				case "END-EVALUATE" : isEvaluate = false; isWhen = false;
+				case "END-EVALUATE" : isEvaluate = false; isWhenCond = false; 
+					return 0;
+				case "NEXT" :
+					if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
+						AST nextS = new AST();
+						nextS.setAstName("NEXT SENTENCE");
+						nextS.getTokens().add(new Token("NEXT", -1, false));
+						nextS.getTokens().add(new Token("SENTENCE", -1, false));
+						tmpAst.getAsts().add(nextS);
+					}
 					break;
-//				case "NEXT" :
-//					if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
-//						return 1;
-//					}
-//					break;
 				case "CONINUE" :
-				//scan until
 					break;
 				default: break;
 			}
 			
+			if (fj) {
+				continue;
+			}
+			
+			if (isEvaluate && isEnd(tokenName, evalCondEnds)) {
+				isEvaluate = false;
+				--i.i;
+			}
+			
+			if (isWhenCond && (isEnd(tokenName, whenCondEnds)|| GlobalDef.isExp(tokenName))) {
+				isWhenCond = false;
+				isWhenStm = true;
+				--i.i;
+			}
 			if (isEvaluate) {
 				
 				AST conditions = es.getConditionsDs();
 				conditions.getTokens().add(tokens.get(i.i));
 			}
 			
-			if (isWhen) {
+			if (isWhenCond && !GlobalDef.isExp(tokenName)) {
 				
 				AST conditions = es.getWhenCondition();
-				conditions.getTokens().add(tokens.get(i.i));
-				if (tmpAst == null) {
-					
-					tmpAst = es.getWhenStm();
-				}
+				AST astC = new AST();
+				conditions.getAsts().add(astC);
+				astC.getTokens().add(tokens.get(i.i));
 			}	
+			
+			if (isWhenStm && tmpAst == null) {
+				AST whenA = new AST();
+				es.getWhenStm().getAsts().add(whenA);
+				tmpAst = whenA;
+			}
 			
 			if (i.i > begin && GlobalDef.isExp(tokenName) && tmpAst != null) {
 				
@@ -73,7 +113,6 @@ public class EVALUATE extends Expression {
 					
 					return 1;
 				}
-				tmpAst = null;
 			}
 		}
 		

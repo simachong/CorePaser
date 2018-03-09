@@ -27,11 +27,17 @@ public class FlowGenerator {
 	 
 	private ArrayList<Block> blksIter;
 	private LinkedHashMap<String, Node> nodeMap = new LinkedHashMap<String, Node>();
+	private LinkedHashMap<String, String> condMap = new LinkedHashMap<String, String>();
+	private LinkedHashMap<String, Node> cNodeMap = new LinkedHashMap<String, Node>();
+	private LinkedHashMap<String, Node> secnodeMap;
+	private LinkedHashMap<String, Node> rtnodeMap;
 	private LinkedHashMap<String, Routine> routineIndex;
 	private LinkedHashMap<String, Section> sectionIndex;
 	private Queue<Block> queue;
 	private String text = "";
+	private String contxt = "";
 	private int condCount = 0;
+	
 		
 	public FlowGenerator(ArrayList<Block> blksIter, LinkedHashMap<String, Routine> routineIndex, LinkedHashMap<String, Section> sectionIndex) {
 			
@@ -39,6 +45,18 @@ public class FlowGenerator {
 		this.routineIndex = routineIndex;
 		this.sectionIndex = sectionIndex;
 		this.blksIter = blksIter;
+	}
+	
+	public void printCondtions() {
+		
+		String txt = "";
+		Iterator<Entry<String, String>> iter = condMap.entrySet().iterator();
+		while(iter.hasNext()) {
+			
+			Entry<String, String> entry = iter.next();
+			txt += entry.getKey() + "," + entry.getValue() + "\n";
+		}
+		FileOperation.createFile(".." + File.separator + "Condtions.txt", txt);
 	}
 	
 	public void printNode(Node node, String conditions) {
@@ -49,28 +67,48 @@ public class FlowGenerator {
 				
 				Condition cond = (Condition)node;
 				
-				if (cond.getConditionType().equals("IF")) {
+				if (cond.getConditionType().equals("IF") || cond.getConditionType().equals("EVALUATE")) {
+					
+					if (cond.getConditionType().equals("EVALUATE")) {
+						System.out.println();
+					}
+					contxt += "click " + cond.getCondition() + " callback " + "\"" 
+					+ condMap.get(node.getNodeName()) + "\"\r\n";
 					
 					for (Node nd : cond.getNextNodes()) {
 						String cds = nd.getDesc();
 						if (!cds.isEmpty()) {
 							cds = "|" + cds + "|";
 						}
-						text += node.getNodeName() + " --> " + cds + nd.getNodeName() + "\n";
+						String seq = "";
+						if (0 != nd.getSeq()) {
+							
+							seq = ":" + nd.getSeq();
+						}
+						text += node.getNodeName() + " --> " + cds + nd.getNodeName() + seq + "\n";
 						cds = "";
 						printNode(nd, "");
 					}
-				}
-				else if (cond.getConditionType().equals("EVALUATE")) {
-					// TODO
-				}
-				
+				}				
 			}
 			else {
 				if (!conditions.isEmpty()) {
 					conditions = "|" + conditions + "|";
 				}
-				text += node.getNodeName() + " --> " + conditions + node.getNextNodes().get(0).getNodeName() + "\n";
+				
+				String seqL = "";
+				if (0 != node.getSeq()) {
+					
+					seqL = ":" + node.getSeq();
+				}
+				
+				String seqR = "";
+				if (0 != node.getNextNodes().get(0).getSeq()) {
+					
+					seqR = ":" + node.getNextNodes().get(0).getSeq();
+				}
+				text += node.getNodeName() + seqL + " --> " + conditions 
+						+ node.getNextNodes().get(0).getNodeName() + seqR + "\n";
 				conditions = "";
 			}
 			node.setPrint(true);
@@ -84,21 +122,21 @@ public class FlowGenerator {
 		Iterator<Entry<String, Node>> iter = nodeMap.entrySet().iterator();
 		while(iter.hasNext()) {
 			
-			text = "";
+			text = "```mermaid\r\n" + 
+					"   graph TD\r\n";
+			contxt = "";
 			Entry<String, Node> entry = iter.next();
 			Node node = entry.getValue();
-			System.out.println(node.getNodeName() + " is Printing");
+			//System.out.println(node.getNodeName() + " is Printing");
 			printNode(node, "");
-			FileOperation.createFile(".." + File.separator + node.getNodeName(), text);
+			contxt = contxt.replace("<=", "< =");
+			FileOperation.createFile(".." + File.separator + node.getNodeName() + ".md", text + contxt);
 		}
-		//Node node = nodeMap.get("MAIN-LINE-LOGIC");
-		//printNode(node, "");
-		
-		
 	}
 	
 	private Node rtFlowWide(Routine rt, Node node, String desc) {
 		
+		rtnodeMap = new LinkedHashMap<String, Node>();
 		ArrayList<Block> rtblks = rt.getSentences();
 		Node Iter = node;
 		for (Block blk : rtblks) {
@@ -126,6 +164,7 @@ public class FlowGenerator {
 				if (!nodeMap.containsKey(rt.getName())) {
 					queue.offer(rt);
 					Node rtNd = new Node(rt.getName());
+					
 					rtNd.setDesc(desc);
 					Node rtNd2 = new Node(rt.getName());
 					node.getNextNodes().add(rtNd);
@@ -165,10 +204,14 @@ public class FlowGenerator {
 				AST condition = ifStm.getConditions();
 				//Condition cond = new Condition(condition.toString() + ":" + condCount);
 				//cond.setIfCondition(condition.toString() + ":" + condCount);
+				
 				Condition cond = new Condition("CONDITION:" + condCount);
-				cond.setIfCondition("CONDITION:" + condCount);
+				cond.setCondition("CONDITION:" + condCount);
+				
+				condMap.put("CONDITION:" + condCount, condition.toString());
 				cond.setConditionType("IF");
 				cond.setDesc(desc);
+				cond.setCondition(true);
 				
 				Node iter1 = cond;
 				if (!ifAst.getAsts().isEmpty()) {
@@ -184,8 +227,19 @@ public class FlowGenerator {
 				
 				if (iter1 != cond || iter2 != cond) {
 					
-					Node cd = new Node("Condition-" + condCount + "-End");
+					Node cd = null;
+					if (!cNodeMap.containsKey("Condition-" + condCount + "-End")) {
+						
+						cd = new Node("Condition-" + condCount + "-End");
+						cNodeMap.put("Condition-" + condCount + "-End", cd);
+					}
+					else {
+						cd = cNodeMap.get("Condition-" + condCount + "-End");
+					}
+					
+					cd.setCondition(true);
 					node.getNextNodes().add(cond);
+
 					if (!iter1.getNodeName().equals(cd.getNodeName())) {
 						iter1.getNextNodes().add(cd);
 					}
@@ -197,13 +251,51 @@ public class FlowGenerator {
 			}
 			else if (iter instanceof EvaluateSTM) {
 					
-//				EvaluateSTM estm = (EvaluateSTM)iter;
-//				AST conditions = estm.getConditionsDs();
-//				Condition cond = new Condition(conditions.toString());
-//				cond.setConditionType("EVALUATE");
-//				ArrayList<String> whenConditions = cond.getWhenCondition();
-//				ArrayList<Node> whenNode = cond.getWhens();
-//				estm.get
+				condCount++;
+				EvaluateSTM estm = (EvaluateSTM)iter;
+				AST evalCond = estm.getConditionsDs();
+				AST whenCond = estm.getWhenCondition();
+				AST whenStm = estm.getWhenStm();
+				
+				Condition cond = new Condition("EVALUATE:" + condCount);
+				condMap.put("EVALUATE:" + condCount, evalCond.getTokens().toString());
+				cond.setConditionType("EVALUATE");
+				cond.setDesc(desc);
+				cond.setCondition(true);
+				cond.setCondition("EVALUATE:" + condCount);
+				
+				ArrayList<AST> whenCondAsts = whenCond.getAsts();
+				ArrayList<AST> whenStmAsts = whenStm.getAsts();
+				Node iterW = null;
+				boolean firstWhen = true;
+				for (int i = 0; i < whenStmAsts.size(); ++i) {
+					
+					AST astW = whenStmAsts.get(i);
+					iterW = cond;
+					iterW = buildFlow(astW, iterW, whenCondAsts.get(i).toString());
+			
+					if (iterW != cond) {
+						
+						if (firstWhen) {
+							node.getNextNodes().add(cond);	
+						}
+						
+						Node cd = null;
+						if (!cNodeMap.containsKey("EVALUATE-" + condCount + "-End")) {
+							
+							cd = new Node("EVALUATE-" + condCount + "-End");
+							cNodeMap.put("EVALUATE-" + condCount + "-End", cd);
+						}
+						else {
+							cd = cNodeMap.get("EVALUATE-" + condCount + "-End");
+						}
+						iterW.getNextNodes().add(cd);
+						if (firstWhen) {
+							node = cd;
+							firstWhen = false;
+						}
+					}
+				}
 			}
 			else if (iter instanceof PerformSTM) {
 				
@@ -218,17 +310,32 @@ public class FlowGenerator {
 				GotoSTM gstm = (GotoSTM)iter;
 				String to = gstm.getTo();
 				if (to != null && !to.equals("CCSI-ABEND")) {
-					node = jumpTo(to, node, desc);
+					node = jumpTo(to, node, desc + "GO TO");
 				}
 			}
 			else if (iter instanceof CallSTM) {
 					
 				CallSTM cstm = (CallSTM)iter;
 				String proc = cstm.getProg();
-				Node pnode= new Node(proc);
+				
+				
+				Node mnode = new Node(proc);
+				Node pnode = new Node(proc);
+				if (!rtnodeMap.containsKey(proc)) {
+
+					mnode.addSeq();
+					rtnodeMap.put(proc, mnode);
+				}
+				else {
+					
+					pnode.setSeq(rtnodeMap.get(proc).getSeq());
+					rtnodeMap.get(proc).addSeq();
+				}
+				
 				pnode.setDesc(desc);
 				node.getNextNodes().add(pnode);
 				node = pnode;
+				
 			}
 		}
 		return node;
@@ -246,25 +353,40 @@ public class FlowGenerator {
 			blk = sectionIndex.get(from);
 		}
 		
-		
-		if (blk != null) {
-		
-			if (!nodeMap.containsKey(from)) {
-				queue.offer(blk);
-				Node rtNd2 = new Node(from);
-				Node rtNd = new Node(from);
-				rtNd.setDesc(desc);
-				node.getNextNodes().add(rtNd);
-				nodeMap.put(rtNd.getNodeName(), rtNd2);
-				node = rtNd;
-			}
-			else {
-				Node nodert = new Node(from);
-				nodert.setDesc(desc);
-				node.getNextNodes().add(nodert);
-				node = nodert;
+		Node mnode = new Node(from);
+		Node pnode = new Node(from);
+		if (!rtnodeMap.containsKey(from)) {
+
+			mnode.addSeq();
+			rtnodeMap.put(from, mnode);
+		}
+		else {
+				
+			if (!desc.contains("GO TO")) {
+				pnode.setSeq(rtnodeMap.get(from).getSeq());
+				rtnodeMap.get(from).addSeq();
 			}
 		}
+			
+		if (!nodeMap.containsKey(from)) {
+			
+			//TODO tmp solution
+			if (blk != null) {
+				queue.offer(blk);
+			}
+			
+			Node rtNd2 = new Node(from);
+			pnode.setDesc(desc);
+			node.getNextNodes().add(pnode);
+			nodeMap.put(from, rtNd2);
+			node = pnode;
+		}
+		else {
+			pnode.setDesc(desc);
+			node.getNextNodes().add(pnode);
+			node = pnode;
+		}
+		
 		return node;
 	}
 		
@@ -327,8 +449,28 @@ public class FlowGenerator {
 			else if (blkq instanceof Routine) {
 				
 				Routine rtq = (Routine)blkq;
-				Node qNd= nodeMap.get(rtq.getName());
+				Node qNd = null;
+				if (nodeMap.containsKey(rtq.getName())) {
+					qNd = nodeMap.get(rtq.getName());
+				}
+				else {
+					qNd = new Node(rtq.getName());
+					nodeMap.put(rtq.getName(), qNd);
+				}
 				rtFlowWide(rtq, qNd, "");
+				Node tmp = qNd;
+				while (tmp != null && !tmp.getNextNodes().isEmpty()) {
+					
+					tmp = tmp.getNextNodes().get(0);
+				}
+				if (!rtq.isEnd()) {
+					System.out.println(rtq.getName() + "xxx");
+					
+					
+					tmp.getNextNodes().add(new Node("NEXT-ROUTINE:" + rtq.getNextRoutine().getName()));
+					queue.offer(rtq.getNextRoutine());
+				}
+				tmp.getNextNodes().add(new Node("..."));
 			}
 		}
 	}
@@ -336,5 +478,6 @@ public class FlowGenerator {
 	// deep
 	public void buildFlowByDeep(LinkedHashMap<String, Routine> routineIndex, LinkedHashMap<String, Section> sectionIndex) {
 	
+		// TODO
 	}
 }

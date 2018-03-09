@@ -8,6 +8,7 @@ public class STOP extends Expression {
 
 	public int execute (AST ast, Sentence st, Index i) {
  
+		i.i = st.getTokens().size();
 		return 4;
 	}
 }

@@ -8,7 +8,7 @@ public class Routine extends Block{
 	private String from;
 	private String to;
 	private ArrayList<Block> sentences;
-	private boolean isEnd;
+	private boolean isEnd = true;
 	private Routine nextRoutine;
 	
 	public Routine(String name) {

@@ -35,6 +35,7 @@ public class Expression {
 	public int execute(AST ast, Sentence sentence, Index i) {
 		
 		ast.setTokens(tokens);
+		i.i = sentence.getTokens().size();
 		return 0;
 	}
 

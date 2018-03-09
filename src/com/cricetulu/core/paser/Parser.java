@@ -63,6 +63,7 @@ public class Parser {
 		FlowGenerator fg = new FlowGenerator(procedure, routineIndex, sectionIndex);
 		fg.buildFlowByWide();
 		fg.printNode();
+		fg.printCondtions();
 	}
 	
 	public void analyseHandleStack() {

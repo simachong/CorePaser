@@ -20,21 +20,25 @@ public class HandleStackProc {
 		this.blksIter = blksIter;
 	}
 	
-	private int analyse(Sentence st) {
+private int analyse(Sentence st, Index i) {
 		
 		ArrayList<Token> tokens = st.getTokens();
 		
 		if (tokens.size() > 1) {
 			
-			if (tokens.get(0).getTokenName().equals("STOP")) {
-				
-				System.out.println("STOP");
-			}
-			Expression exp = GlobalDef.expressions.get(tokens.get(0).getTokenName());
+			Expression exp = GlobalDef.expressions.get(tokens.get(i.i).getTokenName());
 			if (exp != null) {
 				exp.init();
-				Index i = new Index(0);
 				int rt = exp.execute(st.getAst(), st, i);
+			
+				//System.out.println();
+				if (i.i < st.getTokens().size() - 1) {
+					
+					return analyse(st, i);
+				}
+				if (i.i < st.getTokens().size() - 1) {
+					System.out.println(i.i + ":" + st.getTokens().size() + st.toString());
+				}
 				if (1 == rt ) {
 					exp.clear();
 					return 1;
@@ -58,6 +62,22 @@ public class HandleStackProc {
 			
 		}
 		
+		return 0;
+	}
+	
+	private int analyse(Sentence st) {
+		
+		ArrayList<Token> tokens = st.getTokens();
+		
+		if (tokens.size() > 1) {
+			
+			Expression exp = GlobalDef.expressions.get(tokens.get(0).getTokenName());
+			if (exp != null) {
+				exp.init();
+				Index i = new Index(0);
+				return analyse(st, i);
+			}
+		}
 		return 0;
 	}
 	

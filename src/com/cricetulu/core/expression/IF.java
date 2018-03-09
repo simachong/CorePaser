@@ -39,6 +39,7 @@ public class IF extends Expression{
 	}
 	
 	public int execute (AST ast, Sentence st, Index i) {
+		
 		init();
 		ifstm = new IfSTM(ast);
 		ifStack.push(ifstm); 
@@ -58,23 +59,21 @@ public class IF extends Expression{
 		for (; i.i < tokens.size(); ++i.i) {
 			
 			String tokenName = tokens.get(i.i).getTokenName();
-			if (tokenName.equals("ACCOUNT-OVER-LIMIT")) {
-				System.out.println();
-			}
+			
 			switch (tokenName.toUpperCase()) {
 				
 				case "ELSE" : 
 					tmpAst = null;
 					if (isElse) {
 						// if else end
-						System.out.println(st.toString());
+						//System.out.println(st.toString());
 						ifstm = ifStack.pop();
 						return 2;
 					}
 					isIf = false; isElse = true; break;
 				case "END-IF" : 	
 					// if else end
-					System.out.println(st.toString());
+					//System.out.println(st.toString() + i.i);
 					isIf = false; isElse = false;
 					if (ifStack.size() == 0) {
 						tmpAst = ast;
@@ -131,7 +130,7 @@ public class IF extends Expression{
 				else if (2 == rtc) {
 					
 					ifstm = ifStack.peek();
-					isIf = false; isElse = true;
+					isIf = false; isElse = false;
 					tmpAst = null;
 					--i.i;
 					
