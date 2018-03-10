@@ -20,7 +20,7 @@ public class HandleStackProc {
 		this.blksIter = blksIter;
 	}
 	
-private int analyse(Sentence st, Index i) {
+	private int analyse(Sentence st, Index i) {
 		
 		ArrayList<Token> tokens = st.getTokens();
 		
@@ -32,10 +32,6 @@ private int analyse(Sentence st, Index i) {
 				int rt = exp.execute(st.getAst(), st, i);
 			
 				//System.out.println();
-				if (i.i < st.getTokens().size() - 1) {
-					
-					return analyse(st, i);
-				}
 				if (i.i < st.getTokens().size() - 1) {
 					System.out.println(i.i + ":" + st.getTokens().size() + st.toString());
 				}

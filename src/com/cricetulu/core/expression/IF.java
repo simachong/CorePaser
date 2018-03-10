@@ -40,6 +40,11 @@ public class IF extends Expression{
 	
 	public int execute (AST ast, Sentence st, Index i) {
 		
+		boolean stFst = false;
+		if (ast == st.getAst()) {
+			stFst = true;
+		}
+
 		init();
 		ifstm = new IfSTM(ast);
 		ifStack.push(ifstm); 
@@ -60,6 +65,11 @@ public class IF extends Expression{
 			
 			String tokenName = tokens.get(i.i).getTokenName();
 			
+			if (tokenName.equals("BPE-BAL-TYPE")) {
+				
+				System.out.println();
+			}
+			
 			switch (tokenName.toUpperCase()) {
 				
 				case "ELSE" : 
@@ -75,13 +85,19 @@ public class IF extends Expression{
 					// if else end
 					//System.out.println(st.toString() + i.i);
 					isIf = false; isElse = false;
-					if (ifStack.size() == 0) {
+					if (ifStack.isEmpty()) {
 						tmpAst = ast;
 					}
 					else {
 						ifstm = ifStack.pop();
 					}
-					return 3;
+					
+					if (stFst) {
+						break;
+					}
+					else {
+						return 3;
+					}
 				case "NEXT" :
 					if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
 						isIf = false;
@@ -136,7 +152,9 @@ public class IF extends Expression{
 					
 				}
 				else if (3 == rtc) {
-					ifstm = ifStack.peek();
+					if (!ifStack.isEmpty()) {
+						ifstm = ifStack.peek();
+					}
 					//tmpAst = null;
 					
 				}

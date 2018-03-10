@@ -32,6 +32,12 @@ public class EVALUATE extends Expression {
 	
 	public int execute(AST ast, Sentence sentence, Index i) {
 		
+		boolean stFst = false;
+		if (ast == sentence.getAst()) {
+			stFst = true;
+		}
+
+		
 		EvaluateSTM es = new EvaluateSTM(ast);
 		tokens = sentence.getTokens();
 		
@@ -46,8 +52,13 @@ public class EVALUATE extends Expression {
 		boolean isWhenStm = false;
 		int begin = i.i;
 		for (; i.i < tokens.size(); ++i.i) {
+			
 			boolean fj = false;
 			String tokenName = tokens.get(i.i).getTokenName();
+
+			if (tokenName.equals("CPS404-FILE-NMBR")) {
+				System.out.println();
+			}
 			switch (tokenName.toUpperCase()) {
 				
 				case "EVALUATE" : isEvaluate = true; isWhenCond = false; isWhenStm=false; fj = true;
@@ -56,8 +67,13 @@ public class EVALUATE extends Expression {
 					isWhenCond = true; isWhenStm=false; isEvaluate = false; fj = true;
 					tmpAst = null;
 					break;
-				case "END-EVALUATE" : isEvaluate = false; isWhenCond = false; 
-					return 0;
+				case "END-EVALUATE" : isEvaluate = false; isWhenCond = false;isWhenStm=false;
+					if (stFst) {
+						break;
+					}
+					else {
+						return 0;
+					}
 				case "NEXT" :
 					if (tokens.get(i.i + 1).getTokenName().equals("SENTENCE")) {
 						AST nextS = new AST();
@@ -84,7 +100,6 @@ public class EVALUATE extends Expression {
 			if (isWhenCond && (isEnd(tokenName, whenCondEnds)|| GlobalDef.isExp(tokenName))) {
 				isWhenCond = false;
 				isWhenStm = true;
-				--i.i;
 			}
 			if (isEvaluate) {
 				
