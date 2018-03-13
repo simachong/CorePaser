@@ -9,6 +9,7 @@ public class Routine extends Block{
 	private String to;
 	private ArrayList<Block> sentences;
 	private boolean isEnd = true;
+	private boolean isExit = false;
 	private Routine nextRoutine;
 	
 	public Routine(String name) {
@@ -54,5 +55,13 @@ public class Routine extends Block{
 	}
 	public void setNextRoutine(Routine nextRoutine) {
 		this.nextRoutine = nextRoutine;
+	}
+
+	public boolean isExit() {
+		return isExit;
+	}
+
+	public void setExit(boolean isExit) {
+		this.isExit = isExit;
 	}
 }

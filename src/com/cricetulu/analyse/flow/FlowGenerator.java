@@ -30,7 +30,6 @@ public class FlowGenerator {
 	private LinkedHashMap<String, String> condMap = new LinkedHashMap<String, String>();
 	private LinkedHashMap<String, Node> cNodeMap = new LinkedHashMap<String, Node>();
 	private LinkedHashMap<String, Node> eNodeMap = new LinkedHashMap<String, Node>();
-	private LinkedHashMap<String, Node> secnodeMap;
 	private LinkedHashMap<String, Node> rtnodeMap;
 	private LinkedHashMap<String, Routine> routineIndex;
 	private LinkedHashMap<String, Section> sectionIndex;
@@ -156,13 +155,19 @@ public class FlowGenerator {
 	private Node secFlowWide(Section sec, Node node, String desc) {
 		
 		ArrayList<Block> secblks = sec.getBlks();
+		Node Iter = node;
 		// Section
 		for (Block secblk : secblks) {
-									
+								
 			// Section Contains Routine
 			if (secblk instanceof Routine) {
 										
 				Routine rt = (Routine)secblk;
+				
+				if (rt.isExit()) {
+					
+					break;
+				}
 				
 				if (!nodeMap.containsKey(rt.getName())) {
 					queue.offer(rt);
@@ -184,10 +189,8 @@ public class FlowGenerator {
 			// Sentence
 			if (secblk instanceof Sentence) {
 				
-				Node Iter = node;
 				Sentence st = (Sentence)secblk;
 				Iter = buildFlow(st.getAst(), Iter, "");
-				node = Iter;
 			}
 			
 		}
@@ -457,7 +460,14 @@ public class FlowGenerator {
 			if (blkq instanceof Section) {
 				
 				Section secq = (Section)blkq;
-				Node qNd = nodeMap.get(secq.getName());
+				Node qNd = null;
+				if (nodeMap.containsKey(secq.getName())) {
+					qNd = nodeMap.get(secq.getName());
+				}
+				else {
+					qNd = new Node(secq.getName());
+					nodeMap.put(secq.getName(), qNd);
+				}
 				secFlowWide(secq, qNd, "");
 			}
 			else if (blkq instanceof Routine) {
@@ -473,10 +483,7 @@ public class FlowGenerator {
 				}
 				rtFlowWide(rtq, qNd, "");
 				Node tmp = qNd;
-				System.out.println(tmp.getNodeName());
-				if (tmp.getNodeName().equals("ABPS-ACCUMULATE-BALANCE-PROC")) {
-					System.out.println();
-				}
+				
 				while (tmp != null && !tmp.getNextNodes().isEmpty()) {
 					
 					boolean flag = false;

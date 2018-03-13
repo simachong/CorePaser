@@ -325,9 +325,14 @@ public class Parser {
 		
 			if (nextSentence != null && nextSentence.getTokens().get(0).getTokenName().equals("EXIT") && currRoutine != null) {
 					
+				Routine rt = new Routine(sentence.getTokens().get(0).getTokenName());
+				rt.setExit(true);
+				
 				blksIter = blksIterStack.pop();
+				blksIter.add(rt);
 				currRoutine.setEnd(true);
 				currRoutine.setTo(sentence.getLableName());
+				currRoutine.setNextRoutine(rt);
 				currRoutine = null;
 			}
 			else if (!nextSentence.isLable() && currRoutine != null) {
@@ -344,15 +349,15 @@ public class Parser {
 			}
 			else if (currRoutine == null){
 				
-				if (nextSentence != null && nextSentence.getTokens().get(0).getTokenName().equals("EXIT")) {
-					
-					if (!currSection.isEnd()) {
-						
-						currSection.setEnd(true);
-						currSection.setTo(sentence.getTokens().get(0).getTokenName());
-					}
-				}
-				else {
+//				if (nextSentence != null && nextSentence.getTokens().get(0).getTokenName().equals("EXIT")) {
+//					
+//					if (!currSection.isEnd()) {
+//						
+//						currSection.setEnd(true);
+//						currSection.setTo(sentence.getTokens().get(0).getTokenName());
+//					}
+//				}
+//				else {
 
 					Routine rt = new Routine(sentence.getTokens().get(0).getTokenName());
 					currRoutine = rt;
@@ -360,7 +365,7 @@ public class Parser {
 					routineIndex.put(rt.getName(), rt);
 					blksIterStack.push(blksIter);
 					blksIter = rt.getSentences();
-				}
+//				}
 			}
 		}
 		else if (!sentence.getTokens().get(0).getTokenName().equals("EXIT")){
