@@ -12,7 +12,6 @@ import com.cricetulu.core.module.PerformSTM;
 public class PERFORM extends Expression {
 
 	private static Stack<IfSTM> perStack;
-	private static final String [] expEnds = {"ELSE", "END-IF", "WHEN", "NEXT"};
 	PerformSTM ps;
 	
 	public PERFORM() {
@@ -26,17 +25,6 @@ public class PERFORM extends Expression {
 	public void clear() {
 		
 		perStack = null;
-	}
-	
-	private boolean isEnd(String name) {
-		
-		for (int i = 0; i < expEnds.length; ++i) {
-			
-			if (name.equals(expEnds[i])) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public int execute(AST ast, Sentence sentence, Index i) {

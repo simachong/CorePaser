@@ -13,6 +13,11 @@ public class GO extends Expression{
 		GotoSTM gt = new GotoSTM(ast);
 		tokens = sentence.getTokens();
 		
+		boolean stFst = false;
+		if (ast == sentence.getAst()) {
+			stFst = true;
+		}
+		
 		if (tokens.size() < 1) {
 			return -1; // error log
 		}
@@ -28,13 +33,23 @@ public class GO extends Expression{
 			}
 			
 			Expression exp = null;
-			
 			if (i.i > begin && GlobalDef.isExp(tokenName)) {
 				
-				exp = GlobalDef.expressions.get(tokenName);
-				if (1 == exp.execute(ast, sentence, i)) {
-					return 1;
+				if (stFst) {
+					exp = GlobalDef.expressions.get(tokenName);
+					if (1 ==exp.execute(ast, sentence, i)) {
+						return 1;
+					}
+				}	
+				else {
+					--i.i;
+					return 0;
 				}
+			}
+			
+			if (i.i > begin && isEnd(tokenName)) {
+				--i.i;
+				return 0;
 			}
 		}
 		return 0;

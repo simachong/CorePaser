@@ -8,19 +8,6 @@ import com.cricetulu.core.module.DisplaySTM;
 
 public class DISPLAY extends Expression {
 
-	private static final String [] expEnds = {"ELSE", "END-IF", "WHEN", "NEXT"};
-	
-	private boolean isEnd(String name) {
-		
-		for (int i = 0; i < expEnds.length; ++i) {
-			
-			if (name.equals(expEnds[i])) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public int execute(AST ast, Sentence sentence, Index i) {
 		
 		boolean stFst = false;

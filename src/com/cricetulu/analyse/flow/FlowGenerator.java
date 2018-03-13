@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.Map.Entry;
 
 import com.circetulu.core.block.Block;
@@ -38,6 +39,8 @@ public class FlowGenerator {
 	private String contxt = "";
 	private int condCount = 0;
 	private int evaluateCount = 0;
+	private boolean isLast = false;
+	private Node lastNode = null;
 	
 		
 	public FlowGenerator(ArrayList<Block> blksIter, LinkedHashMap<String, Routine> routineIndex, LinkedHashMap<String, Section> sectionIndex) {
@@ -71,9 +74,6 @@ public class FlowGenerator {
 				
 				if (cond.getConditionType().equals("IF") || cond.getConditionType().equals("EVALUATE")) {
 					
-					if (cond.getConditionType().equals("EVALUATE")) {
-						System.out.println();
-					}
 					contxt += "click " + cond.getCondition() + " callback " + "\"" 
 					+ condMap.get(node.getNodeName()) + "\"\r\n";
 					
@@ -94,9 +94,15 @@ public class FlowGenerator {
 				}				
 			}
 			else {
-				if (!conditions.isEmpty()) {
-					conditions = "|" + conditions + "|";
+				
+				String cds = node.getNextNodes().get(0).getDesc();
+				if (!cds.isEmpty()) {
+					cds = "|" + cds + "|";
 				}
+				
+//				if (!conditions.isEmpty()) {
+//					conditions = "|" + conditions + "|";
+//				}
 				
 				String seqL = "";
 				if (0 != node.getSeq()) {
@@ -109,7 +115,7 @@ public class FlowGenerator {
 					
 					seqR = ":" + node.getNextNodes().get(0).getSeq();
 				}
-				text += node.getNodeName() + seqL + " --> " + conditions 
+				text += node.getNodeName() + seqL + " --> " + conditions + cds
 						+ node.getNextNodes().get(0).getNodeName() + seqR + "\n";
 				conditions = "";
 				node = node.getNextNodes().get(0);
@@ -138,6 +144,9 @@ public class FlowGenerator {
 	
 	private Node rtFlowWide(Routine rt, Node node, String desc) {
 		
+		if (rt.getName().equals("PA-CONT-1")) {
+			System.out.println();
+		}
 		rtnodeMap = new LinkedHashMap<String, Node>();
 		ArrayList<Block> rtblks = rt.getSentences();
 		Node Iter = node;
@@ -318,8 +327,12 @@ public class FlowGenerator {
 				
 				GotoSTM gstm = (GotoSTM)iter;
 				String to = gstm.getTo();
+				
+				if (to.equals("PA-SKIP-AGE")) {
+					System.out.println();
+				}
 				if (to != null && !to.equals("CCSI-ABEND")) {
-					node = jumpTo(to, node, desc + "GO TO");
+					node = jumpTo(to, node, desc + " GO TO");
 				}
 			}
 			else if (iter instanceof CallSTM) {
@@ -483,36 +496,54 @@ public class FlowGenerator {
 				}
 				rtFlowWide(rtq, qNd, "");
 				Node tmp = qNd;
+				isLast = false;
+				lastNode = null;
+				findEnd(tmp);
+				if (lastNode == null) {
+					System.out.println();
+				}
+				tmp = lastNode;
+//				while (tmp != null && !tmp.getNextNodes().isEmpty()) {
+//					
+//					boolean flag = false;
+//					int i = 0;
+//					for (; i < tmp.getNextNodes().size(); ++i) {
+//						
+//						if (!tmp.getNextNodes().get(i).getDesc().contains("GO TO")) {
+//							flag = true;
+//							break;
+//						}
+//						else if (tmp.getNextNodes().get(i).getDesc().contains("GO TO")) {
+//							
+//						}
+//						
+//					}
+//					if (flag) {
+//						tmp = tmp.getNextNodes().get(i);
+//					}
+//					else {
+//						break;
+//					}
+//				}
 				
-				while (tmp != null && !tmp.getNextNodes().isEmpty()) {
-					
-					boolean flag = false;
-					int i = 0;
-					for (; i < tmp.getNextNodes().size(); ++i) {
+				if (tmp != null) {
+					if (!rtq.isEnd()) {
+						System.out.println(rtq.getName() + "xxx");
 						
-						if (!tmp.getNextNodes().get(i).getDesc().contains("GO TO")) {
-							flag = true;
-							break;
+						tmp.getNextNodes().add(new Node("NEXT-ROUTINE:" + rtq.getNextRoutine().getName()));
+						if (!queue.contains(rtq.getNextRoutine()) && !nodeMap.containsKey(rtq.getNextRoutine().getName())) {
+							queue.offer(rtq.getNextRoutine());
 						}
-						
+						if (tmp.getNextNodes().get(0) == null) {
+							System.out.println();
+						}
+						tmp = tmp.getNextNodes().get(0);
 					}
-					if (flag) {
-						tmp = tmp.getNextNodes().get(i);
+					if (tmp == null) {
+						System.out.println();
 					}
-					else {
-						break;
-					}
+					tmp.getNextNodes().add(new Node("..."));
 				}
-				if (!rtq.isEnd()) {
-					System.out.println(rtq.getName() + "xxx");
-					
-					tmp.getNextNodes().add(new Node("NEXT-ROUTINE:" + rtq.getNextRoutine().getName()));
-					if (!queue.contains(rtq.getNextRoutine()) && !nodeMap.containsKey(rtq.getNextRoutine().getName())) {
-						queue.offer(rtq.getNextRoutine());
-					}
-					tmp = tmp.getNextNodes().get(0);
-				}
-				tmp.getNextNodes().add(new Node("..."));
 			}
 		}
 	}
@@ -521,5 +552,25 @@ public class FlowGenerator {
 	public void buildFlowByDeep(LinkedHashMap<String, Routine> routineIndex, LinkedHashMap<String, Section> sectionIndex) {
 	
 		// TODO
+	}
+	
+	private void findEnd(Node tmp) {
+		
+		Node iter = tmp;
+		
+		if (!isLast) {
+			
+			if (iter.getNextNodes().isEmpty()) {
+				lastNode = iter;
+				isLast = true;
+			}
+			for (int i = 0; i < iter.getNextNodes().size(); ++i) {
+	
+				if (!iter.getNextNodes().get(i).getDesc().contains("GO TO")) {
+					iter = iter.getNextNodes().get(i);
+					findEnd(iter);
+				}
+			}
+		}
 	}
 }

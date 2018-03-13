@@ -65,11 +65,6 @@ public class IF extends Expression{
 			
 			String tokenName = tokens.get(i.i).getTokenName();
 			
-			if (tokenName.equals("BPE-BAL-TYPE")) {
-				
-				System.out.println();
-			}
-			
 			switch (tokenName.toUpperCase()) {
 				
 				case "ELSE" : 

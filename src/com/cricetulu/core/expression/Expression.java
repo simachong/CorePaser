@@ -15,6 +15,19 @@ public class Expression {
 	protected ArrayList<Token> tokens;
 	protected ArrayList<AST> asts;
 	
+	private static final String [] expEnds = {"ELSE", "END-IF", "WHEN", "NEXT"};
+	
+	protected boolean isEnd(String name) {
+		
+		for (int i = 0; i < expEnds.length; ++i) {
+			
+			if (name.equals(expEnds[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Expression() {
 		
 		tokens = new ArrayList<Token>();
